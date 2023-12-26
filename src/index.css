@@ -3,7 +3,27 @@
 @tailwind utilities;
 
 @layer components {
+  .btn {
+    @apply flex items-center gap-x-1 py-2 px-2 md:px-4 rounded text-xs;
+  }
+
+  .btn-solid {
+    @apply bg-white text-cyan-700 shadow-button active:shadow-none active:translate-y-[6px] transition-all;
+  }
+
+  .btn-xl {
+    @apply py-3 px-14 text-xl font-bold uppercase;
+  }
+
   .btn-semi {
-    @apply flex items-center gap-x-1 rounded py-2 px-2 md:px-4 bg-white/20 hover:bg-white/25 text-xs;
+    @apply bg-white/20 hover:bg-white/25 text-slate-200;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent hover:bg-black/15 text-sm text-slate-200;
+  }
+
+  .btn-ghost-active {
+    @apply bg-black/15;
   }
 }

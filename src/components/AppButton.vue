@@ -19,7 +19,10 @@ defineProps({
 </script>
 
 <template>
-  <button :class="`${type === 'semi' ? 'btn-semi' : 'btn'}`">
+  <button
+    class="btn"
+    :class="`${type === 'semi' ? 'btn-semi' : type === 'solid' ? 'btn-solid' : ''}`"
+  >
     <Icon v-if="icon" :icon="icon" class="text-lg md:text-base" />
     <span v-if="text" class="max-sm:hidden">{{ text }}</span>
   </button>

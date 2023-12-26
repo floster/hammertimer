@@ -5,7 +5,11 @@ export default {
     fontFamily: {
       sans: ['Comfortaa', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      boxShadow: {
+        'button': 'rgb(235, 235, 235) 0px 6px 0px',
+      },
+    },
   },
   plugins: [],
 }
