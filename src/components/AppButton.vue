@@ -3,9 +3,9 @@ import { Icon } from '@iconify/vue'
 
 defineProps({
   type: {
-    validator: (value) => ['semi', 'solid'].includes(value),
-    default: 'semi',
-    required: true
+    type: String,
+    required: false,
+    default: 'button'
   },
   icon: {
     type: String,
@@ -13,16 +13,13 @@ defineProps({
   },
   text: {
     type: String,
-    required: true
+    required: false
   }
 })
 </script>
 
 <template>
-  <button
-    class="btn"
-    :class="`${type === 'semi' ? 'btn-semi' : type === 'solid' ? 'btn-solid' : ''}`"
-  >
+  <button class="btn" :type="type">
     <Icon v-if="icon" :icon="icon" class="text-lg" />
     <span v-if="text" class="max-sm:hidden">{{ text }}</span>
   </button>

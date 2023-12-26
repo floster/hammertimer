@@ -16,7 +16,7 @@
   }
 
   .btn-semi {
-    @apply bg-white/20 hover:bg-white/25;
+    @apply bg-white/15 hover:bg-white/25 shadow;
   }
 
   .btn-ghost {
@@ -29,5 +29,9 @@
 
   .btn-square {
     @apply md:px-2;
+  }
+
+  .input {
+    @apply h-12 px-4 text-base font-bold text-white/60 bg-black/10 border-2 border-white/30 rounded shadow-sm;
   }
 }
