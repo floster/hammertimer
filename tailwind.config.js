@@ -8,6 +8,7 @@ export default {
     extend: {
       boxShadow: {
         'button': 'rgb(235, 235, 235) 0px 6px 0px',
+        'button-dark': 'rgba( 0 0 0 / .3 ) 0px 6px 0px',
       },
     },
   },

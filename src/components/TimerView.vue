@@ -35,7 +35,7 @@ const normalizedMinutes = computed(() =>
         }}</label
       >
     </nav>
-    <div class="flex items-center gap-x-2 text-8xl font-bold text-white">
+    <div class="flex items-center gap-x-2 text-8xl font-bold">
       <span>{{ normalizedMinutes }}</span>
       <span>:</span>
       <span>{{ normalizedSeconds }}</span>
