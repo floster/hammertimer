@@ -61,11 +61,19 @@ const handleSubmit = () => {
           placeholder="Qty"
           class="input appearance-none max-w-20 text-center"
         />
-        <AppButton @click.stop="decreaseQty" class="btn-semi btn-square" icon="ph:minus-bold" />
-        <AppButton @click.stop="increaseQty" class="btn-semi btn-square" icon="ph:plus-bold" />
+        <AppButton
+          @click.stop="decreaseQty"
+          class="btn-light-semi btn-square"
+          icon="ph:minus-bold"
+        />
+        <AppButton
+          @click.stop="increaseQty"
+          class="btn-light-semi btn-square"
+          icon="ph:plus-bold"
+        />
       </label>
       <div class="flex flex-col items-center gap-x-4">
-        <AppButton type="submit" text="Add" class="btn-semi h-12 w-full" />
+        <AppButton type="submit" text="Add" class="btn-light-semi h-12 w-full" />
         <AppButton @click="isFormVisible = false" text="Cancel" class="h-12" />
       </div>
     </form>

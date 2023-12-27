@@ -8,6 +8,6 @@ defineEmits(['set-active-task'])
 <template>
   <section class="w-full mt-6 text-sm md:text-base">
     <TasksViewHeader />
-    <TasksList @set-active-task="(id) => $emit('set-active-task', id)" />
+    <TasksList />
   </section>
 </template>

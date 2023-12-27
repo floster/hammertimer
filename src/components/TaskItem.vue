@@ -10,22 +10,26 @@ const props = defineProps({
   }
 })
 
-const activeTaskId = inject('activeTaskId')
+const { activeTaskId, setActiveTask } = inject('activeTask')
 
-const emit = defineEmits(['set-active-task'])
-
-const isCurrent = computed(() => props.task.id === activeTaskId.value)
+const isCurrent = computed(() => props.task.id === activeTaskId?.value)
 const isComplited = computed(() => props.task.completed === props.task.qty)
 
+/**
+ * compute icon classes - active, completed, default
+ */
 const iconClasses = computed(() => ({
   'text-sky-500 dark:text-sky-400': isCurrent.value,
   'text-emerald-500 dark:text-emerald-400': isComplited.value,
   'text-gray-300 dark:text-white/25': !isComplited.value && !isCurrent.value
 }))
 
+/**
+ * set task as active if it's not already current or completed
+ */
 const handleTaskClick = () => {
   if (isCurrent.value || isComplited.value) return
-  emit('set-active-task', props.task.id)
+  setActiveTask(props.task.id)
 }
 </script>
 

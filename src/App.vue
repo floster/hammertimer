@@ -26,26 +26,32 @@ const tasks = ref([
   }
 ])
 
+/**
+ * dealing with active task
+ */
 const activeTaskId = ref(null)
-
 const activeTask = computed(() => tasks.value.filter((task) => task.id === activeTaskId.value)[0])
+const setActiveTask = (id) => {
+  activeTaskId.value = id
+}
+
+/**
+ * compute tasks qty
+ */
 const totalTasksQty = computed(() => tasks.value.reduce((acc, task) => acc + task.qty, 0))
 const totalCompletedTasksQty = computed(() =>
   tasks.value.reduce((acc, task) => acc + task.completed, 0)
 )
 
-const setActiveTask = (id) => {
-  console.log(id)
-  activeTaskId.value = id
-}
-
 const addTask = (task) => {
   tasks.value.push(task)
 }
 
+/**
+ * provide data/funcs to components
+ */
 provide('tasks', tasks)
-provide('activeTask', activeTask)
-provide('activeTaskId', activeTaskId)
+provide('activeTask', { activeTaskId, activeTask, setActiveTask })
 provide('totalTasksQty', totalTasksQty)
 provide('totalCompletedTasksQty', totalCompletedTasksQty)
 </script>
@@ -56,7 +62,7 @@ provide('totalCompletedTasksQty', totalCompletedTasksQty)
       <AppHeader />
       <main class="flex flex-col items-center px-2 md:px-16">
         <TimerView />
-        <TasksView @set-active-task="setActiveTask" />
+        <TasksView />
         <FormAddTask @add-task="addTask" />
       </main>
     </div>

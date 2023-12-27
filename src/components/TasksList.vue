@@ -9,11 +9,6 @@ defineEmits(['set-active-task'])
 
 <template>
   <ul class="mt-5 empty:pt-0 flex flex-col gap-y-2">
-    <TaskItem
-      v-for="task in tasks"
-      :key="task.id"
-      :task="task"
-      @set-active-task="(id) => $emit('set-active-task', id)"
-    />
+    <TaskItem v-for="task in tasks" :key="task.id" :task="task" />
   </ul>
 </template>
