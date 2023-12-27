@@ -35,7 +35,7 @@ const handleTaskClick = () => {
 
 <template>
   <li
-    class="flex items-center p-4 gap-x-3 font-bold text-sm md:text-base bg-gray-50 dark:bg-black/25 border-l-[6px] hover:border-l-gray-300 dark:hover:border-l-black/40 rounded transition-all"
+    class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-gray-50 dark:bg-black/25 border-l-[6px] hover:border-l-gray-300 dark:hover:border-l-black/40 rounded transition-all"
     :class="`${
       isCurrent
         ? 'border-l-sky-500 dark:border-l-sky-400 hover:border-l-sky-500 dark:hover:border-l-sky-400'
@@ -49,15 +49,29 @@ const handleTaskClick = () => {
       class="translate-y-[-2px] shrink-0"
       :class="iconClasses"
     />
-    <span @click="handleTaskClick" class="cursor-pointer text-gray-800 dark:text-inherit">{{
-      task.title
-    }}</span>
+    <span
+      @click="handleTaskClick"
+      class="cursor-pointer truncate text-gray-800 dark:text-inherit"
+      >{{ task.title }}</span
+    >
     <span class="text-gray-400 ml-auto"
       >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
     >
-    <AppButton
-      icon="ph:dots-three-bold"
-      class="btn-dark-semi dark:btn-light-semi btn-square shrink-0"
-    />
+    <div class="group flex shrink-0">
+      <AppButton
+        icon="ph:dots-three-outline-vertical-fill"
+        class="btn-dark-semi btn-square group-hover:hidden"
+      />
+      <div class="flex gap-x-2 w-0 overflow-hidden group-hover:w-auto transition-all">
+        <AppButton
+          icon="ph:trash"
+          class="btn-dark-semi dark:btn-light-semi btn-square hover:text-rose-500"
+        />
+        <AppButton
+          icon="ph:pencil"
+          class="btn-dark-semi dark:btn-light-semi btn-square hover:text-sky-500"
+        />
+      </div>
+    </div>
   </li>
 </template>

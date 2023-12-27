@@ -4,7 +4,7 @@ import AppButton from './AppButton.vue'
 
 const modes = [
   { name: 'Pomodoro', value: 'pomodoro', duration: 25_000 },
-  { name: 'Short Break', value: 'short_break', duration: 5_000 },
+  { name: 'Break', value: 'short_break', duration: 5_000 },
   { name: 'Long Break', value: 'long_break', duration: 15_000 }
 ]
 
@@ -24,7 +24,7 @@ const normalizedMinutes = computed(() =>
   <section
     class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-white/10 rounded-lg"
   >
-    <nav class="flex items-center gap-x-1">
+    <nav class="flex items-center gap-x-2">
       <label
         v-for="mode in modes"
         :key="mode.value"

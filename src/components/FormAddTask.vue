@@ -72,9 +72,9 @@ const handleSubmit = () => {
           icon="ph:plus-bold"
         />
       </label>
-      <div class="flex flex-col items-center gap-x-4">
-        <AppButton type="submit" text="Add" class="btn-light-semi h-12 w-full" />
+      <div class="flex justify-end gap-x-4">
         <AppButton @click="isFormVisible = false" text="Cancel" class="h-12" />
+        <AppButton type="submit" text="Add task" class="btn-light-semi h-12" />
       </div>
     </form>
   </div>
