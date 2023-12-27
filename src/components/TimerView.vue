@@ -22,7 +22,7 @@ const normalizedMinutes = computed(() =>
 
 <template>
   <section
-    class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 p-6 pb-8 bg-white/10 rounded-lg"
+    class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-white/10 rounded-lg"
   >
     <nav class="flex items-center gap-x-1">
       <label

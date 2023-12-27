@@ -15,8 +15,12 @@
     @apply py-3 px-14 text-xl font-bold uppercase;
   }
 
-  .btn-semi {
-    @apply bg-white/15 hover:bg-white/25 shadow;
+  .btn-light-semi {
+    @apply bg-white/15 hover:bg-white/15 shadow;
+  }
+
+  .btn-dark-semi {
+    @apply bg-black/10 hover:bg-black/25 shadow text-slate-500;
   }
 
   .btn-ghost {

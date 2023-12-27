@@ -1,40 +1,53 @@
 <script setup>
-import { reactive } from 'vue'
+import { ref, computed, provide } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import TimerView from './components/TimerView.vue'
 import TasksView from './components/TasksView.vue'
 import FormAddTask from './components/FormAddTask.vue'
 
-const data = reactive({
-  current: null,
-  tasks: [
-    {
-      id: 1,
-      title: 'Learning Vue3 basics using Vue official docs',
-      qty: 4,
-      completed: 2,
-      current: false
-    },
-    {
-      id: 2,
-      title: 'Learning Vue3 composition API',
-      qty: 2,
-      completed: 1,
-      current: true
-    },
-    {
-      id: 3,
-      title: 'Learning Vue3 reactivity',
-      qty: 1,
-      completed: 1,
-      current: false
-    }
-  ]
-})
+const tasks = ref([
+  {
+    id: 1,
+    title: 'Learning Vue3 basics using Vue official docs',
+    qty: 4,
+    completed: 2
+  },
+  {
+    id: 2,
+    title: 'Learning Vue3 composition API',
+    qty: 2,
+    completed: 1
+  },
+  {
+    id: 3,
+    title: 'Learning Vue3 reactivity',
+    qty: 1,
+    completed: 1
+  }
+])
+
+const activeTaskId = ref(null)
+
+const activeTask = computed(() => tasks.value.filter((task) => task.id === activeTaskId.value)[0])
+const totalTasksQty = computed(() => tasks.value.reduce((acc, task) => acc + task.qty, 0))
+const totalCompletedTasksQty = computed(() =>
+  tasks.value.reduce((acc, task) => acc + task.completed, 0)
+)
+
+const setActiveTask = (id) => {
+  console.log(id)
+  activeTaskId.value = id
+}
 
 const addTask = (task) => {
-  data.tasks.push(task)
+  tasks.value.push(task)
 }
+
+provide('tasks', tasks)
+provide('activeTask', activeTask)
+provide('activeTaskId', activeTaskId)
+provide('totalTasksQty', totalTasksQty)
+provide('totalCompletedTasksQty', totalCompletedTasksQty)
 </script>
 
 <template>
@@ -43,7 +56,7 @@ const addTask = (task) => {
       <AppHeader />
       <main class="flex flex-col items-center px-2 md:px-16">
         <TimerView />
-        <TasksView :data="data" @set-active-task="(id) => (data.current = id)" />
+        <TasksView @set-active-task="setActiveTask" />
         <FormAddTask @add-task="addTask" />
       </main>
     </div>

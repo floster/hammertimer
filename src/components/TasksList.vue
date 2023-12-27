@@ -1,19 +1,10 @@
 <script setup>
+import { inject } from 'vue'
 import TaskItem from './TaskItem.vue'
 
-defineProps({
-  tasks: {
-    type: Array,
-    required: true
-  },
-  currentTaskId: {
-    type: Number,
-    required: false,
-    default: null
-  }
-})
+const tasks = inject('tasks')
 
-defineEmits(['setActiveTask'])
+defineEmits(['set-active-task'])
 </script>
 
 <template>
@@ -22,8 +13,7 @@ defineEmits(['setActiveTask'])
       v-for="task in tasks"
       :key="task.id"
       :task="task"
-      :active="task.id === currentTaskId"
-      @setActiveTask="(id) => $emit('setActiveTask', id)"
+      @set-active-task="(id) => $emit('set-active-task', id)"
     />
   </ul>
 </template>
