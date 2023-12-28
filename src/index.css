@@ -4,15 +4,19 @@
 
 @layer components {
   .btn {
-    @apply flex items-center justify-center gap-x-1 py-2 px-2 md:px-4 border border-transparent rounded text-inherit text-xs;
-  }
-
-  .btn-solid {
-    @apply bg-gray-50 dark:bg-black/20 hover:bg-gray-100 dark:hover:bg-black/25 text-cyan-700 dark:text-inherit shadow-button dark:shadow-button-dark active:shadow-none active:translate-y-[6px] transition-all;
+    @apply flex items-center justify-center gap-x-1 h-9 px-2 md:px-4 border border-transparent rounded text-inherit text-xs;
   }
 
   .btn-xl {
-    @apply py-3 px-14 text-xl font-bold uppercase;
+    @apply h-14 px-14 text-xl;
+  }
+
+  .btn-square {
+    @apply md:px-2;
+  }
+
+  .btn-solid {
+    @apply bg-gray-50 hover:bg-gray-100  text-cyan-700 shadow-button active:shadow-none active:translate-y-[6px] transition-all;
   }
 
   .btn-light-semi {
@@ -20,7 +24,7 @@
   }
 
   .btn-dark-semi {
-    @apply bg-black/10 hover:bg-black/15 shadow text-slate-500 dark:text-slate-200;
+    @apply bg-black/10 hover:bg-black/15 shadow text-slate-500;
   }
 
   .btn-ghost {
@@ -31,11 +35,11 @@
     @apply bg-black/15;
   }
 
-  .btn-square {
-    @apply md:px-2;
+  .input {
+    @apply h-12 px-4 text-base font-bold text-white/60 bg-black/10 border-2 border-white/30 rounded shadow-sm focus-visible:outline-none focus-visible:ring;
   }
 
-  .input {
-    @apply h-12 px-4 text-base font-bold text-white/60 bg-black/10 border-2 border-white/30 rounded shadow-sm;
+  .has-error {
+    @apply border-rose-500;
   }
 }

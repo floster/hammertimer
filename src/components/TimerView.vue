@@ -40,6 +40,6 @@ const normalizedMinutes = computed(() =>
       <span>:</span>
       <span>{{ normalizedSeconds }}</span>
     </div>
-    <AppButton text="Start" class="btn-solid btn-xl" />
+    <AppButton text="Start" class="btn-solid btn-xl font-bold uppercase" />
   </section>
 </template>
