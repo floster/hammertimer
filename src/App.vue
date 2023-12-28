@@ -51,11 +51,16 @@ const deleteTask = (id) => {
   tasks.value = tasks.value.filter((task) => task.id !== id)
 }
 
+const editTask = (task) => {
+  const taskIndex = tasks.value.findIndex((t) => t.id === task.id)
+  tasks.value[taskIndex] = task
+}
+
 /**
  * provide data/funcs to components
  */
 provide('tasks', tasks)
-provide('deleteTask', deleteTask)
+provide('task', { deleteTask, editTask })
 provide('activeTask', { activeTaskId, activeTask, setActiveTask })
 provide('totalTasksQty', totalTasksQty)
 provide('totalCompletedTasksQty', totalCompletedTasksQty)

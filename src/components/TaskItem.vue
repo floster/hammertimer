@@ -1,9 +1,13 @@
 <script setup>
-import { computed, inject } from 'vue'
+import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
 import AppButton from './AppButton.vue'
+import EditTaskForm from './EditTaskForm.vue'
 
-const deleteTask = inject('deleteTask')
+/**
+ * injects
+ */
+const { deleteTask } = inject('task')
 const { activeTaskId, setActiveTask } = inject('activeTask')
 
 const props = defineProps({
@@ -28,6 +32,8 @@ const iconClasses = computed(() => ({
   'text-gray-300': !isComplited.value && !isCurrent.value
 }))
 
+const editMode = ref(false)
+
 /**
  * set task as active if it's not already current or completed
  */
@@ -39,6 +45,7 @@ const handleTaskClick = () => {
 
 <template>
   <li
+    v-if="!editMode"
     class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-gray-50 border-l-[6px] hover:border-l-gray-300 rounded transition-all"
     :class="`${isCurrent ? 'border-l-sky-500 hover:border-l-sky-500' : 'border-l-transparent'}`"
   >
@@ -69,8 +76,13 @@ const handleTaskClick = () => {
           class="btn-dark-semi btn-square hover:text-rose-500"
         />
         <!-- button edit task -->
-        <AppButton text="edit" class="btn-dark-semi btn-square hover:text-sky-500" />
+        <AppButton
+          text="edit"
+          @click="editMode = true"
+          class="btn-dark-semi btn-square hover:text-sky-500"
+        />
       </div>
     </div>
   </li>
+  <EditTaskForm v-else :task="task" @close="editMode = false" />
 </template>

@@ -1,12 +1,24 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, inject } from 'vue'
 import AppButton from './AppButton.vue'
 import InputNumber from './InputNumber.vue'
 
-const emit = defineEmits(['submit', 'cancel'])
+/**
+ * injects
+ */
+const { editTask } = inject('task')
 
-const title = ref('')
-const qty = ref(1)
+const props = defineProps({
+  task: {
+    type: Object,
+    required: true
+  }
+})
+
+const emit = defineEmits(['close'])
+
+const title = ref(props.task.title)
+const qty = ref(props.task.qty)
 const inputError = ref(false)
 
 watch(title, () => {
@@ -14,18 +26,11 @@ watch(title, () => {
 })
 
 const createTask = () => ({
-  id: Date.now(),
+  id: props.task.id,
   title: title.value,
   qty: qty.value,
-  completed: 0,
-  current: false
+  completed: props.task.completed
 })
-
-const resetForm = () => {
-  title.value = ''
-  qty.value = 1
-  inputError.value = false
-}
 
 const handleSubmit = () => {
   if (title.value === '') {
@@ -33,13 +38,8 @@ const handleSubmit = () => {
     return
   }
   const taskData = createTask()
-  emit('submit', taskData)
-  resetForm()
-}
-
-const handleCancel = () => {
-  resetForm()
-  emit('cancel')
+  editTask(taskData)
+  emit('close')
 }
 </script>
 
@@ -58,12 +58,16 @@ const handleCancel = () => {
       />
       <span v-if="inputError" class="text-xs text-rose-400">think about a title for pomo</span>
     </div>
-    <InputNumber v-model="qty" label="estimated pomodoros" />
+    <InputNumber
+      v-model="qty"
+      :min="task.completed"
+      :label="`estimated pomodoros ⎯ ${task.completed}/`"
+    />
     <div class="flex justify-end gap-x-4">
       <!-- cancel -->
-      <AppButton @click="handleCancel" text="Cancel" class="h-12" />
+      <AppButton @click="$emit('close')" text="Cancel" class="h-12" />
       <!-- submit -->
-      <AppButton type="submit" text="Add task" class="btn-light-semi h-12" />
+      <AppButton type="submit" text="Save task" class="btn-light-semi h-12" />
     </div>
   </form>
 </template>
