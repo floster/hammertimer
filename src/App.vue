@@ -43,6 +43,9 @@ const totalCompletedTasksQty = computed(() =>
   tasks.value.reduce((acc, task) => acc + task.completed, 0)
 )
 
+/**
+ * add, delete, edit task
+ */
 const addTask = (task) => {
   tasks.value.push(task)
 }
@@ -67,7 +70,7 @@ provide('totalCompletedTasksQty', totalCompletedTasksQty)
 </script>
 
 <template>
-  <div class="bg-blue-950 min-h-screen text-white/85 text-red-300">
+  <div class="bg-sky-800 min-h-screen text-white/85 text-red-300">
     <div class="container max-w-2xl mx-auto">
       <AppHeader />
       <main class="flex flex-col items-center px-2 md:px-16">
