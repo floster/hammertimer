@@ -32,7 +32,22 @@ const iconClasses = computed(() => ({
   'text-gray-300': !isComplited.value && !isCurrent.value
 }))
 
+/**
+ * edit task form
+ */
 const editMode = ref(false)
+const handleEditForm = () => {
+  editMode.value = false
+  editMenu.value = false
+}
+
+/**
+ * edit menu
+ */
+const editMenu = ref(false)
+const toggleEditMenu = () => {
+  editMenu.value = !editMenu.value
+}
 
 /**
  * set task as active if it's not already current or completed
@@ -63,12 +78,8 @@ const handleTaskClick = () => {
       >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
     >
     <!-- task menu -->
-    <div class="group flex shrink-0">
-      <AppButton
-        icon="ph:dots-three-outline-vertical-fill"
-        class="btn-dark-semi btn-square group-hover:hidden"
-      />
-      <div class="flex gap-x-2 w-0 overflow-hidden group-hover:w-auto transition-all">
+    <div class="flex gap-x-2 shrink-0">
+      <div v-if="editMenu" class="flex gap-x-2 transition-all">
         <!-- button delete task -->
         <AppButton
           @click="() => deleteTask(task.id)"
@@ -82,7 +93,13 @@ const handleTaskClick = () => {
           class="btn-dark-semi btn-square hover:text-sky-500"
         />
       </div>
+      <!-- button toggle edit menu -->
+      <AppButton
+        @click="toggleEditMenu"
+        :icon="`${editMenu ? 'ph:x-bold' : 'ph:dots-three-outline-vertical-fill'}`"
+        class="btn-dark-semi btn-square"
+      />
     </div>
   </li>
-  <EditTaskForm v-else :task="task" @close="editMode = false" />
+  <EditTaskForm v-else :task="task" @close="handleEditForm" />
 </template>
