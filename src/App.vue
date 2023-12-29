@@ -30,10 +30,11 @@ const tasks = ref([
  * dealing with active task
  */
 const activeTaskId = ref(null)
-const activeTask = computed(() => tasks.value.filter((task) => task.id === activeTaskId.value)[0])
-const setActiveTask = (id) => {
+const setActiveTaskId = (id) => {
   activeTaskId.value = id
 }
+
+const activeTask = computed(() => tasks.value.filter((task) => task.id === activeTaskId.value)[0])
 
 /**
  * compute tasks qty
@@ -44,16 +45,25 @@ const totalCompletedTasksQty = computed(() =>
 )
 
 /**
- * add, delete, edit task
+ * Adds a task to the tasks array.
+ * @param {object} task - The task to be added.
  */
 const addTask = (task) => {
   tasks.value.push(task)
 }
 
+/**
+ * Deletes a task from the tasks array.
+ * @param {number} id - The id of the task to be deleted.
+ */
 const deleteTask = (id) => {
   tasks.value = tasks.value.filter((task) => task.id !== id)
 }
 
+/**
+ * Edits a task in the tasks array.
+ * @param {object} task - The task to be edited.
+ */
 const editTask = (task) => {
   const taskIndex = tasks.value.findIndex((t) => t.id === task.id)
   tasks.value[taskIndex] = task
@@ -64,7 +74,7 @@ const editTask = (task) => {
  */
 provide('tasks', tasks)
 provide('task', { deleteTask, editTask })
-provide('activeTask', { activeTaskId, activeTask, setActiveTask })
+provide('activeTask', { activeTaskId, activeTask, setActiveTaskId })
 provide('totalTasksQty', totalTasksQty)
 provide('totalCompletedTasksQty', totalCompletedTasksQty)
 </script>

@@ -8,7 +8,7 @@ const totalTasksQty = inject('totalTasksQty')
 </script>
 
 <template>
-  <header>
+  <header class="flex flex-col gap-y-8">
     <h1 v-if="activeTask" class="text-center">
       <span class="text-slate-400">#1</span> {{ activeTask.title }}
     </h1>

@@ -8,7 +8,7 @@ import EditTaskForm from './EditTaskForm.vue'
  * injects
  */
 const { deleteTask } = inject('task')
-const { activeTaskId, setActiveTask } = inject('activeTask')
+const { activeTaskId, setActiveTaskId } = inject('activeTask')
 
 const props = defineProps({
   task: {
@@ -54,7 +54,7 @@ const toggleEditMenu = () => {
  */
 const handleTaskClick = () => {
   if (isCurrent.value || isComplited.value) return
-  setActiveTask(props.task.id)
+  setActiveTaskId(props.task.id)
 }
 </script>
 
