@@ -34,7 +34,27 @@ const setActiveTaskId = (id) => {
   activeTaskId.value = id
 }
 
-const activeTask = computed(() => tasks.value.filter((task) => task.id === activeTaskId.value)[0])
+const activeTaskIncreaseCompleted = () => {
+  // if no active task, return
+  if (!activeTaskId.value) return
+
+  const taskIndex = tasks.value.findIndex((task) => task.id === activeTaskId.value)
+  // if active task not found, return
+  if (taskIndex === -1) return
+
+  // if active task is already completed, return
+  if (tasks.value[taskIndex].completed === tasks.value[taskIndex].qty) return
+  tasks.value[taskIndex].completed++
+
+  // if active task became completed, set active task to null
+  if (tasks.value[taskIndex].completed === tasks.value[taskIndex].qty) {
+    activeTaskId.value = null
+  }
+}
+
+const activeTaskTitle = computed(
+  () => tasks.value.filter((task) => task.id === activeTaskId.value)[0]?.title
+)
 
 /**
  * compute tasks qty
@@ -74,7 +94,12 @@ const editTask = (task) => {
  */
 provide('tasks', tasks)
 provide('task', { deleteTask, editTask })
-provide('activeTask', { activeTaskId, activeTask, setActiveTaskId })
+provide('activeTask', {
+  activeTaskId,
+  activeTaskTitle,
+  setActiveTaskId,
+  activeTaskIncreaseCompleted
+})
 provide('totalTasksQty', totalTasksQty)
 provide('totalCompletedTasksQty', totalCompletedTasksQty)
 </script>

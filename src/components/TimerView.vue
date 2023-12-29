@@ -1,11 +1,13 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, inject } from 'vue'
 import AppButton from './AppButton.vue'
 import RadioTab from './RadioTab.vue'
 import TheTimer from './TheTimer.vue'
 
+const { activeTaskIncreaseCompleted } = inject('activeTask')
+
 const modes = [
-  { name: 'Pomodoro', value: 'pomodoro', duration: 25 },
+  { name: 'Pomodoro', value: 'pomodoro', duration: 1 },
   { name: 'Break', value: 'short_break', duration: 5 },
   { name: 'Long Break', value: 'long_break', duration: 15 }
 ]
@@ -32,6 +34,11 @@ const resetTimer = () => {
   timerOn.value = false
 }
 
+const handleTimerFinished = () => {
+  resetTimer()
+  activeTaskIncreaseCompleted()
+}
+
 watch(
   () => currentModeId.value,
   () => resetTimer()
@@ -45,7 +52,12 @@ watch(
     <nav class="flex items-center gap-x-2">
       <RadioTab v-for="mode in modes" :key="mode.value" v-model="currentModeId" :data="mode" />
     </nav>
-    <TheTimer :minutes="curentMinutes" :start="timerOn" :reset="timerReseted" />
+    <TheTimer
+      :minutes="curentMinutes"
+      :start="timerOn"
+      :reset="timerReseted"
+      @finished="handleTimerFinished"
+    />
     <div class="flex items-center gap-x-2">
       <!-- start/pause button -->
       <AppButton

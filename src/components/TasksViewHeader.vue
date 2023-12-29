@@ -2,15 +2,15 @@
 import { inject } from 'vue'
 import AppButton from './AppButton.vue'
 
-const { activeTask } = inject('activeTask')
+const { activeTaskTitle } = inject('activeTask')
 const totalCompletedTasksQty = inject('totalCompletedTasksQty')
 const totalTasksQty = inject('totalTasksQty')
 </script>
 
 <template>
   <header class="flex flex-col gap-y-8">
-    <h1 v-if="activeTask" class="text-center">
-      <span class="text-slate-400">#1</span> {{ activeTask.title }}
+    <h1 v-if="activeTaskTitle" class="text-center">
+      <span class="text-slate-400">#1</span> {{ activeTaskTitle }}
     </h1>
     <div class="flex items-center justify-between py-3 border-b-2 border-b-white/60">
       <h2 class="text-sm md:text-base">

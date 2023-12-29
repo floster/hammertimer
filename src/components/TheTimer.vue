@@ -16,6 +16,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['finished'])
+
 const mins = ref(props.minutes)
 const secs = ref(0)
 
@@ -67,7 +69,8 @@ const _ticker = () => {
   }
 
   if (mins.value === -1) {
-    mins.value = 59
+    resetTimer()
+    emit('finished')
   }
 }
 
