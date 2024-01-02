@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, provide } from 'vue'
-import AppHeader from './components/AppHeader.vue'
-import TimerView from './components/TimerView.vue'
-import TasksView from './components/TasksView.vue'
-import AddTaskSection from './components/AddTaskSection.vue'
+import AppHeader from '@/components/AppHeader.vue'
+import TimerView from '@/components/TimerView.vue'
+import TasksView from '@/components/TasksView.vue'
+import AddTaskSection from '@/components/AddTaskSection.vue'
 
 const tasks = ref([
   {
