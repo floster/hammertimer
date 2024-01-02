@@ -20,7 +20,7 @@ const totalTasksQty = inject('totalTasksQty')
           >)</span
         >
       </h2>
-      <AppButton icon="ph:dots-three-outline-vertical-fill" class="btn-light-semi btn-square" />
+      <AppButton icon="ph:dots-three-outline-vertical-fill" class="btn-sm btn-square btn-primary" />
     </div>
   </header>
 </template>

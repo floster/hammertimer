@@ -54,7 +54,8 @@ const handleSubmit = () => {
         type="text"
         v-model="title"
         placeholder="Task title"
-        class="input w-full h-16 bg-white/5 border-0"
+        class="input input-ghost input-bordered input-lg w-full"
+        :class="{ 'input-error': inputError }"
       />
       <span v-if="inputError" class="text-xs text-rose-400">think about a title for pomo</span>
     </div>
@@ -65,9 +66,9 @@ const handleSubmit = () => {
     />
     <div class="flex justify-end gap-x-4">
       <!-- cancel -->
-      <AppButton @click="$emit('close')" text="Cancel" class="h-12" />
+      <AppButton @click="$emit('close')" text="Cancel" class="btn-ghost" />
       <!-- submit -->
-      <AppButton type="submit" text="Save task" class="btn-light-semi h-12" />
+      <AppButton type="submit" text="Save task" class="btn-success" />
     </div>
   </form>
 </template>

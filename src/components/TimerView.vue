@@ -63,14 +63,14 @@ watch(
       <AppButton
         @click="startTimer"
         :icon="timerOn ? 'ph:pause-fill' : 'ph:play-fill'"
-        class="btn-solid btn-xl"
+        class="btn-warning btn-lg px-16"
       />
       <!-- reset button -->
       <AppButton
         v-if="timerOn || !timerReseted"
         @click="resetTimer"
         icon="ph:arrow-counter-clockwise-bold"
-        class="btn-solid"
+        class="btn-ghost"
       />
     </div>
   </section>

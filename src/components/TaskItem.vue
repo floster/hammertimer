@@ -81,23 +81,18 @@ const handleTaskClick = () => {
     <div class="flex gap-x-2 shrink-0">
       <div v-if="editMenu" class="flex gap-x-2 transition-all">
         <!-- button delete task -->
-        <AppButton
-          @click="() => deleteTask(task.id)"
-          text="del"
-          class="btn-dark-semi btn-square hover:text-rose-500"
-        />
+        <AppButton @click="() => deleteTask(task.id)" text="del" class="btn-sm btn-error" />
         <!-- button edit task -->
-        <AppButton
-          text="edit"
-          @click="editMode = true"
-          class="btn-dark-semi btn-square hover:text-sky-500"
-        />
+        <AppButton text="edit" @click="editMode = true" class="btn-sm btn-primary" />
       </div>
       <!-- button toggle edit menu -->
       <AppButton
         @click="toggleEditMenu"
         :icon="`${editMenu ? 'ph:x-bold' : 'ph:dots-three-outline-vertical-fill'}`"
-        class="btn-dark-semi btn-square"
+        :class="{
+          'btn-sm btn-square btn-primary opacity-30 hover:opacity-70': true,
+          'opacity-70': editMenu
+        }"
       />
     </div>
   </li>

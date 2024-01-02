@@ -4,42 +4,6 @@
 
 @layer components {
   .btn {
-    @apply flex items-center justify-center gap-x-1 h-9 px-2 md:px-4 border border-transparent rounded text-inherit text-xs;
-  }
-
-  .btn-xl {
-    @apply h-14 px-14 text-xl;
-  }
-
-  .btn-square {
-    @apply md:px-2;
-  }
-
-  .btn-solid {
-    @apply bg-gray-50 hover:bg-gray-100  text-cyan-700 shadow-button active:shadow-none active:translate-y-[6px] transition-all;
-  }
-
-  .btn-light-semi {
-    @apply bg-white/15 hover:bg-white/25 shadow;
-  }
-
-  .btn-dark-semi {
-    @apply bg-black/10 hover:bg-black/15 shadow text-slate-500;
-  }
-
-  .btn-ghost {
-    @apply bg-transparent hover:bg-black/15 text-sm;
-  }
-
-  .btn-ghost-active {
-    @apply bg-black/15;
-  }
-
-  .input {
-    @apply h-12 px-4 text-base font-bold text-white/60 bg-black/10 border-2 border-white/30 rounded shadow-sm focus-visible:outline-none focus-visible:ring;
-  }
-
-  .has-error {
-    @apply border-rose-500;
+    @apply rounded;
   }
 }

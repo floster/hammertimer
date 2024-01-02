@@ -8,12 +8,12 @@ import AppButton from './AppButton.vue'
     <AppLogo />
     <div class="flex items-center gap-x-2">
       <AppButton
-        class="btn-light-semi"
+        class="btn-sm btn-ghost"
         text="Report"
         :sm-no-text="true"
         icon="ph:chart-line-fill"
       />
-      <AppButton class="btn-light-semi" text="Settings" :sm-no-text="true" icon="ph:gear-fill" />
+      <AppButton class="btn-sm btn-ghost" text="Settings" :sm-no-text="true" icon="ph:gear-fill" />
     </div>
   </header>
 </template>

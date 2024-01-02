@@ -14,7 +14,9 @@ defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <label :class="`btn btn-ghost ${modelValue === data.value ? 'btn-ghost-active' : ''}`">
+  <label
+    :class="`btn btn-ghost hover:bg-black/15 ${modelValue === data.value ? 'bg-black/15' : ''}`"
+  >
     <input
       type="radio"
       :value="data.value"

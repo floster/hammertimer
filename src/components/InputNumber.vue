@@ -37,9 +37,9 @@ const dec = () => {
       @input="$emit('update:modelValue', $event.target.value)"
       type="text"
       placeholder="Qty"
-      class="input appearance-none max-w-20 text-center"
+      class="input input-ghost input-bordered input-lg max-w-20 text-center"
     />
-    <AppButton @click.stop="dec" class="btn-light-semi btn-square" icon="ph:minus-bold" />
-    <AppButton @click.stop="inc" class="btn-light-semi btn-square" icon="ph:plus-bold" />
+    <AppButton @click.stop="dec" class="btn-primary btn-square" icon="ph:minus-bold" />
+    <AppButton @click.stop="inc" class="btn-primary btn-square" icon="ph:plus-bold" />
   </label>
 </template>
