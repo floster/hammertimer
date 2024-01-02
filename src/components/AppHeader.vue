@@ -1,6 +1,15 @@
 <script setup>
-import AppLogo from './AppLogo.vue'
-import AppButton from './AppButton.vue'
+import { ref } from 'vue'
+import AppLogo from '@/components/AppLogo.vue'
+import AppButton from '@/components/AppButton.vue'
+import AppModal from '@/components/AppModal.vue'
+
+/**
+ * modal
+ */
+const modal = ref()
+console.log('modal', modal)
+const showModal = () => modal.value?.show()
 </script>
 
 <template>
@@ -13,7 +22,16 @@ import AppButton from './AppButton.vue'
         :sm-no-text="true"
         icon="ph:chart-line-fill"
       />
-      <AppButton class="btn-sm btn-ghost" text="Settings" :sm-no-text="true" icon="ph:gear-fill" />
+      <AppButton
+        @click="showModal"
+        class="btn-sm btn-ghost"
+        text="Settings"
+        :sm-no-text="true"
+        icon="ph:gear-fill"
+      />
     </div>
+    <AppModal ref="modal">
+      <p class="text-slate-900">Sure to delete {{ activeTaskTitle || 'default task' }}?</p>
+    </AppModal>
   </header>
 </template>
