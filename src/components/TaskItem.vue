@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
-import AppButton from './AppButton.vue'
-import EditTaskForm from './EditTaskForm.vue'
+import AppButton from '@/components/AppButton.vue'
+import EditTaskForm from '@/components/EditTaskForm.vue'
 
 /**
  * injects

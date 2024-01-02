@@ -1,5 +1,5 @@
 <script setup>
-import AppButton from './AppButton.vue'
+import AppButton from '@/components/AppButton.vue'
 
 const props = defineProps({
   modelValue: {

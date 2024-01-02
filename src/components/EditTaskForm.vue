@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, inject } from 'vue'
-import AppButton from './AppButton.vue'
-import InputNumber from './InputNumber.vue'
+import AppButton from '@/components/AppButton.vue'
+import InputNumber from '@/components/InputNumber.vue'
 
 /**
  * injects

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import AddTaskForm from './AddTaskForm.vue'
-import AppButton from './AppButton.vue'
+import AddTaskForm from '@/components/AddTaskForm.vue'
+import AppButton from '@/components/AppButton.vue'
 
 const emit = defineEmits(['addTask'])
 

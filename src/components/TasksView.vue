@@ -1,6 +1,6 @@
 <script setup>
-import TasksList from './TasksList.vue'
-import TasksViewHeader from './TasksViewHeader.vue'
+import TasksList from '@/components/TasksList.vue'
+import TasksViewHeader from '@/components/TasksViewHeader.vue'
 
 defineEmits(['set-active-task'])
 </script>

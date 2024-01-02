@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed, watch, inject } from 'vue'
-import AppButton from './AppButton.vue'
-import RadioTab from './RadioTab.vue'
-import TheTimer from './TheTimer.vue'
+import AppButton from '@/components/AppButton.vue'
+import RadioTab from '@/components/RadioTab.vue'
+import TheTimer from '@/components/TheTimer.vue'
 
 const { activeTaskIncreaseCompleted } = inject('activeTask')
 

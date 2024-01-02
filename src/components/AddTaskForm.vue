@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
-import AppButton from './AppButton.vue'
-import InputNumber from './InputNumber.vue'
+import AppButton from '@/components/AppButton.vue'
+import InputNumber from '@/components/InputNumber.vue'
 
 const emit = defineEmits(['submit', 'cancel'])
 

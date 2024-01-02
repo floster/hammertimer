@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from 'vue'
-import TaskItem from './TaskItem.vue'
+import TaskItem from '@/components/TaskItem.vue'
 
 const tasks = inject('tasks')
 

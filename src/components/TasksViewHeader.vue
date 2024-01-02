@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from 'vue'
-import AppButton from './AppButton.vue'
+import AppButton from '@/components/AppButton.vue'
 
 const { activeTaskTitle } = inject('activeTask')
 const totalCompletedTasksQty = inject('totalCompletedTasksQty')
