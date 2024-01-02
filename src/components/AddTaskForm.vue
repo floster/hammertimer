@@ -54,16 +54,19 @@ const handleCancel = () => {
         type="text"
         v-model="title"
         placeholder="Task title"
-        class="input w-full h-16 bg-white/5 border-0"
+        class="input input-ghost input-bordered input-lg w-full"
+        :class="{ 'input-error': inputError }"
       />
-      <span v-if="inputError" class="text-xs text-rose-400">think about a title for pomo</span>
+      <span v-if="inputError" class="flex justify-end pt-1 text-xs text-rose-400"
+        >think about a title for pomo</span
+      >
     </div>
     <InputNumber v-model="qty" label="estimated pomodoros" />
     <div class="flex justify-end gap-x-4">
       <!-- cancel -->
-      <AppButton @click="handleCancel" text="Cancel" class="h-12" />
+      <AppButton @click="handleCancel" text="Cancel" class="btn-ghost" />
       <!-- submit -->
-      <AppButton type="submit" text="Add task" class="btn-light-semi h-12" />
+      <AppButton type="submit" text="Add task" class="btn-success" />
     </div>
   </form>
 </template>
