@@ -93,7 +93,7 @@ const editTask = (task) => {
  * provide data/funcs to components
  */
 provide('tasks', tasks)
-provide('task', { deleteTask, editTask })
+provide('task', { addTask, deleteTask, editTask })
 provide('activeTask', {
   activeTaskId,
   activeTaskTitle,
@@ -111,7 +111,7 @@ provide('totalCompletedTasksQty', totalCompletedTasksQty)
       <main class="flex flex-col items-center px-2 md:px-16">
         <TimerView />
         <TasksView />
-        <AddTaskSection @add-task="addTask" />
+        <AddTaskSection />
       </main>
     </div>
   </div>

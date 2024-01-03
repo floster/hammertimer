@@ -1,27 +1,57 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, inject, onMounted } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import InputNumber from '@/components/InputNumber.vue'
 
+/**
+ * injects
+ */
+const { addTask, editTask } = inject('task')
+
+/**
+ * props
+ */
+const props = defineProps({
+  data: {
+    type: Object,
+    required: false
+  }
+})
+
+/**
+ * emits
+ */
 const emit = defineEmits(['submit', 'cancel'])
 
+/**
+ * data
+ */
 const title = ref('')
+const id = ref(null)
 const qty = ref(1)
-const inputError = ref(false)
+const completed = ref(0)
 
+const inputError = ref(false)
+const editMode = ref(false)
+
+/**
+ * clear input error when title changes
+ */
 watch(title, () => {
   if (title.value !== '') inputError.value = false
 })
 
-const createTask = () => ({
-  id: Date.now(),
+/**
+ * task constructor
+ */
+const _createTask = () => ({
+  id: id.value || Date.now(),
   title: title.value,
   qty: qty.value,
-  completed: 0,
-  current: false
+  completed: completed.value || 0
 })
 
-const resetForm = () => {
+const _resetForm = () => {
   title.value = ''
   qty.value = 1
   inputError.value = false
@@ -32,15 +62,26 @@ const handleSubmit = () => {
     inputError.value = true
     return
   }
-  const taskData = createTask()
-  emit('submit', taskData)
-  resetForm()
+  const taskData = _createTask()
+  editMode.value ? editTask(taskData) : addTask(taskData)
+  emit('submit')
+  _resetForm()
 }
 
 const handleCancel = () => {
-  resetForm()
+  _resetForm()
   emit('cancel')
 }
+
+onMounted(() => {
+  if (props.data) {
+    editMode.value = true
+    id.value = props.data.id
+    title.value = props.data.title
+    qty.value = props.data.qty
+    completed.value = props.data.completed
+  }
+})
 </script>
 
 <template>
@@ -61,12 +102,16 @@ const handleCancel = () => {
         >think about a title for pomo</span
       >
     </div>
-    <InputNumber v-model="qty" label="estimated pomodoros" />
+    <InputNumber
+      v-model="qty"
+      :min="props.data?.completed || 0"
+      :label="`estimated pomodoros: ${props.data ? props.data.completed + ' / ' : ''}`"
+    />
     <div class="flex justify-end gap-x-4">
       <!-- cancel -->
       <AppButton @click="handleCancel" text="Cancel" class="btn-ghost" />
       <!-- submit -->
-      <AppButton type="submit" text="Add task" class="btn-success" />
+      <AppButton type="submit" :text="editMode ? 'Save task' : 'Add task'" class="btn-success" />
     </div>
   </form>
 </template>

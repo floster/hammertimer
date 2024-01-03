@@ -6,6 +6,10 @@ const props = defineProps({
     type: Number,
     required: true
   },
+  label: {
+    type: String,
+    default: 'Qty: '
+  },
   min: {
     type: Number,
     default: 1
@@ -25,13 +29,13 @@ const inc = () => {
 
 const dec = () => {
   if (props.modelValue <= props.min) return
-  emit('update:modelValue', props.modelValue - 1)
+  emit('update:modelValue', props.modelValue === 1 ? 1 : props.modelValue - 1)
 }
 </script>
 
 <template>
   <label class="flex items-center justify-end gap-x-2">
-    estimated pomodoros
+    {{ label }}
     <input
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"

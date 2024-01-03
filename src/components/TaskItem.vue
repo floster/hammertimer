@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, inject } from 'vue'
 import { Icon } from '@iconify/vue'
-import EditTaskForm from '@/components/EditTaskForm.vue'
+import TaskForm from '@/components/TaskForm.vue'
 import TaskItemControls from '@/components/TaskItemControls.vue'
 
 /**
@@ -36,7 +36,7 @@ const iconClasses = computed(() => ({
  * edit task form
  */
 const editMode = ref(false)
-const handleEditForm = () => {
+const hideForm = () => {
   editMode.value = false
 }
 
@@ -71,5 +71,5 @@ const handleTaskClick = () => {
     <!-- task controls -->
     <TaskItemControls @edit="editMode = true" @delete="() => deleteTask(task.id)" />
   </li>
-  <EditTaskForm v-else :task="task" @close="handleEditForm" />
+  <TaskForm v-else :data="task" @submit="hideForm" @cancel="hideForm" />
 </template>

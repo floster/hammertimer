@@ -1,18 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import AddTaskForm from '@/components/AddTaskForm.vue'
+import TaskForm from '@/components/TaskForm.vue'
 import AppButton from '@/components/AppButton.vue'
-
-const emit = defineEmits(['addTask'])
 
 const isFormVisible = ref(false)
 
-const formSubmit = (task) => {
-  emit('addTask', task)
-  isFormVisible.value = false
-}
-
-const formCancel = () => {
+const hideForm = () => {
   isFormVisible.value = false
 }
 </script>
@@ -26,6 +19,6 @@ const formCancel = () => {
       icon="ph:plus-circle-fill"
       class="btn-ghost btn-xl w-full text-base border-2 border-dashed border-secondary"
     />
-    <AddTaskForm v-else @submit="formSubmit" @cancel="formCancel" />
+    <TaskForm v-else :data="null" @submit="hideForm" @cancel="hideForm" />
   </div>
 </template>
