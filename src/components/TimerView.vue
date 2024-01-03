@@ -27,13 +27,13 @@ const curentMinutes = computed(() => currentMode.value.duration)
 /**
  * timer's methods
  */
-const startTimer = () => {
+const playPauseTimer = () => {
+  setTimerStarted(!timerStarted.value)
   setTimerReseted(false)
-  setTimerStarted(true)
 }
 const resetTimer = () => {
-  setTimerReseted(true)
   setTimerStarted(false)
+  setTimerReseted(true)
 }
 
 const handleTimerFinished = () => {
@@ -66,7 +66,7 @@ watch(
     <div class="flex items-center gap-x-2">
       <!-- start/pause button -->
       <AppButton
-        @click="startTimer"
+        @click="playPauseTimer"
         :icon="timerStarted ? 'ph:pause-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
       />
