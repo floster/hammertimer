@@ -45,8 +45,9 @@ const hideForm = () => {
  * set task as active if it's not already current or completed or timer is started
  */
 const handleTaskClick = () => {
-  if (isCurrent.value || isComplited.value || timerStarted.value) return
-  setActiveTaskId(props.task.id)
+  if (isComplited.value || timerStarted.value) return
+  else if (isCurrent.value) setActiveTaskId(null)
+  else setActiveTaskId(props.task.id)
 }
 </script>
 
