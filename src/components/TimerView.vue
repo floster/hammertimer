@@ -4,7 +4,11 @@ import AppButton from '@/components/AppButton.vue'
 import RadioTab from '@/components/RadioTab.vue'
 import TheTimer from '@/components/TheTimer.vue'
 
+/**
+ * injects
+ */
 const { activeTaskIncreaseCompleted } = inject('activeTask')
+const { activeTaskTitle } = inject('activeTask')
 
 const modes = [
   { name: 'Pomodoro', value: 'pomodoro', duration: 1 },
@@ -25,6 +29,9 @@ const curentMinutes = computed(() => currentMode.value.duration)
 const timerOn = ref(false)
 const timerReseted = ref(true)
 
+/**
+ * timer's methods
+ */
 const startTimer = () => {
   timerReseted.value = false
   timerOn.value = !timerOn.value
@@ -52,6 +59,9 @@ watch(
     <nav class="flex items-center gap-x-2">
       <RadioTab v-for="mode in modes" :key="mode.value" v-model="currentModeId" :data="mode" />
     </nav>
+    <h1 v-if="activeTaskTitle" class="text-center text-sm">
+      {{ activeTaskTitle }}
+    </h1>
     <TheTimer
       :minutes="curentMinutes"
       :start="timerOn"
