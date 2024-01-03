@@ -7,6 +7,7 @@ import TheTimer from '@/components/TheTimer.vue'
 /**
  * injects
  */
+const { timerStarted, setTimerStarted, timerReseted, setTimerReseted } = inject('timer')
 const { activeTaskIncreaseCompleted } = inject('activeTask')
 const { activeTaskTitle } = inject('activeTask')
 
@@ -24,21 +25,15 @@ const currentMode = computed(() => modes.find((mode) => mode.value === currentMo
 const curentMinutes = computed(() => currentMode.value.duration)
 
 /**
- * timer's states
- */
-const timerOn = ref(false)
-const timerReseted = ref(true)
-
-/**
  * timer's methods
  */
 const startTimer = () => {
-  timerReseted.value = false
-  timerOn.value = !timerOn.value
+  setTimerReseted(false)
+  setTimerStarted(true)
 }
 const resetTimer = () => {
-  timerReseted.value = true
-  timerOn.value = false
+  setTimerReseted(true)
+  setTimerStarted(false)
 }
 
 const handleTimerFinished = () => {
@@ -59,12 +54,12 @@ watch(
     <nav class="flex items-center gap-x-2">
       <RadioTab v-for="mode in modes" :key="mode.value" v-model="currentModeId" :data="mode" />
     </nav>
-    <h1 v-if="activeTaskTitle" class="text-center text-sm">
+    <h2 v-if="activeTaskTitle" class="text-center text-sm">
       {{ activeTaskTitle }}
-    </h1>
+    </h2>
     <TheTimer
       :minutes="curentMinutes"
-      :start="timerOn"
+      :start="timerStarted"
       :reset="timerReseted"
       @finished="handleTimerFinished"
     />
@@ -72,12 +67,12 @@ watch(
       <!-- start/pause button -->
       <AppButton
         @click="startTimer"
-        :icon="timerOn ? 'ph:pause-fill' : 'ph:play-fill'"
+        :icon="timerStarted ? 'ph:pause-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
       />
       <!-- reset button -->
       <AppButton
-        v-if="timerOn || !timerReseted"
+        v-if="timerStarted || !timerReseted"
         @click="resetTimer"
         icon="ph:arrow-counter-clockwise-bold"
         class="btn-ghost"

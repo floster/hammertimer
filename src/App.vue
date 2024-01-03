@@ -26,6 +26,16 @@ const tasks = ref([
   }
 ])
 
+const timerStarted = ref(false)
+const setTimerStarted = (value = true) => {
+  timerStarted.value = value
+}
+const timerReseted = ref(true)
+const setTimerReseted = (value = true) => {
+  timerReseted.value = value
+}
+provide('timer', { timerStarted, setTimerStarted, timerReseted, setTimerReseted })
+
 /**
  * dealing with active task
  */

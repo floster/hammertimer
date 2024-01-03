@@ -8,7 +8,6 @@ import AppModal from '@/components/AppModal.vue'
  * modal
  */
 const modal = ref()
-console.log('modal', modal)
 const showModal = () => modal.value?.show()
 </script>
 

@@ -7,6 +7,7 @@ import TaskItemControls from '@/components/TaskItemControls.vue'
 /**
  * injects
  */
+const { timerStarted } = inject('timer')
 const { deleteTask } = inject('task')
 const { activeTaskId, setActiveTaskId } = inject('activeTask')
 
@@ -41,10 +42,10 @@ const hideForm = () => {
 }
 
 /**
- * set task as active if it's not already current or completed
+ * set task as active if it's not already current or completed or timer is started
  */
 const handleTaskClick = () => {
-  if (isCurrent.value || isComplited.value) return
+  if (isCurrent.value || isComplited.value || timerStarted.value) return
   setActiveTaskId(props.task.id)
 }
 </script>
