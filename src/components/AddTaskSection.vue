@@ -24,7 +24,7 @@ const formCancel = () => {
       @click="isFormVisible = true"
       text="Add Task"
       icon="ph:plus-circle-fill"
-      class="btn-ghost btn-xl w-full text-base border-2 border-dashed border-white/20"
+      class="btn-ghost btn-xl w-full text-base border-2 border-dashed border-secondary"
     />
     <AddTaskForm v-else @submit="formSubmit" @cancel="formCancel" />
   </div>

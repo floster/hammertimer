@@ -13,7 +13,7 @@ const showModal = () => modal.value?.show()
 </script>
 
 <template>
-  <header class="flex items-center justify-between py-4 px-2 border-b border-b-black/15">
+  <header class="flex items-center justify-between py-4 px-2 border-b border-b-neutral/50">
     <AppLogo />
     <div class="flex items-center gap-x-2">
       <AppButton
@@ -31,7 +31,7 @@ const showModal = () => modal.value?.show()
       />
     </div>
     <AppModal ref="modal">
-      <p class="text-slate-900">Sure to delete {{ activeTaskTitle || 'default task' }}?</p>
+      <p class="text-secondary-content">Sure to delete {{ activeTaskTitle || 'default task' }}?</p>
     </AppModal>
   </header>
 </template>

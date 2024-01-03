@@ -10,12 +10,12 @@ const totalTasksQty = inject('totalTasksQty')
 <template>
   <header class="flex flex-col gap-y-8">
     <h1 v-if="activeTaskTitle" class="text-center">
-      <span class="text-slate-400">#1</span> {{ activeTaskTitle }}
+      <span class="text-neutral-content/50 text-sm">⇧</span> {{ activeTaskTitle }}
     </h1>
-    <div class="flex items-center justify-between py-3 border-b-2 border-b-white/60">
+    <div class="flex items-center justify-between py-3 border-b-2 border-b-neutral-content/40">
       <h2 class="text-sm md:text-base">
         Tasks
-        <span class="text-white/60"
+        <span class="text-neutral-content/50"
           >({{ totalCompletedTasksQty }}/<small>{{ totalTasksQty }}</small
           >)</span
         >

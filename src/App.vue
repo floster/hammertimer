@@ -105,7 +105,7 @@ provide('totalCompletedTasksQty', totalCompletedTasksQty)
 </script>
 
 <template>
-  <div class="bg-sky-950 min-h-screen text-white/85 text-red-300">
+  <div class="bg-primary min-h-screen text-white/85 text-red-300">
     <div class="container max-w-2xl mx-auto">
       <AppHeader />
       <main class="flex flex-col items-center px-2 md:px-16">

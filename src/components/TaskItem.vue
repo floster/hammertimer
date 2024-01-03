@@ -25,11 +25,11 @@ const isComplited = computed(() => props.task.completed === props.task.qty)
  */
 const iconClasses = computed(() => ({
   // active task
-  'text-sky-500': isCurrent.value,
+  'text-info': isCurrent.value,
   // completed task
-  'text-emerald-500': isComplited.value,
+  'text-success': isComplited.value,
   // default
-  'text-gray-300': !isComplited.value && !isCurrent.value
+  'text-secondary/50': !isComplited.value && !isCurrent.value
 }))
 
 /**
@@ -61,8 +61,8 @@ const handleTaskClick = () => {
 <template>
   <li
     v-if="!editMode"
-    class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-gray-50 border-l-[6px] hover:border-l-gray-300 rounded transition-all"
-    :class="`${isCurrent ? 'border-l-sky-500 hover:border-l-sky-500' : 'border-l-transparent'}`"
+    class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-primary-content border-l-[6px] hover:border-l-secondary rounded transition-all"
+    :class="`${isCurrent ? 'border-l-info hover:border-l-info' : 'border-l-transparent'}`"
   >
     <Icon
       icon="ph:check-circle-fill"
@@ -71,10 +71,10 @@ const handleTaskClick = () => {
       class="translate-y-[-2px] shrink-0"
       :class="iconClasses"
     />
-    <span @click="handleTaskClick" class="cursor-pointer truncate text-gray-800">{{
+    <span @click="handleTaskClick" class="cursor-pointer truncate text-neutral">{{
       task.title
     }}</span>
-    <span class="text-gray-400 ml-auto"
+    <span class="text-neutral/50 ml-auto"
       >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
     >
     <!-- task menu -->

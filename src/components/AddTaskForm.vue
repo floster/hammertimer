@@ -46,7 +46,7 @@ const handleCancel = () => {
 <template>
   <form
     @submit.prevent="handleSubmit"
-    class="flex flex-col gap-y-8 p-4 bg-white/5 rounded-md shadow"
+    class="flex flex-col gap-y-8 p-4 bg-primary-content/10 rounded-md shadow"
   >
     <div>
       <input
@@ -55,9 +55,9 @@ const handleCancel = () => {
         v-model="title"
         placeholder="Task title"
         class="input input-ghost input-bordered input-lg w-full"
-        :class="{ 'input-error': inputError }"
+        :class="{ 'input-accent': inputError }"
       />
-      <span v-if="inputError" class="flex justify-end pt-1 text-xs text-rose-400"
+      <span v-if="inputError" class="flex justify-end pt-1 text-xs text-accent"
         >think about a title for pomo</span
       >
     </div>
