@@ -1,47 +1,26 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+const TIMER_SPEED = 250
 
-const props = defineProps({
-  minutes: {
-    type: Number,
-    required: true
-  },
-  start: {
-    type: Boolean,
-    required: true
-  },
-  reset: {
-    type: Boolean,
-    required: true
-  }
-})
+import { ref, computed, onBeforeUnmount, inject, watch } from 'vue'
+
+const { curentMinutes } = inject('currentMode')
+const { timerStarted, timerReseted } = inject('timer')
 
 const emit = defineEmits(['finished'])
 
-const mins = ref(props.minutes)
+const mins = ref(curentMinutes.value)
 const secs = ref(0)
-
-/**
- * reset timer on timer mode ('pomodoro', 'break', 'long break') changes
- */
-watch(
-  () => props.minutes,
-  () => {
-    resetTimer()
-    secs.value = 0
-  }
-)
 
 /**
  * start/pause timer on 'start' event recieved from parent
  */
 watch(
-  () => props.start,
+  () => timerStarted.value,
   (newVal) => {
     if (newVal) {
       startTimer()
     } else {
-      pauseTimer()
+      clearTimer()
     }
   }
 )
@@ -50,7 +29,7 @@ watch(
  * reset timer on 'reset' event recieved from parent
  */
 watch(
-  () => props.reset,
+  () => timerReseted.value,
   (newVal) => {
     if (newVal) {
       resetTimer()
@@ -58,8 +37,15 @@ watch(
   }
 )
 
+watch(
+  () => curentMinutes.value,
+  (minutes) => {
+    mins.value = minutes
+  }
+)
+
 /**
- * endless ticker
+ * ticker
  */
 const _ticker = () => {
   secs.value--
@@ -74,29 +60,26 @@ const _ticker = () => {
   }
 }
 
+/**
+ * timer methods
+ */
 let timer = null
 const startTimer = () => {
-  timer = setInterval(_ticker, 1_000)
+  timer = setInterval(_ticker, TIMER_SPEED)
 }
 
-const pauseTimer = () => {
+const clearTimer = () => {
   clearInterval(timer)
 }
 
 const resetTimer = () => {
-  pauseTimer()
-  mins.value = props.minutes
+  clearTimer()
+  mins.value = curentMinutes.value
   secs.value = 0
 }
 
-onMounted(() => {
-  if (props.start) {
-    startTimer()
-  }
-})
-
 onBeforeUnmount(() => {
-  pauseTimer()
+  clearTimer()
 })
 
 const normalizedSecs = computed(() => (secs.value < 10 ? `0${secs.value}` : secs.value))

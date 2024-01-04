@@ -8,7 +8,7 @@ import TaskItemControls from '@/components/TaskItemControls.vue'
  * injects
  */
 const { timerStarted } = inject('timer')
-const { deleteTask } = inject('task')
+const { deleteTask } = inject('taskActions')
 const { activeTaskId, setActiveTaskId } = inject('activeTask')
 
 const props = defineProps({

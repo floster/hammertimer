@@ -6,7 +6,7 @@ import InputNumber from '@/components/InputNumber.vue'
 /**
  * injects
  */
-const { addTask, editTask } = inject('task')
+const { addTask, editTask } = inject('taskActions')
 
 /**
  * props

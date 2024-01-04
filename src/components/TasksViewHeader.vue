@@ -2,8 +2,7 @@
 import { inject } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 
-const totalCompletedTasksQty = inject('totalCompletedTasksQty')
-const totalTasksQty = inject('totalTasksQty')
+const { totalTasksQty, totalCompletedTasksQty } = inject('tasksQty')
 </script>
 
 <template>
