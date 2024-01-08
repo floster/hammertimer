@@ -1,23 +1,9 @@
 <script setup>
-import { ref, reactive, computed, provide } from 'vue'
+import { ref, reactive, computed, provide, watch } from 'vue'
 import AppHeader from '@/components/AppHeader.vue'
 import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
 import AddTaskSection from '@/components/AddTaskSection.vue'
-
-/**
- * timer
- */
-const timerStarted = ref(false)
-const setTimerStarted = (value = true) => {
-  timerStarted.value = value
-}
-const timerReseted = ref(true)
-const setTimerReseted = (value = true) => {
-  timerReseted.value = value
-}
-
-provide('timer', { timerStarted, setTimerStarted, timerReseted, setTimerReseted })
 
 /**
  * timer modes
@@ -27,6 +13,7 @@ const timerModes = [
   { id: 1, name: 'Break', value: 'short_break', duration: 5 },
   { id: 2, name: 'Long Break', value: 'long_break', duration: 15 }
 ]
+provide('timerModes', timerModes)
 
 const _calcNextModeId = () => {
   if (currentModeId.value === 0) return 1
@@ -35,14 +22,52 @@ const _calcNextModeId = () => {
 }
 
 const currentModeId = ref(0)
-const setCurrentModeId = () => {
+const setNextModeId = () => {
   currentModeId.value = _calcNextModeId()
 }
 
-const curentMinutes = computed(() => timerModes[currentModeId.value].duration)
+provide('currentMode', { currentModeId, setNextModeId })
 
-provide('timerModes', timerModes)
-provide('currentMode', { currentModeId, setCurrentModeId, curentMinutes })
+/**
+ * timer
+ */
+const currentTime = ref(0)
+const resetCurrentTime = () => {
+  currentTime.value = timerModes[currentModeId.value].duration
+}
+
+const timerStarted = ref(false)
+const startTimer = () => {
+  timerStarted.value = true
+}
+
+const resetTimer = () => {
+  timerStarted.value = false
+  resetCurrentTime()
+}
+
+const onTimerFinished = () => {
+  resetTimer()
+  activeTaskIncreaseCompleted()
+  setNextModeId()
+}
+
+// reset current time and timer states when current mode changes
+watch(
+  () => currentModeId.value,
+  () => {
+    resetTimer()
+  },
+  { immediate: true }
+)
+
+provide('timer', {
+  currentTime,
+  timerStarted,
+  startTimer,
+  resetTimer,
+  onTimerFinished
+})
 
 /**
  * pomodoro status
@@ -160,7 +185,11 @@ provide('taskActions', { addTask, deleteTask, editTask })
 
 <template>
   <div class="bg-primary min-h-screen text-white/85 text-red-300">
-    <div class="absolute bottom-1 right-1">{{ currentModeId }} : {{ curentMinutes }}</div>
+    <div class="fixed bottom-0 right-0 p-2 bg-accent-content/75 rounded-box">
+      <ul>
+        <li>started: {{ timerStarted }}</li>
+      </ul>
+    </div>
     <div class="container max-w-2xl mx-auto">
       <AppHeader />
       <main class="flex flex-col items-center px-2 md:px-16">

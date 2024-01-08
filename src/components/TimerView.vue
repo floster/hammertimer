@@ -7,26 +7,15 @@ import TimerModesSwitcher from '@/components/TimerModesSwitcher.vue'
 /**
  * injects
  */
-const { setCurrentModeId } = inject('currentMode')
-const { timerStarted, setTimerStarted, timerReseted, setTimerReseted } = inject('timer')
-const { activeTaskTitle, activeTaskIncreaseCompleted } = inject('activeTask')
+const { timerStarted, startTimer, resetTimer, onTimerFinished } = inject('timer')
+const { activeTaskTitle } = inject('activeTask')
 
-/**
- * timer's methods
- */
-const playPauseTimer = () => {
-  setTimerStarted(!timerStarted.value)
-  setTimerReseted(false)
-}
-const resetTimer = () => {
-  setTimerStarted(false)
-  setTimerReseted(true)
-}
-
-const onTimerFinished = () => {
-  resetTimer()
-  activeTaskIncreaseCompleted()
-  setCurrentModeId()
+const startResetTimer = () => {
+  if (timerStarted.value) {
+    resetTimer()
+  } else {
+    startTimer()
+  }
 }
 </script>
 
@@ -38,19 +27,19 @@ const onTimerFinished = () => {
     <h2 v-if="activeTaskTitle" class="text-center text-sm">
       {{ activeTaskTitle }}
     </h2>
-    <TheTimer @finished="onTimerFinished" />
+    <TheTimer />
     <div class="flex items-center gap-x-2">
       <!-- start/pause button -->
       <AppButton
-        @click="playPauseTimer"
-        :icon="timerStarted ? 'ph:pause-fill' : 'ph:play-fill'"
+        @click="startResetTimer"
+        :icon="timerStarted ? 'ph:stop-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
       />
       <!-- reset button -->
       <AppButton
-        v-if="timerStarted || !timerReseted"
-        @click="resetTimer"
-        icon="ph:arrow-counter-clockwise-bold"
+        v-if="timerStarted"
+        @click="onTimerFinished"
+        icon="ph:arrow-line-right-bold"
         class="btn-ghost"
       />
     </div>

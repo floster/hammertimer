@@ -27,5 +27,6 @@ defineProps({
   <button class="btn" :type="type">
     <Icon v-if="icon" :icon="icon" class="text-lg" />
     <span v-if="text" :class="smNoText ? 'max-sm:hidden' : ''">{{ text }}</span>
+    <slot />
   </button>
 </template>
