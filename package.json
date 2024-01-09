@@ -11,10 +11,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@chenfengyuan/vue-countdown": "^2.1.2",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-timer-hook": "^1.0.84"
   },
   "devDependencies": {
     "@iconify/vue": "^4.1.1",

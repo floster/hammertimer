@@ -7,16 +7,8 @@ import TimerModesSwitcher from '@/components/TimerModesSwitcher.vue'
 /**
  * injects
  */
-const { timerStarted, startTimer, resetTimer, onTimerFinished } = inject('timer')
+const { timerStarted, timerPaused, toggleTimer, onTimerFinished } = inject('timer')
 const { activeTaskTitle } = inject('activeTask')
-
-const startResetTimer = () => {
-  if (timerStarted.value) {
-    resetTimer()
-  } else {
-    startTimer()
-  }
-}
 </script>
 
 <template>
@@ -31,16 +23,16 @@ const startResetTimer = () => {
     <div class="flex items-center gap-x-2">
       <!-- start/pause button -->
       <AppButton
-        @click="startResetTimer"
-        :icon="timerStarted ? 'ph:stop-fill' : 'ph:play-fill'"
+        :icon="timerStarted && !timerPaused ? 'ph:pause-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
+        @click="toggleTimer"
       />
       <!-- reset button -->
       <AppButton
         v-if="timerStarted"
-        @click="onTimerFinished"
         icon="ph:arrow-line-right-bold"
         class="btn-ghost"
+        @click="onTimerFinished"
       />
     </div>
   </section>

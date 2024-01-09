@@ -1,47 +1,61 @@
 <script setup>
-import { ref, computed, inject, watch } from 'vue'
-import VueCountdown from '@chenfengyuan/vue-countdown'
+import { onMounted, watch, ref, watchEffect, inject } from 'vue'
+import { useTimer } from 'vue-timer-hook'
 
-const { currentTime, timerStarted, onTimerFinished } = inject('timer')
+/**
+ * injects
+ */
+const { currentCountdown, timerStarted, timerPaused, timerResumed, onTimerFinished } =
+  inject('timer')
 
-// countdown timer instance
-const timerRef = ref(null)
+const currentTime = ref(null)
+// time (in milliseconds) that passing to useTimer
+const time = ref(0)
+let timer = ref(null)
 
-// countdown timer time
-const time = computed(() => currentTime.value * 60 * 1000)
-
-const start = () => {
-  timerRef.value?.start()
-}
-
-const pause = () => {
-  timerRef.value?.abort()
-}
+// create new timer instance (with corresponding countdown time)
+// when currentCountdown (i.e timer mode) changes
+watch(
+  () => currentCountdown.value,
+  () => {
+    currentTime.value = new Date()
+    time.value = currentTime.value.setSeconds(
+      currentTime.value.getSeconds() + currentCountdown.value * 60
+    )
+    timer.value = useTimer(time.value, false)
+  },
+  { immediate: true }
+)
 
 watch(
-  () => timerStarted.value,
-  (started) => {
-    if (started) {
-      start()
+  [() => timerStarted.value, () => timerPaused.value, () => timerResumed.value],
+  ([started, paused, resumed]) => {
+    if (started && paused) {
+      timer?.value.pause()
+    } else if (started && resumed) {
+      timer?.value.resume()
+    } else if (started && !paused && !resumed) {
+      timer?.value.start()
     } else {
-      pause()
+      timer?.value.restart(time.value, false)
     }
   }
 )
+
+onMounted(() => {
+  watchEffect(() => {
+    if (timer?.value.isExpired) {
+      onTimerFinished()
+      timer?.value.restart(time.value, false)
+    }
+  })
+})
 </script>
 
 <template>
   <div class="flex items-center gap-x-2 text-8xl font-bold">
-    <vue-countdown
-      ref="timerRef"
-      @end="onTimerFinished"
-      :auto-start="false"
-      :time="time"
-      v-slot="{ minutes, seconds }"
-    >
-      <span>{{ minutes.toString().padStart(2, '0') }}</span>
-      <span>:</span>
-      <span>{{ seconds.toString().padStart(2, '0') }}</span>
-    </vue-countdown>
+    <span>{{ timer.minutes }}</span>
+    <span>:</span>
+    <span>{{ timer.seconds }}</span>
   </div>
 </template>

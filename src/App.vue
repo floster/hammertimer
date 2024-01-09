@@ -31,9 +31,9 @@ provide('currentMode', { currentModeId, setNextModeId })
 /**
  * timer
  */
-const currentTime = ref(0)
-const resetCurrentTime = () => {
-  currentTime.value = timerModes[currentModeId.value].duration
+const currentCountdown = ref(0)
+const resetCurrentCountdown = () => {
+  currentCountdown.value = timerModes[currentModeId.value].duration
 }
 
 const timerStarted = ref(false)
@@ -41,9 +41,36 @@ const startTimer = () => {
   timerStarted.value = true
 }
 
+const timerPaused = ref(false)
+const pauseTimer = () => {
+  timerResumed.value = false
+  timerPaused.value = true
+}
+
+const timerResumed = ref(false)
+const resumeTimer = () => {
+  timerResumed.value = true
+  timerPaused.value = false
+}
+
+const toggleTimer = () => {
+  if (!timerStarted.value) {
+    startTimer()
+  } else {
+    if (!timerPaused.value) {
+      pauseTimer()
+    } else {
+      resumeTimer()
+    }
+  }
+}
+
 const resetTimer = () => {
   timerStarted.value = false
-  resetCurrentTime()
+  timerPaused.value = false
+  timerResumed.value = false
+
+  resetCurrentCountdown()
 }
 
 const onTimerFinished = () => {
@@ -62,9 +89,11 @@ watch(
 )
 
 provide('timer', {
-  currentTime,
+  currentCountdown,
   timerStarted,
-  startTimer,
+  timerPaused,
+  timerResumed,
+  toggleTimer,
   resetTimer,
   onTimerFinished
 })
@@ -185,11 +214,6 @@ provide('taskActions', { addTask, deleteTask, editTask })
 
 <template>
   <div class="bg-primary min-h-screen text-white/85 text-red-300">
-    <div class="fixed bottom-0 right-0 p-2 bg-accent-content/75 rounded-box">
-      <ul>
-        <li>started: {{ timerStarted }}</li>
-      </ul>
-    </div>
     <div class="container max-w-2xl mx-auto">
       <AppHeader />
       <main class="flex flex-col items-center px-2 md:px-16">
