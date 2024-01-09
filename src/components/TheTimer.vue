@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch, ref, watchEffect, inject } from 'vue'
+import { onMounted, watch, computed, ref, watchEffect, inject } from 'vue'
 import { useTimer } from 'vue-timer-hook'
 
 /**
@@ -55,12 +55,15 @@ onMounted(() => {
     }
   })
 })
+
+const normalizedMinutes = computed(() => timer?.value.minutes.toString().padStart(2, '0'))
+const normalizedSeconds = computed(() => timer?.value.seconds.toString().padStart(2, '0'))
 </script>
 
 <template>
   <div class="flex items-center gap-x-2 text-8xl font-bold">
-    <span>{{ timer.minutes }}</span>
+    <span>{{ normalizedMinutes }}</span>
     <span>:</span>
-    <span>{{ timer.seconds }}</span>
+    <span>{{ normalizedSeconds }}</span>
   </div>
 </template>

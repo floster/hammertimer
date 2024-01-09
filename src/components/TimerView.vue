@@ -22,7 +22,12 @@ const { activeTaskTitle } = inject('activeTask')
     <TheTimer />
     <div class="flex items-center gap-x-2">
       <!-- reset current button -->
-      <AppButton v-if="timerStarted" icon="ph:stop-fill" class="btn-ghost" @click="resetTimer" />
+      <AppButton
+        v-if="timerStarted"
+        icon="ph:stop-fill"
+        class="btn-ghost opacity-20 hover:opacity-80"
+        @click="resetTimer"
+      />
       <!-- start/pause button -->
       <AppButton
         :icon="timerStarted && !timerPaused ? 'ph:pause-fill' : 'ph:play-fill'"
@@ -33,7 +38,7 @@ const { activeTaskTitle } = inject('activeTask')
       <AppButton
         v-if="timerStarted"
         icon="ph:arrow-line-right-bold"
-        class="btn-ghost"
+        class="btn-ghost opacity-20 hover:opacity-80"
         @click="onTimerFinished"
       />
     </div>
