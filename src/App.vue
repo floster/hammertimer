@@ -31,14 +31,16 @@ provide('currentMode', { currentModeId, setNextModeId })
 /**
  * timer
  */
-const currentCountdown = ref(0)
-const resetCurrentCountdown = () => {
-  currentCountdown.value = timerModes[currentModeId.value].duration
-}
+// const duration = ref(0)
+const duration = computed(() => timerModes[currentModeId.value].duration)
+// const resetDuration = () => {
+//   duration.value = timerModes[currentModeId.value].duration
+// }
 
 const timerStarted = ref(false)
 const startTimer = () => {
   timerStarted.value = true
+  timerReseted.value = false
 }
 
 const timerPaused = ref(false)
@@ -65,12 +67,14 @@ const toggleTimer = () => {
   }
 }
 
+const timerReseted = ref(false)
 const resetTimer = () => {
   timerStarted.value = false
   timerPaused.value = false
   timerResumed.value = false
+  timerReseted.value = true
 
-  resetCurrentCountdown()
+  // resetDuration()
 }
 
 const onTimerFinished = () => {
@@ -89,10 +93,11 @@ watch(
 )
 
 provide('timer', {
-  currentCountdown,
+  duration,
   timerStarted,
   timerPaused,
   timerResumed,
+  timerReseted,
   toggleTimer,
   resetTimer,
   onTimerFinished

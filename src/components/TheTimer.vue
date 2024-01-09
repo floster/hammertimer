@@ -5,7 +5,7 @@ import { useTimer } from 'vue-timer-hook'
 /**
  * injects
  */
-const { currentCountdown, timerStarted, timerPaused, timerResumed, onTimerFinished } =
+const { duration, timerStarted, timerPaused, timerResumed, timerReseted, onTimerFinished } =
   inject('timer')
 
 const currentTime = ref(null)
@@ -14,17 +14,22 @@ const time = ref(0)
 let timer = ref(null)
 
 // create new timer instance (with corresponding countdown time)
-// when currentCountdown (i.e timer mode) changes
+const createTimer = () => {
+  currentTime.value = new Date()
+  time.value = currentTime.value.setSeconds(currentTime.value.getSeconds() + duration.value * 60)
+  timer.value = useTimer(time.value, false)
+}
+
+// recreate timer each time when 'duration' (i.e timer mode) changes
+watch(() => duration.value, createTimer, { immediate: true })
+
 watch(
-  () => currentCountdown.value,
-  () => {
-    currentTime.value = new Date()
-    time.value = currentTime.value.setSeconds(
-      currentTime.value.getSeconds() + currentCountdown.value * 60
-    )
-    timer.value = useTimer(time.value, false)
-  },
-  { immediate: true }
+  () => timerReseted.value,
+  (reseted) => {
+    if (reseted) {
+      createTimer()
+    }
+  }
 )
 
 watch(

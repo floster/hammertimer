@@ -24,10 +24,10 @@ const isDisabled = computed(() => timerStarted.value)
     }"
   >
     <input
+      v-model="currentModeId"
       class="appearance-none"
       type="radio"
       :value="data.id"
-      v-model="currentModeId"
       :disabled="isDisabled"
     />{{ data.name }}</label
   >
