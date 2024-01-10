@@ -26,16 +26,16 @@ const setNextModeId = () => {
   currentModeId.value = _calcNextModeId()
 }
 
+const getCurrentModeValue = () => {
+  return timerModes[currentModeId.value].value
+}
+
 provide('currentMode', { currentModeId, setNextModeId })
 
 /**
  * timer
  */
-// const duration = ref(0)
 const duration = computed(() => timerModes[currentModeId.value].duration)
-// const resetDuration = () => {
-//   duration.value = timerModes[currentModeId.value].duration
-// }
 
 const timerStarted = ref(false)
 const startTimer = () => {
@@ -73,13 +73,16 @@ const resetTimer = () => {
   timerPaused.value = false
   timerResumed.value = false
   timerReseted.value = true
-
-  // resetDuration()
 }
 
 const onTimerFinished = () => {
+  // set all timer states (started, paused, resumed, reseted) to false
   resetTimer()
-  activeTaskIncreaseCompleted()
+
+  activeTaskIncreaseCompletedQty()
+
+  // increases finished pomodoro status by 1
+  incrementStatistic()
   setNextModeId()
 }
 
@@ -104,14 +107,20 @@ provide('timer', {
 })
 
 /**
- * pomodoro status
+ * pomodoro statistics
  */
-const pomodoroStatus = reactive({
-  pomodoros: 0,
-  shortBreaks: 0,
-  longBreaks: 0
+const statistic = reactive({
+  pomodoro: 0,
+  short_break: 0,
+  long_break: 0
 })
-provide('pomodoroStatus', pomodoroStatus)
+
+// increases finished pomodoro status by 1
+const incrementStatistic = (mode = getCurrentModeValue()) => {
+  statistic[mode]++
+}
+
+provide('statistic', statistic)
 
 /**
  * tasks
@@ -146,16 +155,25 @@ const setActiveTaskId = (id) => {
   activeTaskId.value = id
 }
 
-const activeTaskIncreaseCompleted = () => {
+/**
+ * Increases active task completed qty.
+ */
+const activeTaskIncreaseCompletedQty = () => {
   // if no active task, return
   if (!activeTaskId.value) return
 
+  // if current mode is not pomodoro, return
+  if (currentModeId.value !== 0) return
+
+  // find active task index
   const taskIndex = tasks.value.findIndex((task) => task.id === activeTaskId.value)
   // if active task not found, return
   if (taskIndex === -1) return
 
   // if active task is already completed, return
   if (tasks.value[taskIndex].completed === tasks.value[taskIndex].qty) return
+
+  // increase active task completed qty
   tasks.value[taskIndex].completed++
 
   // if active task became completed, set active task to null
@@ -172,7 +190,7 @@ provide('activeTask', {
   activeTaskId,
   activeTaskTitle,
   setActiveTaskId,
-  activeTaskIncreaseCompleted
+  activeTaskIncreaseCompletedQty
 })
 
 /**
