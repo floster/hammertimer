@@ -127,6 +127,12 @@ provide('statistic', statistic)
  */
 const tasks = ref([
   {
+    id: 3,
+    title: 'Learning Vue3 reactivity',
+    qty: 1,
+    completed: 1
+  },
+  {
     id: 1,
     title: 'Learning Vue3 basics using Vue official docs',
     qty: 4,
@@ -139,13 +145,40 @@ const tasks = ref([
     completed: 1
   },
   {
-    id: 3,
+    id: 4,
+    title: 'Learning Vue3 basics using Vue official docs',
+    qty: 1,
+    completed: 1
+  },
+  {
+    id: 5,
+    title: 'Learning Vue3 composition API',
+    qty: 2,
+    completed: 1
+  },
+  {
+    id: 6,
     title: 'Learning Vue3 reactivity',
     qty: 1,
     completed: 1
   }
 ])
-provide('tasks', tasks)
+
+const completedHidden = ref(false)
+const completedInTheEnd = ref(false)
+
+const hideCompleted = (tasks) => {
+  return tasks.filter((task) => task.completed !== task.qty)
+}
+
+const completedToTheEnd = (tasks) => {
+  return tasks.sort((a, b) => {
+    if (a.completed === a.qty) return 1
+    if (b.completed === b.qty) return -1
+    return 0
+  })
+}
+provide('tasks', { tasks, completedHidden, completedInTheEnd, hideCompleted, completedToTheEnd })
 
 /**
  * active task
