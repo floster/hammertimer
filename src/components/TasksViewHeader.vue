@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from 'vue'
-import AppButton from '@/components/AppButton.vue'
+import TasksMenu from '@/components/TasksMenu.vue'
 
 const { totalTasksQty, totalCompletedTasksQty } = inject('tasksQty')
 </script>
@@ -15,7 +15,7 @@ const { totalTasksQty, totalCompletedTasksQty } = inject('tasksQty')
           >)</span
         >
       </h2>
-      <AppButton icon="ph:dots-three-outline-vertical-fill" class="btn-sm btn-square btn-primary" />
+      <TasksMenu />
     </div>
   </header>
 </template>
