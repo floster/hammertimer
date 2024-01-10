@@ -5,6 +5,9 @@ import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
 import AddTaskSection from '@/components/AddTaskSection.vue'
 
+import { useTasksStore } from '@/stores/tasks'
+const tasksStore = useTasksStore()
+
 /**
  * timer modes
  */
@@ -79,7 +82,7 @@ const onTimerFinished = () => {
   // set all timer states (started, paused, resumed, reseted) to false
   resetTimer()
 
-  activeTaskIncreaseCompletedQty()
+  tasksStore.activeTaskIncreaseCompletedQty()
 
   // increases finished pomodoro status by 1
   incrementStatistic()
@@ -121,151 +124,6 @@ const incrementStatistic = (mode = getCurrentModeValue()) => {
 }
 
 provide('statistic', statistic)
-
-/**
- * tasks
- */
-const tasks = ref([
-  {
-    id: 3,
-    title: 'Learning Vue3 reactivity',
-    qty: 1,
-    completed: 1
-  },
-  {
-    id: 1,
-    title: 'Learning Vue3 basics using Vue official docs',
-    qty: 4,
-    completed: 2
-  },
-  {
-    id: 2,
-    title: 'Learning Vue3 composition API',
-    qty: 2,
-    completed: 1
-  },
-  {
-    id: 4,
-    title: 'Learning Vue3 basics using Vue official docs',
-    qty: 1,
-    completed: 1
-  },
-  {
-    id: 5,
-    title: 'Learning Vue3 composition API',
-    qty: 2,
-    completed: 1
-  },
-  {
-    id: 6,
-    title: 'Learning Vue3 reactivity',
-    qty: 1,
-    completed: 1
-  }
-])
-
-const completedHidden = ref(false)
-const completedInTheEnd = ref(false)
-
-const hideCompleted = (tasks) => {
-  return tasks.filter((task) => task.completed !== task.qty)
-}
-
-const completedToTheEnd = (tasks) => {
-  return tasks.sort((a, b) => {
-    if (a.completed === a.qty) return 1
-    if (b.completed === b.qty) return -1
-    return 0
-  })
-}
-provide('tasks', { tasks, completedHidden, completedInTheEnd, hideCompleted, completedToTheEnd })
-
-/**
- * active task
- */
-const activeTaskId = ref(null)
-const setActiveTaskId = (id) => {
-  activeTaskId.value = id
-}
-
-/**
- * Increases active task completed qty.
- */
-const activeTaskIncreaseCompletedQty = () => {
-  // if no active task, return
-  if (!activeTaskId.value) return
-
-  // if current mode is not pomodoro, return
-  if (currentModeId.value !== 0) return
-
-  // find active task index
-  const taskIndex = tasks.value.findIndex((task) => task.id === activeTaskId.value)
-  // if active task not found, return
-  if (taskIndex === -1) return
-
-  // if active task is already completed, return
-  if (tasks.value[taskIndex].completed === tasks.value[taskIndex].qty) return
-
-  // increase active task completed qty
-  tasks.value[taskIndex].completed++
-
-  // if active task became completed, set active task to null
-  if (tasks.value[taskIndex].completed === tasks.value[taskIndex].qty) {
-    activeTaskId.value = null
-  }
-}
-
-const activeTaskTitle = computed(
-  () => tasks.value.filter((task) => task.id === activeTaskId.value)[0]?.title
-)
-
-provide('activeTask', {
-  activeTaskId,
-  activeTaskTitle,
-  setActiveTaskId,
-  activeTaskIncreaseCompletedQty
-})
-
-/**
- * tasks qty
- */
-const totalTasksQty = computed(() => tasks.value.reduce((acc, task) => acc + task.qty, 0))
-const totalCompletedTasksQty = computed(() =>
-  tasks.value.reduce((acc, task) => acc + task.completed, 0)
-)
-
-provide('tasksQty', { totalTasksQty, totalCompletedTasksQty })
-
-/**
- * task actions
- */
-
-/**
- * Adds a task to the tasks array.
- * @param {object} task - The task to be added.
- */
-const addTask = (task) => {
-  tasks.value.push(task)
-}
-
-/**
- * Deletes a task from the tasks array.
- * @param {number} id - The id of the task to be deleted.
- */
-const deleteTask = (id) => {
-  tasks.value = tasks.value.filter((task) => task.id !== id)
-}
-
-/**
- * Edits a task in the tasks array.
- * @param {object} task - The task to be edited.
- */
-const editTask = (task) => {
-  const taskIndex = tasks.value.findIndex((t) => t.id === task.id)
-  tasks.value[taskIndex] = task
-}
-
-provide('taskActions', { addTask, deleteTask, editTask })
 </script>
 
 <template>

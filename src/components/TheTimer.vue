@@ -16,7 +16,7 @@ let timer = ref(null)
 // create new timer instance (with corresponding countdown time)
 const createTimer = () => {
   currentTime.value = new Date()
-  time.value = currentTime.value.setSeconds(currentTime.value.getSeconds() + duration.value * 60)
+  time.value = currentTime.value.setSeconds(currentTime.value.getSeconds() + duration.value * 5)
   timer.value = useTimer(time.value, false)
 }
 

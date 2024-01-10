@@ -1,12 +1,10 @@
 <script setup>
-import { ref, watch, inject, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import InputNumber from '@/components/InputNumber.vue'
 
-/**
- * injects
- */
-const { addTask, editTask } = inject('taskActions')
+import { useTasksStore } from '@/stores/tasks'
+const tasks = useTasksStore()
 
 /**
  * props
@@ -63,7 +61,7 @@ const handleSubmit = () => {
     return
   }
   const taskData = _createTask()
-  editMode.value ? editTask(taskData) : addTask(taskData)
+  editMode.value ? tasks.updateTask(taskData) : tasks.addTask(taskData)
   emit('submit')
   _resetForm()
 }
@@ -86,14 +84,14 @@ onMounted(() => {
 
 <template>
   <form
-    @submit.prevent="handleSubmit"
     class="flex flex-col gap-y-8 p-4 bg-primary-content/10 rounded-md shadow"
+    @submit.prevent="handleSubmit"
   >
     <div>
       <input
+        v-model="title"
         v-focus
         type="text"
-        v-model="title"
         placeholder="Task title"
         class="input input-ghost input-bordered input-lg w-full"
         :class="{ 'input-accent': inputError }"
@@ -109,7 +107,7 @@ onMounted(() => {
     />
     <div class="flex justify-end gap-x-4">
       <!-- cancel -->
-      <AppButton @click="handleCancel" text="Cancel" class="btn-ghost" />
+      <AppButton text="Cancel" class="btn-ghost" @click="handleCancel" />
       <!-- submit -->
       <AppButton type="submit" :text="editMode ? 'Save task' : 'Add task'" class="btn-success" />
     </div>

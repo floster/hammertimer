@@ -1,7 +1,7 @@
 import './index.css'
 
 import { createApp } from 'vue'
-// import { createPinia } from 'pinia'
+import { createPinia } from 'pinia'
 
 import directives from './directives'
 
@@ -10,9 +10,9 @@ import App from './App.vue'
 
 const app = createApp(App)
 
-directives.forEach(directive => app.directive(directive.name, directive))
+directives.forEach((directive) => app.directive(directive.name, directive))
 
-// app.use(createPinia())
+app.use(createPinia())
 // app.use(router)
 
 app.mount('#app')

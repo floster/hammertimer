@@ -4,11 +4,13 @@ import AppButton from '@/components/AppButton.vue'
 import TheTimer from '@/components/TheTimer.vue'
 import TimerModesSwitcher from '@/components/TimerModesSwitcher.vue'
 
+import { useTasksStore } from '@/stores/tasks'
+const tasks = useTasksStore()
+
 /**
  * injects
  */
 const { timerStarted, timerPaused, toggleTimer, onTimerFinished, resetTimer } = inject('timer')
-const { activeTaskTitle } = inject('activeTask')
 </script>
 
 <template>
@@ -16,8 +18,8 @@ const { activeTaskTitle } = inject('activeTask')
     class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-primary-content/20 rounded-lg"
   >
     <TimerModesSwitcher />
-    <h2 v-if="activeTaskTitle" class="text-center text-sm">
-      {{ activeTaskTitle }}
+    <h2 v-if="tasks.activeTaskTitle" class="text-center text-sm">
+      {{ tasks.activeTaskTitle }}
     </h2>
     <TheTimer />
     <div class="flex items-center gap-x-2">

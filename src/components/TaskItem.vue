@@ -4,12 +4,13 @@ import { Icon } from '@iconify/vue'
 import TaskForm from '@/components/TaskForm.vue'
 import TaskItemControls from '@/components/TaskItemControls.vue'
 
+import { useTasksStore } from '@/stores/tasks'
+const tasks = useTasksStore()
+
 /**
  * injects
  */
 const { timerStarted } = inject('timer')
-const { deleteTask } = inject('taskActions')
-const { activeTaskId, setActiveTaskId } = inject('activeTask')
 
 const props = defineProps({
   task: {
@@ -18,7 +19,7 @@ const props = defineProps({
   }
 })
 
-const isCurrent = computed(() => props.task.id === activeTaskId?.value)
+const isCurrent = computed(() => props.task.id === tasks.activeTaskId)
 const isComplited = computed(() => props.task.completed === props.task.qty)
 
 /**
@@ -46,8 +47,8 @@ const hideForm = () => {
  */
 const handleTaskClick = () => {
   if (isComplited.value || timerStarted.value) return
-  else if (isCurrent.value) setActiveTaskId(null)
-  else setActiveTaskId(props.task.id)
+  else if (isCurrent.value) tasks.setActiveTaskId(null)
+  else tasks.setActiveTaskId(props.task.id)
 }
 </script>
 
@@ -64,14 +65,14 @@ const handleTaskClick = () => {
       class="translate-y-[-2px] shrink-0"
       :class="iconClasses"
     />
-    <span @click="handleTaskClick" class="cursor-pointer truncate text-neutral">{{
+    <span class="cursor-pointer truncate text-neutral" @click="handleTaskClick">{{
       task.title
     }}</span>
     <span class="text-neutral/50 ml-auto"
       >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
     >
     <!-- task controls -->
-    <TaskItemControls @edit="editMode = true" @delete="() => deleteTask(task.id)" />
+    <TaskItemControls @edit="editMode = true" @delete="() => tasks.removeTask(task.id)" />
   </li>
   <TaskForm v-else :data="task" @submit="hideForm" @cancel="hideForm" />
 </template>

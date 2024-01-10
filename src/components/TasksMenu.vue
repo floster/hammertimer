@@ -1,8 +1,9 @@
 <script setup>
-import { ref, inject, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 
-const { completedHidden, completedInTheEnd } = inject('tasks')
+import { useTasksStore } from '@/stores/tasks'
+const tasks = useTasksStore()
 
 const showMenu = ref(false)
 
@@ -35,14 +36,22 @@ onBeforeUnmount(() => {
       <li class="flex items-center gap-x-1 hover:text-info cursor-pointer">
         <div class="form-control">
           <label class="label cursor-pointer gap-x-4">
-            <input v-model="completedHidden" type="checkbox" class="checkbox checkbox-primary" />
+            <input
+              v-model="tasks.isCompletedHidden"
+              type="checkbox"
+              class="checkbox checkbox-primary"
+            />
             <span class="label-text whitespace-nowrap">hide completed</span>
           </label>
         </div>
       </li>
       <li class="flex items-center gap-x-1 hover:text-info cursor-pointer">
         <label class="label cursor-pointer gap-x-4">
-          <input v-model="completedInTheEnd" type="checkbox" class="checkbox checkbox-primary" />
+          <input
+            v-model="tasks.isCompletedInTheEnd"
+            type="checkbox"
+            class="checkbox checkbox-primary"
+          />
           <span class="label-text whitespace-nowrap">down completed</span>
         </label>
       </li>
