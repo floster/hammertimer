@@ -1,4 +1,6 @@
 <script setup>
+const SECONDS_IN_MINUTE = 5
+
 import { onMounted, watch, computed, ref, watchEffect } from 'vue'
 import { useTimer } from 'vue-timer-hook'
 
@@ -23,7 +25,7 @@ let timer = ref(null)
 const createTimer = () => {
   currentTime.value = new Date()
   time.value = currentTime.value.setSeconds(
-    currentTime.value.getSeconds() + pomodoro.currentModeDuration * 5
+    currentTime.value.getSeconds() + pomodoro.currentModeDuration * SECONDS_IN_MINUTE
   )
   timer.value = useTimer(time.value, false)
 }
@@ -31,6 +33,7 @@ const createTimer = () => {
 // recreate timer each time when 'duration' (i.e timer mode) changes
 watch(() => pomodoro.currentModeDuration, createTimer, { immediate: true })
 
+// recreate timer (with corresponding time) each time when 'timerReseted' changes
 watch(
   () => timerStore.timerReseted,
   (reseted) => {
@@ -56,6 +59,7 @@ watch(
 )
 
 onMounted(() => {
+  // watch for timer expiration (finished)
   watchEffect(() => {
     if (timer?.value.isExpired) {
       timerStore.onTimerFinished()
@@ -64,6 +68,7 @@ onMounted(() => {
   })
 })
 
+// add leading zero for minutes and seconds
 const normalizedMinutes = computed(() => timer?.value.minutes.toString().padStart(2, '0'))
 const normalizedSeconds = computed(() => timer?.value.seconds.toString().padStart(2, '0'))
 </script>

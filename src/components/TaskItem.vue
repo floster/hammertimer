@@ -39,7 +39,7 @@ const iconClasses = computed(() => ({
 }))
 
 /**
- * edit task form
+ * show/hide edit task form
  */
 const editMode = ref(false)
 const hideForm = () => {
@@ -47,7 +47,7 @@ const hideForm = () => {
 }
 
 /**
- * set task as active if it's not already current or completed or timer is started
+ * set task as active if it's not already current or completed or if timer isn't started
  */
 const handleTaskClick = () => {
   if (isComplited.value || timer.timerStarted) return

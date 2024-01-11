@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 /*
   import timer store
@@ -25,6 +25,15 @@ const props = defineProps({
 
 const isCurrent = computed(() => pomodoro.currentModeId === props.data.id)
 const isDisabled = computed(() => timer.timerStarted)
+
+// reset current time and timer states when current mode changes
+watch(
+  () => pomodoro.currentModeId,
+  () => {
+    timer.resetTimer()
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
