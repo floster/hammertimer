@@ -1,9 +1,21 @@
 <script setup>
-import { inject, computed } from 'vue'
+import { computed, watch } from 'vue'
 
-const { currentModeId } = inject('currentMode')
-const { timerStarted } = inject('timer')
+/*
+  import timer store
+*/
+import { useTimerStore } from '@/stores/timer'
+const timer = useTimerStore()
 
+/*
+  import pomodoro store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
+
+/*
+  props
+*/
 const props = defineProps({
   data: {
     type: Object,
@@ -11,8 +23,17 @@ const props = defineProps({
   }
 })
 
-const isCurrent = computed(() => currentModeId.value === props.data.id)
-const isDisabled = computed(() => timerStarted.value)
+const isCurrent = computed(() => pomodoro.currentModeId === props.data.id)
+const isDisabled = computed(() => timer.timerStarted)
+
+// reset current time and timer states when current mode changes
+watch(
+  () => pomodoro.currentModeId,
+  () => {
+    timer.resetTimer()
+  },
+  { immediate: true }
+)
 </script>
 
 <template>
@@ -24,7 +45,7 @@ const isDisabled = computed(() => timerStarted.value)
     }"
   >
     <input
-      v-model="currentModeId"
+      v-model="pomodoro.currentModeId"
       class="appearance-none"
       type="radio"
       :value="data.id"

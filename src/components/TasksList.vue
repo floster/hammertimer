@@ -1,22 +1,20 @@
 <script setup>
-import { inject, computed } from 'vue'
+import { computed } from 'vue'
 import TaskItem from '@/components/TaskItem.vue'
 
-const { tasks, completedHidden, completedInTheEnd, hideCompleted, completedToTheEnd } =
-  inject('tasks')
+import { useTasksStore } from '@/stores/tasks'
+const tasks = useTasksStore()
 
 const filteredTasks = computed(() => {
-  let _tasks = [...tasks.value]
-  if (completedHidden.value) {
-    _tasks = hideCompleted(_tasks)
+  let _tasks = [...tasks.tasks]
+  if (tasks.isCompletedHidden) {
+    _tasks = tasks.getOnlyUncompletedTasks
   }
-  if (completedInTheEnd.value) {
-    _tasks = completedToTheEnd(_tasks)
+  if (tasks.isCompletedInTheEnd) {
+    _tasks = tasks.getWithCompletedInTheEnd
   }
   return _tasks
 })
-
-defineEmits(['set-active-task'])
 </script>
 
 <template>

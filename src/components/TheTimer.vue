@@ -1,12 +1,20 @@
 <script setup>
-import { onMounted, watch, computed, ref, watchEffect, inject } from 'vue'
+const SECONDS_IN_MINUTE = 5
+
+import { onMounted, watch, computed, ref, watchEffect } from 'vue'
 import { useTimer } from 'vue-timer-hook'
 
-/**
- * injects
- */
-const { duration, timerStarted, timerPaused, timerResumed, timerReseted, onTimerFinished } =
-  inject('timer')
+/*
+  import timer store
+*/
+import { useTimerStore } from '@/stores/timer'
+const timerStore = useTimerStore()
+
+/*
+  import pomodoro store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
 
 const currentTime = ref(null)
 // time (in milliseconds) that passing to useTimer
@@ -16,15 +24,18 @@ let timer = ref(null)
 // create new timer instance (with corresponding countdown time)
 const createTimer = () => {
   currentTime.value = new Date()
-  time.value = currentTime.value.setSeconds(currentTime.value.getSeconds() + duration.value * 60)
+  time.value = currentTime.value.setSeconds(
+    currentTime.value.getSeconds() + pomodoro.currentModeDuration * SECONDS_IN_MINUTE
+  )
   timer.value = useTimer(time.value, false)
 }
 
 // recreate timer each time when 'duration' (i.e timer mode) changes
-watch(() => duration.value, createTimer, { immediate: true })
+watch(() => pomodoro.currentModeDuration, createTimer, { immediate: true })
 
+// recreate timer (with corresponding time) each time when 'timerReseted' changes
 watch(
-  () => timerReseted.value,
+  () => timerStore.timerReseted,
   (reseted) => {
     if (reseted) {
       createTimer()
@@ -33,7 +44,7 @@ watch(
 )
 
 watch(
-  [() => timerStarted.value, () => timerPaused.value, () => timerResumed.value],
+  [() => timerStore.timerStarted, () => timerStore.timerPaused, () => timerStore.timerResumed],
   ([started, paused, resumed]) => {
     if (started && paused) {
       timer?.value.pause()
@@ -48,14 +59,16 @@ watch(
 )
 
 onMounted(() => {
+  // watch for timer expiration (finished)
   watchEffect(() => {
     if (timer?.value.isExpired) {
-      onTimerFinished()
+      timerStore.onTimerFinished()
       timer?.value.restart(time.value, false)
     }
   })
 })
 
+// add leading zero for minutes and seconds
 const normalizedMinutes = computed(() => timer?.value.minutes.toString().padStart(2, '0'))
 const normalizedSeconds = computed(() => timer?.value.seconds.toString().padStart(2, '0'))
 </script>

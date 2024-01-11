@@ -22,15 +22,15 @@ const showModal = () => modal.value?.show()
         icon="ph:chart-line-fill"
       />
       <AppButton
-        @click="showModal"
         class="btn-sm btn-ghost"
         text="Settings"
         :sm-no-text="true"
         icon="ph:gear-fill"
+        @click="showModal"
       />
     </div>
     <AppModal ref="modal">
-      <p class="text-secondary-content">Sure to delete {{ activeTaskTitle || 'default task' }}?</p>
+      <p class="text-secondary-content">Sure to delete?</p>
     </AppModal>
   </header>
 </template>

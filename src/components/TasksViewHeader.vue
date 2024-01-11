@@ -1,8 +1,8 @@
 <script setup>
-import { inject } from 'vue'
 import TasksMenu from '@/components/TasksMenu.vue'
 
-const { totalTasksQty, totalCompletedTasksQty } = inject('tasksQty')
+import { useTasksStore } from '@/stores/tasks'
+const tasks = useTasksStore()
 </script>
 
 <template>
@@ -11,7 +11,7 @@ const { totalTasksQty, totalCompletedTasksQty } = inject('tasksQty')
       <h2 class="text-sm md:text-base">
         Tasks
         <span class="text-neutral-content/50"
-          >({{ totalCompletedTasksQty }}/<small>{{ totalTasksQty }}</small
+          >({{ tasks.getCompletedTasksQty }}/<small>{{ tasks.getTotalTasksQty }}</small
           >)</span
         >
       </h2>
