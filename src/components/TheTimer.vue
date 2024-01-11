@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch, computed, ref, watchEffect, inject } from 'vue'
+import { onMounted, watch, computed, ref, watchEffect } from 'vue'
 import { useTimer } from 'vue-timer-hook'
 
 /*
@@ -8,10 +8,11 @@ import { useTimer } from 'vue-timer-hook'
 import { useTimerStore } from '@/stores/timer'
 const timerStore = useTimerStore()
 
-/**
- * injects
- */
-const { duration } = inject('currentMode')
+/*
+  import pomodoro store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
 
 const currentTime = ref(null)
 // time (in milliseconds) that passing to useTimer
@@ -21,12 +22,14 @@ let timer = ref(null)
 // create new timer instance (with corresponding countdown time)
 const createTimer = () => {
   currentTime.value = new Date()
-  time.value = currentTime.value.setSeconds(currentTime.value.getSeconds() + duration.value * 5)
+  time.value = currentTime.value.setSeconds(
+    currentTime.value.getSeconds() + pomodoro.currentModeDuration * 5
+  )
   timer.value = useTimer(time.value, false)
 }
 
 // recreate timer each time when 'duration' (i.e timer mode) changes
-watch(() => duration.value, createTimer, { immediate: true })
+watch(() => pomodoro.currentModeDuration, createTimer, { immediate: true })
 
 watch(
   () => timerStore.timerReseted,

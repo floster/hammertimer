@@ -1,11 +1,21 @@
 <script setup>
-import { inject, computed } from 'vue'
+import { computed } from 'vue'
 
+/*
+  import timer store
+*/
 import { useTimerStore } from '@/stores/timer'
 const timer = useTimerStore()
 
-const { currentModeId } = inject('currentMode')
+/*
+  import pomodoro store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
 
+/*
+  props
+*/
 const props = defineProps({
   data: {
     type: Object,
@@ -13,7 +23,7 @@ const props = defineProps({
   }
 })
 
-const isCurrent = computed(() => currentModeId.value === props.data.id)
+const isCurrent = computed(() => pomodoro.currentModeId === props.data.id)
 const isDisabled = computed(() => timer.timerStarted)
 </script>
 
@@ -26,7 +36,7 @@ const isDisabled = computed(() => timer.timerStarted)
     }"
   >
     <input
-      v-model="currentModeId"
+      v-model="pomodoro.currentModeId"
       class="appearance-none"
       type="radio"
       :value="data.id"

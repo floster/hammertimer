@@ -1,5 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
+import { usePomodoroStore } from '@/stores/pomodoro'
+
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
     tasks: [
@@ -86,12 +88,12 @@ export const useTasksStore = defineStore('tasks', {
     },
     // increase active task 'completed' qty by 1
     activeTaskIncreaseCompletedQty() {
+      const pomodoroStore = usePomodoroStore()
       // if no active task, return
       if (!this.activeTaskId) return
 
       // if current mode is not pomodoro, return
-      // FIXME: uncomment it in future
-      // if (this.currentModeId !== 0) return
+      if (pomodoroStore.currentModeId !== 0) return
 
       // find active task index
       const taskIndex = this.tasks.findIndex((task) => task.id === this.activeTaskId)

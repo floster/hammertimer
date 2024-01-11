@@ -1,12 +1,15 @@
 <script setup>
-import { inject } from 'vue'
 import RadioTab from '@/components/RadioTab.vue'
 
-const timerModes = inject('timerModes')
+/*
+  import pomodoro store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
 </script>
 
 <template>
   <nav class="flex items-center gap-x-2">
-    <RadioTab v-for="mode in timerModes" :key="mode.id" :data="mode" />
+    <RadioTab v-for="mode in pomodoro.modes" :key="mode.id" :data="mode" />
   </nav>
 </template>

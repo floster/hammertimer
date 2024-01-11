@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 import { useTasksStore } from '@/stores/tasks'
+import { usePomodoroStore } from '@/stores/pomodoro'
 
 export const useTimerStore = defineStore('timer', {
   state: () => ({
@@ -42,16 +43,16 @@ export const useTimerStore = defineStore('timer', {
     },
     onTimerFinished() {
       const tasksStore = useTasksStore()
+      const pomodoroStore = usePomodoroStore()
 
       // set all timer states (started, paused, resumed, reseted) to false
       this.resetTimer()
 
       tasksStore.activeTaskIncreaseCompletedQty()
 
-      // FIXME:
       // increases finished pomodoro status by 1
-      // incrementStatistic()
-      // setNextModeId()
+      pomodoroStore.incrementStatistic()
+      pomodoroStore.setNextModeId()
     }
   }
 })
