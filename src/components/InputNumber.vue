@@ -1,23 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
 
-const props = defineProps({
-  modelValue: {
-    type: Number,
-    required: true
-  },
-  label: {
-    type: String,
-    default: 'Qty: '
-  },
-  min: {
-    type: Number,
-    default: 1
-  },
-  max: {
-    type: Number,
-    default: 10
-  }
+interface Props {
+  modelValue: number
+  label?: string
+  min?: number
+  max?: number
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  label: 'Qty',
+  min: 1,
+  max: 10
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -38,12 +32,12 @@ const dec = () => {
     {{ label }}
     <input
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
       type="text"
       placeholder="Qty"
       class="input input-ghost input-bordered input-lg max-w-20 text-center"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
-    <AppButton @click.stop="dec" class="btn-primary btn-square" icon="ph:minus-bold" />
-    <AppButton @click.stop="inc" class="btn-primary btn-square" icon="ph:plus-bold" />
+    <AppButton class="btn-primary btn-square" icon="ph:minus-bold" @click.stop="dec" />
+    <AppButton class="btn-primary btn-square" icon="ph:plus-bold" @click.stop="inc" />
   </label>
 </template>

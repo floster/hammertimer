@@ -2,6 +2,8 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
 
+import type { Task } from '@/types'
+
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
     tasks: [
@@ -32,7 +34,7 @@ export const useTasksStore = defineStore('tasks', {
     ],
 
     // active task
-    activeTaskId: null,
+    activeTaskId: null as number | null,
 
     // states for filtering and sorting
     isCompletedHidden: false,
@@ -69,13 +71,13 @@ export const useTasksStore = defineStore('tasks', {
     /*
       tasks
     */
-    addTask(task) {
+    addTask(task: Task) {
       this.tasks.push(task)
     },
-    removeTask(id) {
+    removeTask(id: number) {
       this.tasks = this.tasks.filter((task) => task.id !== id)
     },
-    updateTask(task) {
+    updateTask(task: Task) {
       const index = this.tasks.findIndex((t) => t.id === task.id)
       this.tasks[index] = task
     },
@@ -83,7 +85,7 @@ export const useTasksStore = defineStore('tasks', {
     /*
       active task
     */
-    setActiveTaskId(id) {
+    setActiveTaskId(id: number | null) {
       this.activeTaskId = id
     },
     // increase active task 'completed' qty by 1

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue'
 import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'

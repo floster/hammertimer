@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 
@@ -7,8 +7,8 @@ const tasks = useTasksStore()
 
 const showMenu = ref(false)
 
-const hideOnClickOutside = (e) => {
-  if (!e.target.closest('.tasks-menu')) {
+const hideOnClickOutside = (e: Event) => {
+  if (!(e.target as Element)?.closest('.tasks-menu')) {
     showMenu.value = false
   }
 }

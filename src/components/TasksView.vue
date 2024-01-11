@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import TasksList from '@/components/TasksList.vue'
 import TasksViewHeader from '@/components/TasksViewHeader.vue'
 

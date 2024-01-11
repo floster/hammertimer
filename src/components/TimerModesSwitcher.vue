@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import RadioTab from '@/components/RadioTab.vue'
 
 /*
