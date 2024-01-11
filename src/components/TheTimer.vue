@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const SECONDS_IN_MINUTE = 5
 
 import { onMounted, watch, computed, ref, watchEffect } from 'vue'

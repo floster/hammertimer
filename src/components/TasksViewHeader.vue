@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import TasksMenu from '@/components/TasksMenu.vue'
 
 import { useTasksStore } from '@/stores/tasks'

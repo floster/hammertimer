@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
 
 const props = defineProps({

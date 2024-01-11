@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import AppLogo from '@/components/AppLogo.vue'
 import AppButton from '@/components/AppButton.vue'

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import TaskForm from '@/components/TaskForm.vue'

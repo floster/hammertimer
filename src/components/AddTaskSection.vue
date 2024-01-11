@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import TaskForm from '@/components/TaskForm.vue'
 import AppButton from '@/components/AppButton.vue'
