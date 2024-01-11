@@ -1,8 +1,10 @@
 <script setup>
 import { inject, computed } from 'vue'
 
+import { useTimerStore } from '@/stores/timer'
+const timer = useTimerStore()
+
 const { currentModeId } = inject('currentMode')
-const { timerStarted } = inject('timer')
 
 const props = defineProps({
   data: {
@@ -12,7 +14,7 @@ const props = defineProps({
 })
 
 const isCurrent = computed(() => currentModeId.value === props.data.id)
-const isDisabled = computed(() => timerStarted.value)
+const isDisabled = computed(() => timer.timerStarted)
 </script>
 
 <template>

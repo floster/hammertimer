@@ -1,16 +1,20 @@
 <script setup>
-import { ref, computed, inject } from 'vue'
+import { ref, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import TaskForm from '@/components/TaskForm.vue'
 import TaskItemControls from '@/components/TaskItemControls.vue'
 
+/*
+  import tasks store
+*/
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
 
-/**
- * injects
- */
-const { timerStarted } = inject('timer')
+/*
+  import timer store
+*/
+import { useTimerStore } from '@/stores/timer'
+const timer = useTimerStore()
 
 const props = defineProps({
   task: {
@@ -46,7 +50,7 @@ const hideForm = () => {
  * set task as active if it's not already current or completed or timer is started
  */
 const handleTaskClick = () => {
-  if (isComplited.value || timerStarted.value) return
+  if (isComplited.value || timer.timerStarted) return
   else if (isCurrent.value) tasks.setActiveTaskId(null)
   else tasks.setActiveTaskId(props.task.id)
 }

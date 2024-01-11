@@ -2,11 +2,16 @@
 import { onMounted, watch, computed, ref, watchEffect, inject } from 'vue'
 import { useTimer } from 'vue-timer-hook'
 
+/*
+  import timer store
+*/
+import { useTimerStore } from '@/stores/timer'
+const timerStore = useTimerStore()
+
 /**
  * injects
  */
-const { duration, timerStarted, timerPaused, timerResumed, timerReseted, onTimerFinished } =
-  inject('timer')
+const { duration } = inject('currentMode')
 
 const currentTime = ref(null)
 // time (in milliseconds) that passing to useTimer
@@ -24,7 +29,7 @@ const createTimer = () => {
 watch(() => duration.value, createTimer, { immediate: true })
 
 watch(
-  () => timerReseted.value,
+  () => timerStore.timerReseted,
   (reseted) => {
     if (reseted) {
       createTimer()
@@ -33,7 +38,7 @@ watch(
 )
 
 watch(
-  [() => timerStarted.value, () => timerPaused.value, () => timerResumed.value],
+  [() => timerStore.timerStarted, () => timerStore.timerPaused, () => timerStore.timerResumed],
   ([started, paused, resumed]) => {
     if (started && paused) {
       timer?.value.pause()
@@ -50,7 +55,7 @@ watch(
 onMounted(() => {
   watchEffect(() => {
     if (timer?.value.isExpired) {
-      onTimerFinished()
+      timerStore.onTimerFinished()
       timer?.value.restart(time.value, false)
     }
   })

@@ -1,16 +1,19 @@
 <script setup>
-import { inject } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import TheTimer from '@/components/TheTimer.vue'
 import TimerModesSwitcher from '@/components/TimerModesSwitcher.vue'
 
+/*
+  import tasks store
+*/
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
 
-/**
- * injects
- */
-const { timerStarted, timerPaused, toggleTimer, onTimerFinished, resetTimer } = inject('timer')
+/*
+  import timer store
+*/
+import { useTimerStore } from '@/stores/timer'
+const timer = useTimerStore()
 </script>
 
 <template>
@@ -25,23 +28,23 @@ const { timerStarted, timerPaused, toggleTimer, onTimerFinished, resetTimer } = 
     <div class="flex items-center gap-x-2">
       <!-- reset current button -->
       <AppButton
-        v-if="timerStarted"
+        v-if="timer.timerStarted"
         icon="ph:stop-fill"
         class="btn-ghost opacity-20 hover:opacity-80"
-        @click="resetTimer"
+        @click="timer.resetTimer"
       />
       <!-- start/pause button -->
       <AppButton
-        :icon="timerStarted && !timerPaused ? 'ph:pause-fill' : 'ph:play-fill'"
+        :icon="timer.timerStarted && !timer.timerPaused ? 'ph:pause-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
-        @click="toggleTimer"
+        @click="timer.toggleTimer"
       />
       <!-- force finish current button -->
       <AppButton
-        v-if="timerStarted"
+        v-if="timer.timerStarted"
         icon="ph:arrow-line-right-bold"
         class="btn-ghost opacity-20 hover:opacity-80"
-        @click="onTimerFinished"
+        @click="timer.onTimerFinished"
       />
     </div>
   </section>

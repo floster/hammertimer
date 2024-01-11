@@ -5,8 +5,8 @@ import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
 import AddTaskSection from '@/components/AddTaskSection.vue'
 
-import { useTasksStore } from '@/stores/tasks'
-const tasksStore = useTasksStore()
+import { useTimerStore } from '@/stores/timer'
+const timerStore = useTimerStore()
 
 /**
  * timer modes
@@ -32,82 +32,9 @@ const setNextModeId = () => {
 const getCurrentModeValue = () => {
   return timerModes[currentModeId.value].value
 }
-
-provide('currentMode', { currentModeId, setNextModeId })
-
-/**
- * timer
- */
 const duration = computed(() => timerModes[currentModeId.value].duration)
 
-const timerStarted = ref(false)
-const startTimer = () => {
-  timerStarted.value = true
-  timerReseted.value = false
-}
-
-const timerPaused = ref(false)
-const pauseTimer = () => {
-  timerResumed.value = false
-  timerPaused.value = true
-}
-
-const timerResumed = ref(false)
-const resumeTimer = () => {
-  timerResumed.value = true
-  timerPaused.value = false
-}
-
-const toggleTimer = () => {
-  if (!timerStarted.value) {
-    startTimer()
-  } else {
-    if (!timerPaused.value) {
-      pauseTimer()
-    } else {
-      resumeTimer()
-    }
-  }
-}
-
-const timerReseted = ref(false)
-const resetTimer = () => {
-  timerStarted.value = false
-  timerPaused.value = false
-  timerResumed.value = false
-  timerReseted.value = true
-}
-
-const onTimerFinished = () => {
-  // set all timer states (started, paused, resumed, reseted) to false
-  resetTimer()
-
-  tasksStore.activeTaskIncreaseCompletedQty()
-
-  // increases finished pomodoro status by 1
-  incrementStatistic()
-  setNextModeId()
-}
-
-// reset current time and timer states when current mode changes
-watch(
-  () => currentModeId.value,
-  () => {
-    resetTimer()
-  },
-  { immediate: true }
-)
-
-provide('timer', {
-  duration,
-  timerStarted,
-  timerPaused,
-  timerResumed,
-  timerReseted,
-  toggleTimer,
-  resetTimer,
-  onTimerFinished
-})
+provide('currentMode', { currentModeId, duration, setNextModeId })
 
 /**
  * pomodoro statistics
@@ -123,7 +50,16 @@ const incrementStatistic = (mode = getCurrentModeValue()) => {
   statistic[mode]++
 }
 
-provide('statistic', statistic)
+provide('statistic', statistic, incrementStatistic)
+
+// reset current time and timer states when current mode changes
+watch(
+  () => currentModeId.value,
+  () => {
+    timerStore.resetTimer()
+  },
+  { immediate: true }
+)
 </script>
 
 <template>

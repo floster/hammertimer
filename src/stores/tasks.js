@@ -1,7 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
-export const useTasksStore = defineStore({
-  id: 'tasks',
+export const useTasksStore = defineStore('tasks', {
   state: () => ({
     tasks: [
       {
