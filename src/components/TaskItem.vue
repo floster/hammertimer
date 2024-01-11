@@ -4,6 +4,8 @@ import { Icon } from '@iconify/vue'
 import TaskForm from '@/components/TaskForm.vue'
 import TaskItemControls from '@/components/TaskItemControls.vue'
 
+import type { Task } from '@/types'
+
 /*
   import tasks store
 */
@@ -16,12 +18,11 @@ const tasks = useTasksStore()
 import { useTimerStore } from '@/stores/timer'
 const timer = useTimerStore()
 
-const props = defineProps({
-  task: {
-    type: Object,
-    required: true
-  }
-})
+interface Props {
+  task: Task
+}
+
+const props = defineProps<Props>()
 
 const isCurrent = computed(() => props.task.id === tasks.activeTaskId)
 const isComplited = computed(() => props.task.completed === props.task.qty)

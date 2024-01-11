@@ -1,4 +1,4 @@
 export const focus = {
   name: 'focus',
-  mounted: el => el.focus(),
+  mounted: (el: HTMLInputElement) => el.focus()
 }

@@ -6,15 +6,16 @@ import InputNumber from '@/components/InputNumber.vue'
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
 
+import type { Task } from '@/types'
+
+interface Props {
+  data: Task | null
+}
+
 /**
  * props
  */
-const props = defineProps({
-  data: {
-    type: Object,
-    required: false
-  }
-})
+const props = defineProps<Props>()
 
 /**
  * emits
@@ -25,7 +26,7 @@ const emit = defineEmits(['submit', 'cancel'])
  * data
  */
 const title = ref('')
-const id = ref(null)
+const id = ref(0)
 const qty = ref(1)
 const completed = ref(0)
 

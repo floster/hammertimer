@@ -1,25 +1,18 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 
-defineProps({
-  type: {
-    type: String,
-    required: false,
-    default: 'button'
-  },
-  icon: {
-    type: String,
-    required: false
-  },
-  text: {
-    type: String,
-    required: false
-  },
-  smNoText: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
+interface Props {
+  type?: 'button' | 'submit'
+  icon?: string | null
+  text?: string | null
+  smNoText?: boolean
+}
+
+withDefaults(defineProps<Props>(), {
+  type: 'button',
+  icon: null,
+  text: null,
+  smNoText: false
 })
 </script>
 
