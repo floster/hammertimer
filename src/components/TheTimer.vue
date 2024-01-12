@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const SECONDS_IN_MINUTE = 5
+const SECONDS_IN_MINUTE = 60
 
 import { onMounted, watch, computed, ref, watchEffect } from 'vue'
 import { useTimer } from 'vue-timer-hook'
@@ -72,6 +72,15 @@ onMounted(() => {
 // add leading zero for minutes and seconds
 const normalizedMinutes = computed(() => timer?.value?.minutes.toString().padStart(2, '0'))
 const normalizedSeconds = computed(() => timer?.value?.seconds.toString().padStart(2, '0'))
+
+// update document title with timer value if timer is started or paused
+watchEffect(() => {
+  if (timerStore.timerStarted || timerStore.timerPaused) {
+    document.title = `${normalizedMinutes.value}:${normalizedSeconds.value} - ${pomodoro.currentModeName}`
+  } else {
+    document.title = 'Pomofocus'
+  }
+})
 </script>
 
 <template>

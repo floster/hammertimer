@@ -35,6 +35,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
       return 0
     },
     _getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
+    currentModeName: (store) => store.modes[store.currentModeId].name,
     currentModeDuration: (store) => store.modes[store.currentModeId].duration
   },
   actions: {
