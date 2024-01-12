@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 500 500">
   <g clip-path="url(#a)">
-    <path fill="tomato" stroke="#1B263B" stroke-linejoin="round" stroke-width="22" d="M102.827 11.957h296.521c50.184 0 90.869 40.684 90.869 90.87v296.522c0 50.184-40.686 90.868-90.869 90.868H102.827c-50.187 0-90.87-40.684-90.87-90.868V102.827c0-50.187 40.683-90.87 90.87-90.87Z"/>
+    <path fill="#E1F0F9" stroke="#1B263B" stroke-linejoin="round" stroke-width="22" d="M102.827 11.957h296.521c50.184 0 90.869 40.684 90.869 90.87v296.522c0 50.184-40.686 90.868-90.869 90.868H102.827c-50.187 0-90.87-40.684-90.87-90.868V102.827c0-50.187 40.683-90.87 90.87-90.87Z"/>
     <path fill="#fff" stroke="#1B263B" stroke-linejoin="round" stroke-width="22" d="M250 430c99.411 0 180-80.589 180-180S349.411 70 250 70 70 150.589 70 250s80.589 180 180 180Z"/>
     <rect width="40" height="32" x="430" y="231" fill="#1B263B" rx="8" transform="rotate(90 430 231)"/>
     <rect width="40" height="32" x="102" y="231" fill="#1B263B" rx="8" transform="rotate(90 102 231)"/>
