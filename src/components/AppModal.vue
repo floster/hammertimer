@@ -8,7 +8,7 @@ const dialog = ref()
 
 const emit = defineEmits<{
   (e: 'confirm'): void
-  (e: 'cancel'): void
+  (e: 'close'): void
 }>()
 
 const confirm = () => {
@@ -16,9 +16,14 @@ const confirm = () => {
   emit('confirm')
 }
 
-const cancel = () => {
+const close = () => {
   settings.instance?.close()
-  emit('cancel')
+}
+
+const onDialogClick = (e: MouseEvent) => {
+  if ((e.target as Element)?.tagName === 'DIALOG') {
+    close()
+  }
 }
 
 onMounted(() => {
@@ -27,21 +32,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <dialog ref="dialog" class="modal modal-bottom sm:modal-middle">
+  <dialog
+    ref="dialog"
+    class="modal modal-bottom sm:modal-middle backdrop:bg-info-content/80"
+    @click="onDialogClick"
+    @close="$emit('close')"
+  >
     <form method="dialog" class="modal-box rounded-none p-4">
       <header class="flex items-center justify-between px-4 py-2 m-[-16px] mb-4 bg-info">
         <h2>Settings</h2>
-        <button class="btn btn-sm btn-circle">✕</button>
       </header>
       <slot />
 
       <div class="modal-action">
-        <button class="btn" @click.prevent="cancel">cancel</button>
+        <button class="btn" @click.prevent="close">close</button>
         <button class="btn btn-primary" @click.prevent="confirm">save</button>
       </div>
-    </form>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
     </form>
   </dialog>
 </template>

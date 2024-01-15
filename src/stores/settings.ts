@@ -10,8 +10,6 @@ export const useSettingsStore = defineStore('settings', {
       this.instance = instance
     },
     openSettings() {
-      console.log('open settings', this.instance)
-
       this.instance?.showModal()
     },
     closeSettings() {
