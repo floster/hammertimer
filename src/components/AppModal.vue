@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
+const settings = useSettingsStore()
 
+// template refs
 const dialog = ref()
 
-const emit = defineEmits(['confirm', 'cancel'])
-
-const cancel = () => {
-  dialog.value?.close()
-  emit('cancel')
-}
+const emit = defineEmits<{
+  (e: 'confirm'): void
+  (e: 'cancel'): void
+}>()
 
 const confirm = () => {
-  dialog.value?.close()
+  settings.instance?.close()
   emit('confirm')
 }
 
-const visible = ref(false)
-
-const showModal = () => {
-  dialog.value?.showModal()
-  visible.value = true
+const cancel = () => {
+  settings.instance?.close()
+  emit('cancel')
 }
 
-defineExpose({
-  show: showModal,
-  close: () => dialog.value?.close(),
-  visible
+onMounted(() => {
+  if (dialog.value) settings.setInstance(dialog.value)
 })
 </script>
 
 <template>
-  <dialog ref="dialog" class="modal modal-bottom sm:modal-middle" @close="visible = false">
-    <form v-if="visible" method="dialog" class="modal-box rounded-none p-4">
-      <button class="btn btn-sm btn-circle absolute right-2 top-2">✕</button>
+  <dialog ref="dialog" class="modal modal-bottom sm:modal-middle">
+    <form method="dialog" class="modal-box rounded-none p-4">
+      <header class="flex items-center justify-between px-4 py-2 m-[-16px] mb-4 bg-info">
+        <h2>Settings</h2>
+        <button class="btn btn-sm btn-circle">✕</button>
+      </header>
       <slot />
 
       <div class="modal-action">
         <button class="btn" @click.prevent="cancel">cancel</button>
-        <button class="btn btn-primary" @click.prevent="confirm">confirm</button>
+        <button class="btn btn-primary" @click.prevent="confirm">save</button>
       </div>
     </form>
     <form method="dialog" class="modal-backdrop">
