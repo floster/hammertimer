@@ -17,6 +17,12 @@ const timerStore = useTimerStore()
 import { usePomodoroStore } from '@/stores/pomodoro'
 const pomodoro = usePomodoroStore()
 
+/*
+  import pomodoro store
+*/
+import { useSettingsStore } from '@/stores/settings'
+const settings = useSettingsStore()
+
 const currentTime = ref<Date>()
 // time (in milliseconds) that passing to useTimer
 const time = ref(0)
@@ -26,13 +32,13 @@ let timer = ref<UseTimer>()
 const createTimer = () => {
   currentTime.value = new Date()
   time.value = currentTime.value.setSeconds(
-    currentTime.value.getSeconds() + pomodoro.currentModeDuration * SECONDS_IN_MINUTE
+    currentTime.value.getSeconds() + settings.getCurrentDuration * SECONDS_IN_MINUTE
   )
   timer.value = useTimer(time.value, false)
 }
 
 // recreate timer each time when 'duration' (i.e timer mode) changes
-watch(() => pomodoro.currentModeDuration, createTimer, { immediate: true })
+watch(() => settings.getCurrentDuration, createTimer, { immediate: true })
 
 // recreate timer (with corresponding time) each time when 'timerReseted' changes
 watch(
