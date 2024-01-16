@@ -1,37 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
-
-const showMenu = ref(false)
-
-const hideOnClickOutside = (e: Event) => {
-  if (!(e.target as Element)?.closest('.tasks-menu')) {
-    showMenu.value = false
-  }
-}
-
-onMounted(() => {
-  document.addEventListener('click', hideOnClickOutside)
-})
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', hideOnClickOutside)
-})
 </script>
 
 <template>
-  <div class="tasks-menu relative">
-    <AppButton
-      icon="ph:dots-three-outline-vertical-fill"
-      class="btn-sm btn-square btn-primary"
-      @click="showMenu = !showMenu"
-    />
+  <div class="tasks-menu relative group">
+    <AppButton icon="ph:dots-three-outline-vertical-fill" class="btn-sm btn-square btn-primary" />
     <ul
-      v-if="showMenu"
-      class="absolute right-0 flex flex-col gap-3 p-3 bg-secondary-content/80 rounded-box"
+      class="absolute z-10 right-0 flex flex-col gap-3 bg-secondary-content/80 rounded-box max-h-0 overflow-hidden p-0 group-hover:max-h-max group-hover:p-3 group-hover:overflow-auto transition-all"
     >
       <li class="flex items-center gap-x-1 hover:text-info cursor-pointer">
         <div class="form-control">
