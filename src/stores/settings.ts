@@ -15,7 +15,7 @@ export const useSettingsStore = defineStore('settings', {
 
     // App settings
     durations: {
-      pomodoro: 25,
+      pomodoro: 1,
       short_break: 5,
       long_break: 15
     } as Durations,

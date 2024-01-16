@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, watchEffect, watch } from 'vue'
+import { Icon } from '@iconify/vue'
 
 /*
   import timer store
@@ -38,12 +39,23 @@ watchEffect(() => {
     document.title = 'Pomofocus'
   }
 })
+
+watchEffect(() => {
+  if (timerStore.isFinished) {
+    timerStore.onTimerFinished()
+  }
+})
 </script>
 
 <template>
-  <div class="flex items-center gap-x-2 text-8xl font-bold">
+  <div class="relative flex items-center gap-x-2 text-8xl font-bold">
     <span>{{ normalizedMinutes }}</span>
     <span>:</span>
     <span>{{ normalizedSeconds }}</span>
+    <Icon
+      icon="mdi:auto-start"
+      class="absolute right-[-16px] top-0 text-xl"
+      :class="settings.getAutoNextMode ? 'text-success' : 'text-secondary'"
+    />
   </div>
 </template>

@@ -9,7 +9,7 @@ import { useTimer } from 'vue-timer-hook'
 import type { UseTimer } from 'vue-timer-hook'
 
 const _getTimerDuration = (duration: number) =>
-  new Date().setSeconds(new Date().getSeconds() + duration * 60)
+  new Date().setSeconds(new Date().getSeconds() + duration * 5)
 
 export const useTimerStore = defineStore('timer', {
   state: () => ({
@@ -20,6 +20,7 @@ export const useTimerStore = defineStore('timer', {
   getters: {
     getInstance: (store) => store._instance,
     isRunning: (store) => !!store._instance?.isRunning,
+    isFinished: (store) => !!store._instance?.isExpired,
     isStarted: (store) => store.started,
     isPaused: (store) => store.paused,
     minutes: (store) => store._instance?.minutes,
@@ -36,6 +37,7 @@ export const useTimerStore = defineStore('timer', {
     start() {
       this.getInstance?.start()
       this.started = true
+      console.log('started')
     },
     pause() {
       this.getInstance?.pause()
@@ -64,9 +66,7 @@ export const useTimerStore = defineStore('timer', {
     onTimerFinished() {
       const tasksStore = useTasksStore()
       const pomodoroStore = usePomodoroStore()
-
-      // set all timer states (started, paused, resumed, reseted) to false
-      this.reset()
+      const settingsStore = useSettingsStore()
 
       tasksStore.activeTaskIncreaseCompletedQty()
 
@@ -75,8 +75,15 @@ export const useTimerStore = defineStore('timer', {
 
       // set next mode as current...
       pomodoroStore.setNextModeId()
+
+      this.started = false
+      this.paused = false
+
       // ...and if autoNextMode is enabled, then immediately start timer
-      // this.start()
+      if (settingsStore.autoNextMode) {
+        // TODO: fix this hack and find its cause
+        setTimeout(() => this.start(), 2000)
+      }
     }
   }
 })
