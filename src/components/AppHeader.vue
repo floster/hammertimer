@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import AppLogo from '@/components/AppLogo.vue'
 import AppButton from '@/components/AppButton.vue'
-import AppModal from '@/components/AppModal.vue'
+import SettingsModal from './SettingsModal.vue'
 
-/**
- * modal
- */
-const modal = ref()
-const showModal = () => modal.value?.show()
+import { useSettingsStore } from '@/stores/settings'
+const settings = useSettingsStore()
 </script>
 
 <template>
@@ -26,11 +22,9 @@ const showModal = () => modal.value?.show()
         text="Settings"
         :sm-no-text="true"
         icon="ph:gear-fill"
-        @click="showModal"
+        @click="() => settings.openSettings()"
       />
     </div>
-    <AppModal ref="modal">
-      <p class="text-secondary-content">Sure to delete?</p>
-    </AppModal>
   </header>
+  <SettingsModal />
 </template>

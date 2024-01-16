@@ -2,7 +2,6 @@
 import AppHeader from '@/components/AppHeader.vue'
 import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
-import AddTaskSection from '@/components/AddTaskSection.vue'
 </script>
 
 <template>
@@ -12,7 +11,6 @@ import AddTaskSection from '@/components/AddTaskSection.vue'
       <main class="flex flex-col items-center px-2 md:px-16">
         <TimerView />
         <TasksView />
-        <AddTaskSection />
       </main>
     </div>
   </div>

@@ -1,9 +1,6 @@
 <script setup lang="ts">
-const SECONDS_IN_MINUTE = 60
-
-import { onMounted, watch, computed, ref, watchEffect } from 'vue'
-import { useTimer } from 'vue-timer-hook'
-import type { UseTimer } from 'vue-timer-hook'
+import { computed, watchEffect, watch } from 'vue'
+import { Icon } from '@iconify/vue'
 
 /*
   import timer store
@@ -17,76 +14,54 @@ const timerStore = useTimerStore()
 import { usePomodoroStore } from '@/stores/pomodoro'
 const pomodoro = usePomodoroStore()
 
-const currentTime = ref<Date>()
-// time (in milliseconds) that passing to useTimer
-const time = ref(0)
-let timer = ref<UseTimer>()
-
-// create new timer instance (with corresponding countdown time)
-const createTimer = () => {
-  currentTime.value = new Date()
-  time.value = currentTime.value.setSeconds(
-    currentTime.value.getSeconds() + pomodoro.currentModeDuration * SECONDS_IN_MINUTE
-  )
-  timer.value = useTimer(time.value, false)
-}
+/*
+  import settings store
+*/
+import { useSettingsStore } from '@/stores/settings'
+const settings = useSettingsStore()
 
 // recreate timer each time when 'duration' (i.e timer mode) changes
-watch(() => pomodoro.currentModeDuration, createTimer, { immediate: true })
-
-// recreate timer (with corresponding time) each time when 'timerReseted' changes
 watch(
-  () => timerStore.timerReseted,
-  (reseted) => {
-    if (reseted) {
-      createTimer()
-    }
-  }
+  () => settings.getCurrentDuration,
+  () => timerStore.createTimer(),
+  { immediate: true }
 )
-
-watch(
-  [() => timerStore.timerStarted, () => timerStore.timerPaused, () => timerStore.timerResumed],
-  ([started, paused, resumed]) => {
-    if (started && paused) {
-      timer?.value?.pause()
-    } else if (started && resumed) {
-      timer?.value?.resume()
-    } else if (started && !paused && !resumed) {
-      timer?.value?.start()
-    } else {
-      timer?.value?.restart(time.value, false)
-    }
-  }
-)
-
-onMounted(() => {
-  // watch for timer expiration (finished)
-  watchEffect(() => {
-    if (timer?.value?.isExpired) {
-      timerStore.onTimerFinished()
-      timer?.value.restart(time.value, false)
-    }
-  })
-})
 
 // add leading zero for minutes and seconds
-const normalizedMinutes = computed(() => timer?.value?.minutes.toString().padStart(2, '0'))
-const normalizedSeconds = computed(() => timer?.value?.seconds.toString().padStart(2, '0'))
+const normalizedMinutes = computed(() => timerStore.minutes?.toString().padStart(2, '0'))
+const normalizedSeconds = computed(() => timerStore.seconds?.toString().padStart(2, '0'))
 
 // update document title with timer value if timer is started or paused
 watchEffect(() => {
-  if (timerStore.timerStarted || timerStore.timerPaused) {
+  if (timerStore.isRunning) {
     document.title = `${normalizedMinutes.value}:${normalizedSeconds.value} - ${pomodoro.currentModeName}`
   } else {
     document.title = 'Pomofocus'
   }
 })
+
+watchEffect(() => {
+  if (timerStore.isFinished) {
+    timerStore.onTimerFinished()
+  }
+})
 </script>
 
 <template>
-  <div class="flex items-center gap-x-2 text-8xl font-bold">
+  <div class="relative flex items-center gap-x-2 text-8xl font-bold">
     <span>{{ normalizedMinutes }}</span>
     <span>:</span>
     <span>{{ normalizedSeconds }}</span>
+    <button
+      class="btn btn-ghost btn-square btn-sm absolute right-[-30px] top-0"
+      :title="settings.getAutoNextMode ? 'auto-next mode is enabled' : 'auto-next mode is disabled'"
+      @click="settings.toggleAutoNextMode()"
+    >
+      <Icon
+        icon="mdi:auto-start"
+        class="text-xl"
+        :class="settings.getAutoNextMode ? 'text-green-400' : 'text-secondary'"
+      />
+    </button>
   </div>
 </template>

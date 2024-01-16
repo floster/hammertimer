@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia'
 
-type AvailableModes = 'pomodoro' | 'short_break' | 'long_break'
+import type { AvailableModes } from '@/types'
 
 interface Mode {
   id: number
   name: string
   value: AvailableModes
-  duration: number
 }
 
 type Statistic = {
@@ -16,9 +15,9 @@ type Statistic = {
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
     modes: [
-      { id: 0, name: 'Pomodoro', value: 'pomodoro', duration: 1 },
-      { id: 1, name: 'Break', value: 'short_break', duration: 5 },
-      { id: 2, name: 'Long Break', value: 'long_break', duration: 15 }
+      { id: 0, name: 'Pomodoro', value: 'pomodoro' },
+      { id: 1, name: 'Break', value: 'short_break' },
+      { id: 2, name: 'Long Break', value: 'long_break' }
     ] as Mode[],
     currentModeId: 0,
 
@@ -34,9 +33,9 @@ export const usePomodoroStore = defineStore('pomodoro', {
       if (store.currentModeId === 1) return 2
       return 0
     },
-    _getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
+    getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
     currentModeName: (store) => store.modes[store.currentModeId].name,
-    currentModeDuration: (store) => store.modes[store.currentModeId].duration
+    isCurrentModePomodoro: (store) => store.currentModeId === 0
   },
   actions: {
     setNextModeId() {
@@ -44,7 +43,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
     },
 
     incrementStatistic() {
-      this.statistic[this._getCurrentModeValue] += 1
+      this.statistic[this.getCurrentModeValue] += 1
     }
   }
 })

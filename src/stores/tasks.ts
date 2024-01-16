@@ -36,9 +36,12 @@ export const useTasksStore = defineStore('tasks', {
     // active task
     activeTaskId: null as number | null,
 
-    // states for filtering and sorting
+    // filtering and sorting
     isCompletedHidden: false,
-    isCompletedInTheEnd: false
+    isCompletedInTheEnd: false,
+
+    // add task form
+    addTaskFormVisible: false
   }),
   getters: {
     /*
@@ -95,7 +98,7 @@ export const useTasksStore = defineStore('tasks', {
       if (!this.activeTaskId) return
 
       // if current mode is not pomodoro, return
-      if (pomodoroStore.currentModeId !== 0) return
+      if (!pomodoroStore.isCurrentModePomodoro) return
 
       // find active task index
       const taskIndex = this.tasks.findIndex((task) => task.id === this.activeTaskId)
@@ -112,6 +115,14 @@ export const useTasksStore = defineStore('tasks', {
       if (this.tasks[taskIndex].completed === this.tasks[taskIndex].qty) {
         this.activeTaskId = null
       }
+    },
+
+    // add task form
+    openAddTaskForm() {
+      this.addTaskFormVisible = true
+    },
+    closeAddTaskForm() {
+      this.addTaskFormVisible = false
     }
   }
 })

@@ -14,6 +14,12 @@ const tasks = useTasksStore()
 */
 import { useTimerStore } from '@/stores/timer'
 const timer = useTimerStore()
+
+/*
+  import timer store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
 </script>
 
 <template>
@@ -21,27 +27,27 @@ const timer = useTimerStore()
     class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-primary-content/20 rounded-lg"
   >
     <TimerModesSwitcher />
-    <h2 v-if="tasks.activeTaskTitle" class="text-center text-sm">
+    <h2 v-if="tasks.activeTaskTitle && pomodoro.isCurrentModePomodoro" class="text-center text-sm">
       {{ tasks.activeTaskTitle }}
     </h2>
     <TheTimer />
     <div class="flex items-center gap-x-2">
       <!-- reset current button -->
       <AppButton
-        v-if="timer.timerStarted"
+        v-if="timer.isStarted"
         icon="ph:stop-fill"
         class="btn-ghost opacity-20 hover:opacity-80"
-        @click="timer.resetTimer"
+        @click="timer.reset()"
       />
       <!-- start/pause button -->
       <AppButton
-        :icon="timer.timerStarted && !timer.timerPaused ? 'ph:pause-fill' : 'ph:play-fill'"
+        :icon="timer.isStarted ? 'ph:pause-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
-        @click="timer.toggleTimer"
+        @click="timer.toggle()"
       />
       <!-- force finish current button -->
       <AppButton
-        v-if="timer.timerStarted"
+        v-if="timer.isStarted"
         icon="ph:arrow-line-right-bold"
         class="btn-ghost opacity-20 hover:opacity-80"
         @click="timer.onTimerFinished"
