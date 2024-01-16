@@ -24,13 +24,13 @@ const props = defineProps({
 })
 
 const isCurrent = computed(() => pomodoro.currentModeId === props.data.id)
-const isDisabled = computed(() => timer.timerStarted)
+const isDisabled = computed(() => timer.isStarted)
 
 // reset current time and timer states when current mode changes
 watch(
   () => pomodoro.currentModeId,
   () => {
-    timer.resetTimer()
+    timer.reset()
   },
   { immediate: true }
 )

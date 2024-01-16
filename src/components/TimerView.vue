@@ -28,20 +28,20 @@ const timer = useTimerStore()
     <div class="flex items-center gap-x-2">
       <!-- reset current button -->
       <AppButton
-        v-if="timer.timerStarted"
+        v-if="timer.isStarted"
         icon="ph:stop-fill"
         class="btn-ghost opacity-20 hover:opacity-80"
-        @click="timer.resetTimer"
+        @click="timer.reset()"
       />
       <!-- start/pause button -->
       <AppButton
-        :icon="timer.timerStarted && !timer.timerPaused ? 'ph:pause-fill' : 'ph:play-fill'"
+        :icon="timer.isStarted ? 'ph:pause-fill' : 'ph:play-fill'"
         class="btn-warning btn-lg px-16"
-        @click="timer.toggleTimer"
+        @click="timer.toggle()"
       />
       <!-- force finish current button -->
       <AppButton
-        v-if="timer.timerStarted"
+        v-if="timer.isStarted"
         icon="ph:arrow-line-right-bold"
         class="btn-ghost opacity-20 hover:opacity-80"
         @click="timer.onTimerFinished"
