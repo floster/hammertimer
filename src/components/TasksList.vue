@@ -6,14 +6,13 @@ import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
 
 const filteredTasks = computed(() => {
-  let _tasks = [...tasks.tasks]
   if (tasks.isCompletedHidden) {
-    _tasks = tasks.getOnlyUncompletedTasks
+    return tasks.getOnlyUncompletedTasks
+  } else if (tasks.isCompletedInTheEnd) {
+    return tasks.getWithCompletedInTheEnd
+  } else {
+    return tasks.getTasks
   }
-  if (tasks.isCompletedInTheEnd) {
-    _tasks = tasks.getWithCompletedInTheEnd
-  }
-  return _tasks
 })
 </script>
 

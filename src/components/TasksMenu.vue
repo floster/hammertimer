@@ -19,18 +19,22 @@ const tasks = useTasksStore()
               type="checkbox"
               class="checkbox checkbox-primary"
             />
-            <span class="label-text whitespace-nowrap">hide completed</span>
+            <span class="whitespace-nowrap">hide completed</span>
           </label>
         </div>
       </li>
-      <li class="flex items-center gap-x-1 hover:text-info cursor-pointer">
-        <label class="label cursor-pointer gap-x-4">
+      <li class="flex items-center gap-x-1 hover:text-info">
+        <label
+          class="label cursor-pointer gap-x-4"
+          :class="{ 'text-secondary': tasks.isCompletedHidden }"
+        >
           <input
             v-model="tasks.isCompletedInTheEnd"
             type="checkbox"
             class="checkbox checkbox-primary"
+            :disabled="tasks.isCompletedHidden"
           />
-          <span class="label-text whitespace-nowrap">down completed</span>
+          <span class="whitespace-nowrap">down completed</span>
         </label>
       </li>
     </ul>
