@@ -36,9 +36,12 @@ export const useTasksStore = defineStore('tasks', {
     // active task
     activeTaskId: null as number | null,
 
-    // states for filtering and sorting
+    // filtering and sorting
     isCompletedHidden: false,
-    isCompletedInTheEnd: false
+    isCompletedInTheEnd: false,
+
+    // add task form
+    addTaskFormVisible: false
   }),
   getters: {
     /*
@@ -112,6 +115,14 @@ export const useTasksStore = defineStore('tasks', {
       if (this.tasks[taskIndex].completed === this.tasks[taskIndex].qty) {
         this.activeTaskId = null
       }
+    },
+
+    // add task form
+    openAddTaskForm() {
+      this.addTaskFormVisible = true
+    },
+    closeAddTaskForm() {
+      this.addTaskFormVisible = false
     }
   }
 })

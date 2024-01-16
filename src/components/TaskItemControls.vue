@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 
 /**
@@ -9,14 +8,6 @@ defineEmits({
   delete: null,
   edit: null
 })
-
-/**
- * edit menu
- */
-const editMenu = ref(false)
-const toggleEditMenu = () => {
-  editMenu.value = !editMenu.value
-}
 </script>
 
 <template>
@@ -32,11 +23,8 @@ const toggleEditMenu = () => {
     </div>
     <!-- button toggle edit menu -->
     <AppButton
-      :icon="`${editMenu ? 'ph:x-bold' : 'ph:dots-three-outline-vertical-fill'}`"
-      :class="{
-        'btn-sm btn-square btn-primary opacity-30 hover:opacity-70': true,
-        'opacity-70': editMenu
-      }"
+      icon="ph:dots-three-outline-vertical-fill"
+      class="btn-sm btn-square btn-primary opacity-30 group-hover:opacity-70"
     />
   </div>
 </template>
