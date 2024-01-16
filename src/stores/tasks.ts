@@ -95,7 +95,7 @@ export const useTasksStore = defineStore('tasks', {
       if (!this.activeTaskId) return
 
       // if current mode is not pomodoro, return
-      if (pomodoroStore.currentModeId !== 0) return
+      if (!pomodoroStore.isCurrentModePomodoro) return
 
       // find active task index
       const taskIndex = this.tasks.findIndex((task) => task.id === this.activeTaskId)

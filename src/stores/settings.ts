@@ -45,6 +45,9 @@ export const useSettingsStore = defineStore('settings', {
     },
     setAutoNextMode(value: boolean) {
       this.autoNextMode = value
+    },
+    toggleAutoNextMode() {
+      this.autoNextMode = !this.autoNextMode
     }
   }
 })

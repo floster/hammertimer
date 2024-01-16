@@ -52,10 +52,16 @@ watchEffect(() => {
     <span>{{ normalizedMinutes }}</span>
     <span>:</span>
     <span>{{ normalizedSeconds }}</span>
-    <Icon
-      icon="mdi:auto-start"
-      class="absolute right-[-16px] top-0 text-xl"
-      :class="settings.getAutoNextMode ? 'text-success' : 'text-secondary'"
-    />
+    <button
+      class="btn btn-ghost btn-square btn-sm absolute right-[-30px] top-0"
+      :title="settings.getAutoNextMode ? 'auto-next mode is enabled' : 'auto-next mode is disabled'"
+      @click="settings.toggleAutoNextMode()"
+    >
+      <Icon
+        icon="mdi:auto-start"
+        class="text-xl"
+        :class="settings.getAutoNextMode ? 'text-green-400' : 'text-secondary'"
+      />
+    </button>
   </div>
 </template>

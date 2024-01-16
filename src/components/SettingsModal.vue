@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import AppModal from '@/components/AppModal.vue'
 import { useSettingsStore } from '@/stores/settings'
 const settings = useSettingsStore()
@@ -16,7 +16,7 @@ type Durations = {
   [key in AvailableModes]: number
 }
 
-const durationsTempate = [
+const durationsTemplate = [
   {
     name: 'Pomodoro',
     value: 'pomodoro',
@@ -40,33 +40,26 @@ const durations = reactive<Durations>({
   long_break: settings.getDuration('long_break')
 })
 
-const isAutoNextMode = ref(settings.getAutoNextMode)
-
 const onConfirm = () => {
-  console.log('confirmed')
-  settings.setAutoNextMode(isAutoNextMode.value)
   settings.setDuration('pomodoro', durations.pomodoro)
   settings.setDuration('short_break', durations.short_break)
   settings.setDuration('long_break', durations.long_break)
 }
-const onCancel = () => {
-  console.log('canceled')
-}
 </script>
 
 <template>
-  <AppModal @confirm="onConfirm" @close="onCancel">
+  <AppModal @confirm="onConfirm">
     <div class="divider divider-neutral">Durations:</div>
     <div class="grid grid-cols-3 gap-x-4">
       <label
-        v-for="label in durationsTempate"
+        v-for="label in durationsTemplate"
         :key="label.value"
         class="text-sm text-neutral-content mb-1"
         :for="label.value"
         >{{ label.name }}</label
       >
       <input
-        v-for="input in durationsTempate"
+        v-for="input in durationsTemplate"
         :id="input.value"
         :key="input.value"
         v-model="durations[input.value]"
@@ -74,10 +67,5 @@ const onCancel = () => {
         class="input input-bordered w-full"
       />
     </div>
-    <div class="divider divider-neutral"></div>
-    <label class="label cursor-pointer justify-start w-fit gap-x-3">
-      <input v-model="isAutoNextMode" type="checkbox" class="checkbox checkbox-primary" />
-      <span class="label-text">auto-start next timer?</span>
-    </label>
   </AppModal>
 </template>

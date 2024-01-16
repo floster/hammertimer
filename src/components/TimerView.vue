@@ -14,6 +14,12 @@ const tasks = useTasksStore()
 */
 import { useTimerStore } from '@/stores/timer'
 const timer = useTimerStore()
+
+/*
+  import timer store
+*/
+import { usePomodoroStore } from '@/stores/pomodoro'
+const pomodoro = usePomodoroStore()
 </script>
 
 <template>
@@ -21,7 +27,7 @@ const timer = useTimerStore()
     class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-primary-content/20 rounded-lg"
   >
     <TimerModesSwitcher />
-    <h2 v-if="tasks.activeTaskTitle" class="text-center text-sm">
+    <h2 v-if="tasks.activeTaskTitle && pomodoro.isCurrentModePomodoro" class="text-center text-sm">
       {{ tasks.activeTaskTitle }}
     </h2>
     <TheTimer />
