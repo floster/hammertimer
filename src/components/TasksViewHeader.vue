@@ -9,14 +9,12 @@ const tasks = useTasksStore()
 <template>
   <header class="flex flex-col gap-y-8">
     <div
-      class="relative flex items-center justify-between py-3 border-b-2 border-b-neutral-content/40"
-    >
+      class="relative flex items-center justify-between py-3 border-b-2 border-b-neutral-content/40">
       <AppButton
         text="Add Task"
         icon="ph:plus-circle-fill"
         class="btn-sm btn-info btn-outline"
-        @click="tasks.openAddTaskForm"
-      />
+        @click="tasks.openAddTaskForm" />
       <h2 class="absolute left-1/2 -translate-x-1/2 text-sm md:text-base">
         Tasks
         <span class="text-neutral-content/50"
@@ -24,6 +22,7 @@ const tasks = useTasksStore()
           >)</span
         >
       </h2>
+
       <TasksMenu />
     </div>
   </header>

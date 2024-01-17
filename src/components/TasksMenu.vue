@@ -8,17 +8,18 @@ const tasks = useTasksStore()
 <template>
   <div class="tasks-menu relative group">
     <AppButton icon="ph:dots-three-outline-vertical-fill" class="btn-sm btn-square btn-primary" />
+    <div
+      v-if="tasks.isCompletedHidden || tasks.isCompletedInTheEnd"
+      class="w-2 h-2 rounded-full bg-warning/80 absolute z-0 -top-1 -right-1"></div>
     <ul
-      class="absolute z-10 right-0 flex flex-col gap-3 bg-secondary-content/80 rounded-box max-h-0 overflow-hidden p-0 group-hover:max-h-max group-hover:p-3 group-hover:overflow-auto transition-all"
-    >
+      class="absolute z-10 right-0 flex flex-col gap-3 bg-secondary-content/80 rounded-box max-h-0 overflow-hidden p-0 group-hover:max-h-max group-hover:p-3 group-hover:overflow-auto transition-all">
       <li class="flex items-center gap-x-1 hover:text-info cursor-pointer">
         <div class="form-control">
           <label class="label cursor-pointer gap-x-4">
             <input
               v-model="tasks.isCompletedHidden"
               type="checkbox"
-              class="checkbox checkbox-primary"
-            />
+              class="checkbox checkbox-primary" />
             <span class="whitespace-nowrap">hide completed</span>
           </label>
         </div>
@@ -26,14 +27,12 @@ const tasks = useTasksStore()
       <li class="flex items-center gap-x-1 hover:text-info">
         <label
           class="label cursor-pointer gap-x-4"
-          :class="{ 'text-secondary': tasks.isCompletedHidden }"
-        >
+          :class="{ 'text-secondary': tasks.isCompletedHidden }">
           <input
             v-model="tasks.isCompletedInTheEnd"
             type="checkbox"
             class="checkbox checkbox-primary"
-            :disabled="tasks.isCompletedHidden"
-          />
+            :disabled="tasks.isCompletedHidden" />
           <span class="whitespace-nowrap">down completed</span>
         </label>
       </li>
