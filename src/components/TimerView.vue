@@ -24,7 +24,7 @@ const pomodoro = usePomodoroStore()
 
 <template>
   <section
-    class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-primary-content/20 rounded-lg"
+    class="flex flex-col items-center justify-center gap-y-10 w-full mt-10 px-2 pt-4 pb-6 md:p-6 md:pb-8 bg-white/10 rounded-lg shadow-md"
   >
     <TimerModesSwitcher />
     <h2 v-if="tasks.activeTaskTitle && pomodoro.isCurrentModePomodoro" class="text-center text-sm">
