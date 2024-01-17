@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import AppModal from '@/components/AppModal.vue'
 import { useSettingsStore } from '@/stores/settings'
 const settings = useSettingsStore()
@@ -40,7 +40,10 @@ const durations = reactive<Durations>({
   long_break: settings.getDuration(AvailableModesEnum.long_break)
 })
 
+const longBreakInterval = ref(settings.getLongBreakInterval)
+
 const onConfirm = () => {
+  settings.setLongBreakInterval(longBreakInterval.value)
   settings.setDuration(AvailableModesEnum.hammer, durations.hammer)
   settings.setDuration(AvailableModesEnum.short_break, durations.short_break)
   settings.setDuration(AvailableModesEnum.long_break, durations.long_break)
@@ -67,5 +70,9 @@ const onConfirm = () => {
         class="input input-bordered w-full"
       />
     </div>
+    <label class="flex items-center justify-end gap-x-3 text-sm text-neutral-content mt-6">
+      pomodoros to long break:
+      <input v-model="longBreakInterval" type="number" class="input input-bordered w-20"
+    /></label>
   </AppModal>
 </template>

@@ -20,7 +20,7 @@ export const useSettingsStore = defineStore('settings', {
       long_break: 2
     } as Durations,
     autoNextMode: true,
-    qtyShortBreaksForLong: 3
+    longBreakInterval: 3
   }),
   getters: {
     getDuration: (store) => (mode: AvailableModesEnum) => store.durations[mode],
@@ -28,9 +28,11 @@ export const useSettingsStore = defineStore('settings', {
       const pomodoroStore = usePomodoroStore()
       return store.durations[pomodoroStore.getCurrentModeValue]
     },
+    getLongBreakInterval: (store) => store.longBreakInterval,
     getAutoNextMode: (store) => store.autoNextMode
   },
   actions: {
+    // settings modal dialog
     setInstance(instance: HTMLDialogElement) {
       this.instance = instance
     },
@@ -49,6 +51,10 @@ export const useSettingsStore = defineStore('settings', {
     },
     toggleAutoNextMode() {
       this.autoNextMode = !this.autoNextMode
+    },
+
+    setLongBreakInterval(value: number) {
+      this.longBreakInterval = value
     }
   }
 })
