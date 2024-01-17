@@ -4,46 +4,46 @@ import AppModal from '@/components/AppModal.vue'
 import { useSettingsStore } from '@/stores/settings'
 const settings = useSettingsStore()
 
-import type { AvailableModes } from '@/types'
+import { AvailableModesEnum } from '@/types'
 
 type DurationTemplate = {
   name: string
-  value: AvailableModes
+  value: AvailableModesEnum
   type: string
 }
 
 type Durations = {
-  [key in AvailableModes]: number
+  [key in AvailableModesEnum]: number
 }
 
 const durationsTemplate = [
   {
-    name: 'Pomodoro',
-    value: 'pomodoro',
+    name: 'Hammertime',
+    value: AvailableModesEnum.hammer,
     type: 'number'
   },
   {
-    name: 'Short Break',
-    value: 'short_break',
+    name: 'Short',
+    value: AvailableModesEnum.short_break,
     type: 'number'
   },
   {
-    name: 'Long Break',
-    value: 'long_break',
+    name: 'Long',
+    value: AvailableModesEnum.long_break,
     type: 'number'
   }
 ] as DurationTemplate[]
 
 const durations = reactive<Durations>({
-  pomodoro: settings.getDuration('pomodoro'),
-  short_break: settings.getDuration('short_break'),
-  long_break: settings.getDuration('long_break')
+  hammer: settings.getDuration(AvailableModesEnum.hammer),
+  short_break: settings.getDuration(AvailableModesEnum.short_break),
+  long_break: settings.getDuration(AvailableModesEnum.long_break)
 })
 
 const onConfirm = () => {
-  settings.setDuration('pomodoro', durations.pomodoro)
-  settings.setDuration('short_break', durations.short_break)
-  settings.setDuration('long_break', durations.long_break)
+  settings.setDuration(AvailableModesEnum.hammer, durations.hammer)
+  settings.setDuration(AvailableModesEnum.short_break, durations.short_break)
+  settings.setDuration(AvailableModesEnum.long_break, durations.long_break)
 }
 </script>
 

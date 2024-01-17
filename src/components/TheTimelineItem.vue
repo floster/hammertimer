@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
-import type { AvailableModes } from '@/types'
+import { AvailableModesEnum } from '@/types'
 
 interface Props {
-  type: AvailableModes
+  type: AvailableModesEnum
   start?: boolean
 }
 
 const props = defineProps<Props>()
 
 const icon = computed(() =>
-  props.type === 'pomodoro'
+  props.type === AvailableModesEnum.hammer
     ? 'ph:check-circle-fill'
-    : props.type === 'short_break'
+    : props.type === AvailableModesEnum.short_break
       ? 'ph:clock-countdown'
       : 'ph:clock-countdown-bold'
 )
@@ -23,7 +23,7 @@ const icon = computed(() =>
   <li>
     <hr v-if="!start" class="min-w-2 max-h-[2px] bg-primary-content/15" />
     <div class="timeline-middle">
-      <Icon :icon="icon" :class="{ 'text-info text-xl': type === 'pomodoro' }" />
+      <Icon :icon="icon" :class="{ 'text-info text-xl': type === AvailableModesEnum.hammer }" />
     </div>
     <hr class="min-w-2 max-h-[2px] bg-primary-content/15" />
   </li>

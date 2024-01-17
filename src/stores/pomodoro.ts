@@ -1,28 +1,28 @@
 import { defineStore } from 'pinia'
 
-import type { AvailableModes } from '@/types'
+import { AvailableModesEnum } from '@/types'
 
 interface Mode {
   id: number
   name: string
-  value: AvailableModes
+  value: AvailableModesEnum
 }
 
 interface Streak {
   id: number
-  type: AvailableModes
+  type: AvailableModesEnum
 }
 
 type Statistic = {
-  [key in AvailableModes]: number
+  [key in AvailableModesEnum]: number
 }
 
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
     modes: [
-      { id: 0, name: 'Pomodoro', value: 'pomodoro' },
-      { id: 1, name: 'Break', value: 'short_break' },
-      { id: 2, name: 'Long Break', value: 'long_break' }
+      { id: 0, name: 'Hammertime', value: AvailableModesEnum.hammer },
+      { id: 1, name: 'Short', value: AvailableModesEnum.short_break },
+      { id: 2, name: 'Long', value: AvailableModesEnum.long_break }
     ] as Mode[],
     currentModeId: 0,
 
@@ -30,7 +30,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
     short_breaks_in_row: 0,
 
     statistic: {
-      pomodoro: 0,
+      hammer: 0,
       short_break: 0,
       long_break: 0
     } as Statistic
@@ -44,7 +44,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
         }
         return 1 // 'short_break'
       }
-      return 0 // 'pomodoro'
+      return 0 // 'hammer'
     },
     getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
     currentModeName: (store) => store.modes[store.currentModeId].name,
@@ -55,7 +55,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
       this.currentModeId = this._getNextModeId
     },
 
-    addStreak(type: AvailableModes) {
+    addStreak(type: AvailableModesEnum) {
       this.streaks.push({ id: this.streaks.length, type })
     },
 

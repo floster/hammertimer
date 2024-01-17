@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { usePomodoroStore } from '@/stores/pomodoro'
 
-import type { AvailableModes } from '@/types'
+import { AvailableModesEnum } from '@/types'
 
 type Durations = {
-  [key in AvailableModes]: number
+  [key in AvailableModesEnum]: number
 }
 
 export const useSettingsStore = defineStore('settings', {
@@ -15,15 +15,15 @@ export const useSettingsStore = defineStore('settings', {
 
     // App settings
     durations: {
-      pomodoro: 1,
+      hammer: 3,
       short_break: 1,
-      long_break: 1
+      long_break: 2
     } as Durations,
     autoNextMode: true,
     qtyShortBreaksForLong: 3
   }),
   getters: {
-    getDuration: (store) => (mode: AvailableModes) => store.durations[mode],
+    getDuration: (store) => (mode: AvailableModesEnum) => store.durations[mode],
     getCurrentDuration: (store) => {
       const pomodoroStore = usePomodoroStore()
       return store.durations[pomodoroStore.getCurrentModeValue]
@@ -41,7 +41,7 @@ export const useSettingsStore = defineStore('settings', {
       this.instance?.close()
     },
 
-    setDuration(mode: AvailableModes, duration: number) {
+    setDuration(mode: AvailableModesEnum, duration: number) {
       this.durations[mode] = duration
     },
     setAutoNextMode(value: boolean) {
