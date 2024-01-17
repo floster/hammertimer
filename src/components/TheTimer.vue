@@ -42,14 +42,19 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center gap-x-2 text-7xl md:text-9xl font-bold">
-    <span class="countdown font-mono">
+  <div class="relative flex items-center gap-x-2 text-9xl font-bold">
+    <!-- with daisy animation -->
+    <!-- <span class="countdown font-mono">
       <span :style="{ '--value': normalizedMinutes }"></span>
     </span>
     <span>:</span>
     <span class="countdown font-mono">
       <span :style="{ '--value': normalizedSeconds }"></span>
-    </span>
+    </span> -->
+    <!-- /with daisy animation -->
+    <span>{{ normalizedMinutes }}</span>
+    <span>:</span>
+    <span>{{ normalizedSeconds }}</span>
     <button
       class="btn btn-ghost btn-square btn-sm absolute right-[-30px] top-4"
       :title="settings.getAutoNextMode ? 'auto-next mode is enabled' : 'auto-next mode is disabled'"

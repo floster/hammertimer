@@ -73,16 +73,21 @@ export const useTimerStore = defineStore('timer', {
       // increases finished pomodoro status by 1
       pomodoroStore.incrementStatistic()
 
-      // set next mode as current...
-      pomodoroStore.setNextModeId()
+      // if current mode is 'short_break' then increment short_breaks_in_row
+      pomodoroStore.incrementShortBreaksInRow()
+
+      pomodoroStore.addStreak(pomodoroStore.getCurrentModeValue)
 
       this.started = false
       this.paused = false
 
+      // set next mode as current...
+      pomodoroStore.setNextModeId()
+
       // ...and if autoNextMode is enabled, then immediately start timer
       if (settingsStore.autoNextMode) {
         // TODO: fix this hack and find its cause
-        setTimeout(() => this.start(), 2000)
+        setTimeout(() => this.start(), 1000)
       }
     }
   }

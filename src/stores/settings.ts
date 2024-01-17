@@ -15,11 +15,12 @@ export const useSettingsStore = defineStore('settings', {
 
     // App settings
     durations: {
-      pomodoro: 2,
-      short_break: 5,
-      long_break: 15
+      pomodoro: 1,
+      short_break: 1,
+      long_break: 1
     } as Durations,
-    autoNextMode: true
+    autoNextMode: true,
+    qtyShortBreaksForLong: 3
   }),
   getters: {
     getDuration: (store) => (mode: AvailableModes) => store.durations[mode],
