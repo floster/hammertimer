@@ -10,14 +10,20 @@ import TheTimeline from './components/TheTimeline.vue'
   import stores
  */
 import { useTasksStore } from '@/stores/tasks'
+import { useSettingsStore } from '@/stores/settings'
 
 /**
   init stores
  */
 const tasks = useTasksStore()
+const settings = useSettingsStore()
 
 onBeforeMount(() => {
   tasks.getTasksFromLocalStorage()
+
+  settings.getDurationsFromLocalStorage()
+  settings.getAutoNextModeFromLocalStorage()
+  settings.getLongBreakIntervalFromLocalStorage()
 })
 </script>
 

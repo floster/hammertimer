@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia'
 import { usePomodoroStore } from '@/stores/pomodoro'
 
+/**
+  Local storage
+ */
+import useLocalStorage from '@/composables/localStorage'
+const { set, get } = useLocalStorage()
+import { KEYS } from '@/config/localStorage'
+
 import { AvailableModesEnum } from '@/types'
 
 type Durations = {
@@ -14,13 +21,9 @@ export const useSettingsStore = defineStore('settings', {
     instance: null as HTMLDialogElement | null,
 
     // App settings
-    durations: {
-      hammer: 3,
-      short_break: 1,
-      long_break: 2
-    } as Durations,
-    autoNextMode: true,
-    longBreakInterval: 3
+    durations: {} as Durations,
+    autoNextMode: false,
+    longBreakInterval: 4
   }),
   getters: {
     getDuration: (store) => (mode: AvailableModesEnum) => store.durations[mode],
@@ -32,7 +35,9 @@ export const useSettingsStore = defineStore('settings', {
     getAutoNextMode: (store) => store.autoNextMode
   },
   actions: {
-    // settings modal dialog
+    /**
+     settings modal dialog
+    */
     setInstance(instance: HTMLDialogElement) {
       this.instance = instance
     },
@@ -45,16 +50,29 @@ export const useSettingsStore = defineStore('settings', {
 
     setDuration(mode: AvailableModesEnum, duration: number) {
       this.durations[mode] = duration
+      set(KEYS.DURATIONS, this.durations)
     },
-    setAutoNextMode(value: boolean) {
-      this.autoNextMode = value
+    getDurationsFromLocalStorage() {
+      const durations = get(KEYS.DURATIONS)
+      if (durations) this.durations = durations
     },
+
     toggleAutoNextMode() {
       this.autoNextMode = !this.autoNextMode
+      set(KEYS.AUTO_NEXT_MODE, this.autoNextMode)
+    },
+    getAutoNextModeFromLocalStorage() {
+      const autoNextMode = get(KEYS.AUTO_NEXT_MODE)
+      if (autoNextMode) this.autoNextMode = autoNextMode
     },
 
     setLongBreakInterval(value: number) {
       this.longBreakInterval = value
+      set(KEYS.LONG_BREAK_INTERVAL, this.longBreakInterval)
+    },
+    getLongBreakIntervalFromLocalStorage() {
+      const longBreakInterval = get(KEYS.LONG_BREAK_INTERVAL)
+      if (longBreakInterval) this.longBreakInterval = longBreakInterval
     }
   }
 })

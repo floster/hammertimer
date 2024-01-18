@@ -9,7 +9,7 @@ import { useTimer } from 'vue-timer-hook'
 import type { UseTimer } from 'vue-timer-hook'
 
 const _getTimerDuration = (duration: number) =>
-  new Date().setSeconds(new Date().getSeconds() + duration * 5)
+  new Date().setSeconds(new Date().getSeconds() + duration * 60)
 
 export const useTimerStore = defineStore('timer', {
   state: () => ({

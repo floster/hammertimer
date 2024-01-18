@@ -2,6 +2,9 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
 
+/**
+  Local storage
+ */
 import useLocalStorage from '@/composables/localStorage'
 const { set, get, remove } = useLocalStorage()
 import { KEYS } from '@/config/localStorage'
