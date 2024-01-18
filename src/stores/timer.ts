@@ -7,9 +7,10 @@ import { usePomodoroStore } from '@/stores/pomodoro'
 
 import { useTimer } from 'vue-timer-hook'
 import type { UseTimer } from 'vue-timer-hook'
+import { SECONDS_IN_MINUTE } from '@/config/app'
 
 const _getTimerDuration = (duration: number) =>
-  new Date().setSeconds(new Date().getSeconds() + duration * 60)
+  new Date().setSeconds(new Date().getSeconds() + duration * SECONDS_IN_MINUTE)
 
 export const useTimerStore = defineStore('timer', {
   state: () => ({
