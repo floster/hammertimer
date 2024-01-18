@@ -2,36 +2,18 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
 
+/**
+  Local storage
+ */
+import useLocalStorage from '@/composables/localStorage'
+const { set, get, remove } = useLocalStorage()
+import { KEYS } from '@/config/localStorage'
+
 import type { Task } from '@/types'
 
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
-    tasks: [
-      {
-        id: 1,
-        title: 'Learning Vue3 basics using Vue official docs',
-        qty: 4,
-        completed: 2
-      },
-      {
-        id: 3,
-        title: 'Learning Vue3 reactivity',
-        qty: 1,
-        completed: 1
-      },
-      {
-        id: 2,
-        title: 'Learning Vue3 composition API',
-        qty: 2,
-        completed: 1
-      },
-      {
-        id: 4,
-        title: 'Learning Vue3 basics using Vue official docs',
-        qty: 1,
-        completed: 1
-      }
-    ],
+    tasks: [] as Task[],
 
     // active task
     activeTaskId: null as number | null,
@@ -76,13 +58,30 @@ export const useTasksStore = defineStore('tasks', {
     */
     addTask(task: Task) {
       this.tasks.push(task)
+      set(KEYS.TASKS, this.tasks)
     },
     removeTask(id: number) {
       this.tasks = this.tasks.filter((task) => task.id !== id)
+      set(KEYS.TASKS, this.tasks)
     },
     updateTask(task: Task) {
       const index = this.tasks.findIndex((t) => t.id === task.id)
       this.tasks[index] = task
+      set(KEYS.TASKS, this.tasks)
+    },
+
+    /*
+      local storage
+    */
+    getTasksFromLocalStorage() {
+      const tasks = get(KEYS.TASKS)
+      if (tasks) {
+        this.tasks = tasks
+      }
+    },
+    removeTasksFromLocalStorage() {
+      remove(KEYS.TASKS)
+      this.getTasksFromLocalStorage()
     },
 
     /*
@@ -117,7 +116,9 @@ export const useTasksStore = defineStore('tasks', {
       }
     },
 
-    // add task form
+    /**
+      add task form
+     */
     openAddTaskForm() {
       this.addTaskFormVisible = true
     },

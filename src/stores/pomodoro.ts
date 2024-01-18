@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 
+/**
+  Local storage
+ */
+import useLocalStorage from '@/composables/localStorage'
+const { set, get } = useLocalStorage()
+import { KEYS } from '@/config/localStorage'
+
 import { AvailableModesEnum } from '@/types'
 
-interface Mode {
-  id: number
-  name: string
-  value: AvailableModesEnum
-}
+import { MODES } from '@/config/app'
 
 interface Streak {
   id: number
@@ -19,11 +22,7 @@ type Statistic = {
 
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
-    modes: [
-      { id: 0, name: 'Hammertime', value: AvailableModesEnum.hammer },
-      { id: 1, name: 'Short', value: AvailableModesEnum.short_break },
-      { id: 2, name: 'Long', value: AvailableModesEnum.long_break }
-    ] as Mode[],
+    modes: MODES,
     currentModeId: 0,
 
     streaks: [] as Streak[],
@@ -36,36 +35,63 @@ export const usePomodoroStore = defineStore('pomodoro', {
     } as Statistic
   }),
   getters: {
-    _getNextModeId: (store) => {
-      if (store.currentModeId === 0) {
-        if (store.short_breaks_in_row === 3) {
-          store.short_breaks_in_row = 0
-          return 2 // 'long_break'
-        }
-        return 1 // 'short_break'
-      }
-      return 0 // 'hammer'
-    },
     getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
     currentModeName: (store) => store.modes[store.currentModeId].name,
     isCurrentModePomodoro: (store) => store.currentModeId === 0
   },
   actions: {
     setNextModeId() {
-      this.currentModeId = this._getNextModeId
+      if (this.currentModeId === 0) {
+        if (this.short_breaks_in_row === 3) {
+          this._resetShortBreaksInRow()
+          this.currentModeId = 2 // 'long_break'
+        } else {
+          this.currentModeId = 1 // 'short_break'
+        }
+      } else {
+        this.currentModeId = 0 // 'hammer'
+      }
+      set(KEYS.CURRENT_MODE_ID, this.currentModeId)
+    },
+    getCurrentModeIdFromLocalStorage() {
+      const currentModeId = get(KEYS.CURRENT_MODE_ID)
+      if (currentModeId) this.currentModeId = currentModeId
     },
 
     addStreak(type: AvailableModesEnum) {
       this.streaks.push({ id: this.streaks.length, type })
+      set(KEYS.STREAKS, this.streaks)
+    },
+    resetStreaks() {
+      this.streaks = []
+      set(KEYS.STREAKS, this.streaks)
+    },
+    getStreaksFromLocalStorage() {
+      const streaks = get(KEYS.STREAKS)
+      if (streaks) this.streaks = streaks
     },
 
     incrementShortBreaksInRow() {
       if (this.currentModeId !== 1) return
       this.short_breaks_in_row += 1
+      set(KEYS.SHORT_BREAKS_IN_ROW, this.short_breaks_in_row)
+    },
+    _resetShortBreaksInRow() {
+      this.short_breaks_in_row = 0
+      set(KEYS.SHORT_BREAKS_IN_ROW, this.short_breaks_in_row)
+    },
+    getShortBreaksInRowFromLocalStorage() {
+      const short_breaks_in_row = get(KEYS.SHORT_BREAKS_IN_ROW)
+      if (short_breaks_in_row) this.short_breaks_in_row = short_breaks_in_row
     },
 
     incrementStatistic() {
       this.statistic[this.getCurrentModeValue] += 1
+      set(KEYS.STATISTIC, this.statistic)
+    },
+    getStatisticFromLocalStorage() {
+      const statistic = get(KEYS.STATISTIC)
+      if (statistic) this.statistic = statistic
     }
   }
 })
