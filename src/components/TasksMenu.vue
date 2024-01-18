@@ -37,6 +37,14 @@ const tasks = useTasksStore()
           <span class="whitespace-nowrap">down completed</span>
         </label>
       </li>
+      <li>
+        <AppButton
+          text="Clear All"
+          icon="ph:trash-fill"
+          class="btn-sm btn-error w-full"
+          @click="tasks.removeTasksFromLocalStorage"
+        />
+      </li>
     </ul>
   </div>
 </template>

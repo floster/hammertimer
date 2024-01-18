@@ -1,8 +1,24 @@
 <script setup lang="ts">
+import { onBeforeMount } from 'vue'
+
 import AppHeader from '@/components/AppHeader.vue'
 import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
 import TheTimeline from './components/TheTimeline.vue'
+
+/**
+  import stores
+ */
+import { useTasksStore } from '@/stores/tasks'
+
+/**
+  init stores
+ */
+const tasks = useTasksStore()
+
+onBeforeMount(() => {
+  tasks.getTasksFromLocalStorage()
+})
 </script>
 
 <template>
