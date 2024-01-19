@@ -1,5 +1,7 @@
 import { AvailableModesEnum, type Mode } from '@/types'
 
+export const SITE_NAME = 'Hammertime'
+
 export const MODES = [
   { id: 0, name: 'Hammertime', value: AvailableModesEnum.hammer },
   { id: 1, name: 'Short', value: AvailableModesEnum.short_break },

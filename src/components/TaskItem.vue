@@ -36,7 +36,7 @@ const iconClasses = computed(() => ({
   // completed task
   'text-success': isComplited.value,
   // default
-  'text-secondary/50': !isComplited.value && !isCurrent.value
+  'text-neutral/20': !isComplited.value && !isCurrent.value
 }))
 
 /**
@@ -61,16 +61,14 @@ const handleTaskClick = () => {
   <li
     v-if="!editMode"
     class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-primary-content border-l-[6px] hover:border-l-secondary rounded transition-all"
-    :class="`${isCurrent ? 'border-l-info hover:border-l-info' : 'border-l-transparent'}`"
-  >
+    :class="`${isCurrent ? 'border-l-info hover:border-l-info' : 'border-l-transparent'}`">
     <Icon
       icon="ph:check-circle-fill"
       width="25px"
       height="25px"
       class="translate-y-[-2px] shrink-0"
-      :class="iconClasses"
-    />
-    <span class="cursor-pointer truncate text-neutral" @click="handleTaskClick">{{
+      :class="iconClasses" />
+    <span class="cursor-pointer truncate text-primary" @click="handleTaskClick">{{
       task.title
     }}</span>
     <span class="text-neutral/50 ml-auto"

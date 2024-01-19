@@ -47,17 +47,15 @@ watch(
 <template>
   <label
     :class="{
-      'btn btn-ghost hover:bg-neutral/20': true,
+      'btn btn-ghost hover:bg-neutral-content/20': true,
       'bg-neutral/20': isCurrent,
       'text-secondary hover:bg-transparent cursor-not-allowed': isDisabled
-    }"
-  >
+    }">
     <input
       v-model="pomodoro.currentModeId"
       class="appearance-none"
       type="radio"
       :value="data.id"
-      :disabled="isDisabled"
-    />{{ data.name }}</label
+      :disabled="isDisabled" />{{ data.name }}</label
   >
 </template>

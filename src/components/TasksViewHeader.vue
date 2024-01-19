@@ -13,7 +13,7 @@ const tasks = useTasksStore()
       <AppButton
         text="Add Task"
         icon="ph:plus-circle-fill"
-        class="btn-sm btn-info btn-outline"
+        class="btn-sm btn-primary"
         @click="tasks.openAddTaskForm" />
       <h2 class="absolute left-1/2 -translate-x-1/2 text-sm md:text-base">
         Tasks
