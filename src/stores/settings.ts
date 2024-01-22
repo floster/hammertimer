@@ -7,12 +7,9 @@ import { usePomodoroStore } from '@/stores/pomodoro'
 import useLocalStorage from '@/composables/localStorage'
 const { set, get } = useLocalStorage()
 import { KEYS } from '@/config/localStorage'
+import { DEFAULTS } from '@/config/app'
 
-import { AvailableModesEnum } from '@/types'
-
-type Durations = {
-  [key in AvailableModesEnum]: number
-}
+import { AvailableModesEnum, type Durations } from '@/types'
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -53,8 +50,9 @@ export const useSettingsStore = defineStore('settings', {
       set(KEYS.DURATIONS, this.durations)
     },
     getDurationsFromLocalStorage() {
-      const durations = get(KEYS.DURATIONS)
+      const durations = get(KEYS.DURATIONS) as Durations
       if (durations) this.durations = durations
+      else this.durations = DEFAULTS.DURATIONS
     },
 
     toggleAutoNextMode() {
@@ -64,6 +62,7 @@ export const useSettingsStore = defineStore('settings', {
     getAutoNextModeFromLocalStorage() {
       const autoNextMode = get(KEYS.AUTO_NEXT_MODE)
       if (autoNextMode) this.autoNextMode = autoNextMode
+      else this.autoNextMode = DEFAULTS.AUTO_NEXT_MODE
     },
 
     setLongBreakInterval(value: number) {
@@ -73,6 +72,7 @@ export const useSettingsStore = defineStore('settings', {
     getLongBreakIntervalFromLocalStorage() {
       const longBreakInterval = get(KEYS.LONG_BREAK_INTERVAL)
       if (longBreakInterval) this.longBreakInterval = longBreakInterval
+      else this.longBreakInterval = DEFAULTS.LONG_BREAK_INTERVAL
     }
   }
 })

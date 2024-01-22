@@ -7,18 +7,9 @@ import useLocalStorage from '@/composables/localStorage'
 const { set, get } = useLocalStorage()
 import { KEYS } from '@/config/localStorage'
 
-import { AvailableModesEnum } from '@/types'
+import { AvailableModesEnum, type Statistic, type Streak } from '@/types'
 
 import { MODES } from '@/config/app'
-
-interface Streak {
-  id: number
-  type: AvailableModesEnum
-}
-
-type Statistic = {
-  [key in AvailableModesEnum]: number
-}
 
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
@@ -56,6 +47,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
     getCurrentModeIdFromLocalStorage() {
       const currentModeId = get(KEYS.CURRENT_MODE_ID)
       if (currentModeId) this.currentModeId = currentModeId
+      else this.currentModeId = 0
     },
 
     addStreak(type: AvailableModesEnum) {
@@ -67,8 +59,9 @@ export const usePomodoroStore = defineStore('pomodoro', {
       set(KEYS.STREAKS, this.streaks)
     },
     getStreaksFromLocalStorage() {
-      const streaks = get(KEYS.STREAKS)
+      const streaks = get(KEYS.STREAKS) as Streak[]
       if (streaks) this.streaks = streaks
+      else this.streaks = []
     },
 
     incrementShortBreaksInRow() {
@@ -83,6 +76,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
     getShortBreaksInRowFromLocalStorage() {
       const short_breaks_in_row = get(KEYS.SHORT_BREAKS_IN_ROW)
       if (short_breaks_in_row) this.short_breaks_in_row = short_breaks_in_row
+      else this.short_breaks_in_row = 0
     },
 
     incrementStatistic() {
@@ -90,8 +84,15 @@ export const usePomodoroStore = defineStore('pomodoro', {
       set(KEYS.STATISTIC, this.statistic)
     },
     getStatisticFromLocalStorage() {
-      const statistic = get(KEYS.STATISTIC)
+      const statistic = get(KEYS.STATISTIC) as Statistic
       if (statistic) this.statistic = statistic
+      else {
+        this.statistic = {
+          hammer: 0,
+          short_break: 0,
+          long_break: 0
+        }
+      }
     }
   }
 })

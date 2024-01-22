@@ -77,6 +77,8 @@ export const useTasksStore = defineStore('tasks', {
       const tasks = get(KEYS.TASKS)
       if (tasks) {
         this.tasks = tasks
+      } else {
+        this.tasks = []
       }
     },
     removeTasksFromLocalStorage() {

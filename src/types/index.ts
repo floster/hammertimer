@@ -16,3 +16,16 @@ export interface Task {
   qty: number
   completed: number
 }
+
+export type Durations = {
+  [key in AvailableModesEnum]: number
+}
+
+export type Statistic = {
+  [key in AvailableModesEnum]: number
+}
+
+export interface Streak {
+  id: number
+  type: AvailableModesEnum
+}

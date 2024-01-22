@@ -1,4 +1,4 @@
-import { AvailableModesEnum, type Mode } from '@/types'
+import { AvailableModesEnum, type Mode, type Durations } from '@/types'
 
 export const SITE_NAME = 'Hammertime'
 
@@ -9,3 +9,14 @@ export const MODES = [
 ] as Mode[]
 
 export const SECONDS_IN_MINUTE = 60
+
+// DEAFULT VALUES
+export const DEFAULTS = {
+  DURATIONS: {
+    [AvailableModesEnum.hammer]: 25,
+    [AvailableModesEnum.short_break]: 5,
+    [AvailableModesEnum.long_break]: 15
+  } as Durations,
+  AUTO_NEXT_MODE: false,
+  LONG_BREAK_INTERVAL: 4
+}
