@@ -1,19 +1,14 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
+import { useStorage } from '@vueuse/core'
+
+import { KEYS } from '@/config/localStorage'
+import type { Task } from '@/types'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
 
-/**
-  Local storage
- */
-import useLocalStorage from '@/composables/localStorage'
-const { set, get, remove } = useLocalStorage()
-import { KEYS } from '@/config/localStorage'
-
-import type { Task } from '@/types'
-
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
-    tasks: [] as Task[],
+    tasks: useStorage(KEYS.TASKS, [] as Task[]),
 
     // active task
     activeTaskId: null as number | null,
@@ -59,32 +54,16 @@ export const useTasksStore = defineStore('tasks', {
     */
     addTask(task: Task) {
       this.tasks.push(task)
-      set(KEYS.TASKS, this.tasks)
     },
     removeTask(id: number) {
       this.tasks = this.tasks.filter((task) => task.id !== id)
-      set(KEYS.TASKS, this.tasks)
+    },
+    removeAllTasks() {
+      this.tasks = []
     },
     updateTask(task: Task) {
       const index = this.tasks.findIndex((t) => t.id === task.id)
       this.tasks[index] = task
-      set(KEYS.TASKS, this.tasks)
-    },
-
-    /*
-      local storage
-    */
-    getTasksFromLocalStorage() {
-      const tasks = get(KEYS.TASKS)
-      if (tasks) {
-        this.tasks = tasks
-      } else {
-        this.tasks = []
-      }
-    },
-    removeTasksFromLocalStorage() {
-      remove(KEYS.TASKS)
-      this.getTasksFromLocalStorage()
     },
 
     /*

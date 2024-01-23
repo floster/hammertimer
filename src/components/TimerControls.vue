@@ -20,7 +20,7 @@ const timer = useTimerStore()
     <!-- start/pause button -->
     <AppButton
       :icon="timer.isActive ? 'ph:pause-fill' : 'ph:play-fill'"
-      class="btn-accent btn-lg px-16"
+      class="btn-warning btn-lg px-16"
       @click="timer.toggle()" />
     <!-- force finish current button -->
     <AppButton

@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { onBeforeMount } from 'vue'
+import { computed } from 'vue'
+import { useTitle } from '@vueuse/core'
+
+import { SITE_NAME } from '@/config/app'
 
 import AppHeader from '@/components/AppHeader.vue'
 import TimerView from '@/components/TimerView.vue'
@@ -10,29 +13,24 @@ import TaskActiveSection from '@/components/TaskActiveSection.vue'
 /**
   import stores
  */
-import { useTasksStore } from '@/stores/tasks'
+import { useTimerStore } from '@/stores/timer'
 import { usePomodoroStore } from '@/stores/pomodoro'
-import { useSettingsStore } from '@/stores/settings'
 
 /**
   init stores
  */
-const tasks = useTasksStore()
+const timer = useTimerStore()
 const pomodoro = usePomodoroStore()
-const settings = useSettingsStore()
 
-onBeforeMount(() => {
-  tasks.getTasksFromLocalStorage()
-
-  settings.getDurationsFromLocalStorage()
-  settings.getAutoNextModeFromLocalStorage()
-  settings.getLongBreakIntervalFromLocalStorage()
-
-  pomodoro.getStreaksFromLocalStorage()
-  pomodoro.getStatisticFromLocalStorage()
-  pomodoro.getCurrentModeIdFromLocalStorage()
-  pomodoro.getShortBreaksInRowFromLocalStorage()
+// set page title dynamically
+const title = computed(() => {
+  if (timer.isStarted) {
+    return `${timer.getNormalizedMinutes}:${timer.getNormalizedSeconds} - ${pomodoro.getCurrentModeValue}`
+  } else {
+    return SITE_NAME
+  }
 })
+useTitle(title)
 </script>
 
 <template>
