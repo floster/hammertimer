@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RadioTab from '@/components/RadioTab.vue'
+import TimerModesTab from '@/components/TimerModesTab.vue'
 
 /*
   import pomodoro store
@@ -10,6 +10,6 @@ const pomodoro = usePomodoroStore()
 
 <template>
   <nav class="flex items-center gap-x-2">
-    <RadioTab v-for="mode in pomodoro.modes" :key="mode.id" :data="mode" />
+    <TimerModesTab v-for="mode in pomodoro.modes" :key="mode.id" :data="mode" />
   </nav>
 </template>

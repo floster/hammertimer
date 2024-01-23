@@ -5,6 +5,7 @@ import AppHeader from '@/components/AppHeader.vue'
 import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
 import TheTimeline from './components/TheTimeline.vue'
+import TaskActiveSection from '@/components/TaskActiveSection.vue'
 
 /**
   import stores
@@ -41,6 +42,7 @@ onBeforeMount(() => {
       <main class="flex flex-col items-center px-2 md:px-16">
         <TimerView />
         <TheTimeline />
+        <TaskActiveSection />
         <TasksView />
       </main>
     </div>
