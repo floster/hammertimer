@@ -24,6 +24,7 @@ export const useTimerStore = defineStore('timer', {
     isFinished: (store) => !!store._instance?.isExpired,
     isStarted: (store) => store.started,
     isPaused: (store) => store.paused,
+    isActive: (store) => store.started && !store.paused,
     minutes: (store) => store._instance?.minutes,
     seconds: (store) => store._instance?.seconds
   },
@@ -43,6 +44,7 @@ export const useTimerStore = defineStore('timer', {
     pause() {
       this.getInstance?.pause()
       this.paused = true
+      console.log('paused')
     },
     resume() {
       this.getInstance?.resume()

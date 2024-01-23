@@ -31,7 +31,6 @@ const props = defineProps({
 })
 
 const isCurrent = computed(() => pomodoro.currentModeId === props.data.id)
-const isDisabled = computed(() => timer.isStarted)
 
 // reset current time and timer states when current mode changes
 watch(
@@ -48,14 +47,14 @@ watch(
   <label
     :class="{
       'btn btn-ghost hover:bg-neutral-content/20': true,
-      'bg-neutral/20': isCurrent,
-      'text-secondary hover:bg-transparent cursor-not-allowed': isDisabled
+      'bg-neutral/20 text-white': isCurrent,
+      'text-secondary hover:bg-transparent pointer-events-none': timer.isActive
     }">
     <input
       v-model="pomodoro.currentModeId"
       class="appearance-none"
       type="radio"
       :value="data.id"
-      :disabled="isDisabled" />{{ data.name }}</label
+      :disabled="timer.isStarted" />{{ data.name }}</label
   >
 </template>

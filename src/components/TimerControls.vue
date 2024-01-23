@@ -15,10 +15,11 @@ const timer = useTimerStore()
       v-if="timer.isStarted"
       icon="ph:stop-fill"
       class="btn-ghost opacity-20 hover:opacity-80"
+      :class="{ 'opacity-0 pointer-events-none': !timer.isPaused }"
       @click="timer.reset()" />
     <!-- start/pause button -->
     <AppButton
-      :icon="timer.isStarted && !timer.isPaused ? 'ph:pause-fill' : 'ph:play-fill'"
+      :icon="timer.isActive ? 'ph:pause-fill' : 'ph:play-fill'"
       class="btn-accent btn-lg px-16"
       @click="timer.toggle()" />
     <!-- force finish current button -->

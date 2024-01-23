@@ -13,7 +13,9 @@ const pomodoro = usePomodoroStore()
 </script>
 
 <template>
-  <h2 v-if="tasks.activeTaskTitle && pomodoro.isCurrentModePomodoro" class="text-center text-sm">
+  <h2
+    v-if="tasks.activeTaskTitle && pomodoro.isCurrentModePomodoro"
+    class="mt-6 text-center text-sm">
     {{ tasks.activeTaskTitle }}
   </h2>
 </template>

@@ -1,6 +1,6 @@
 import { AvailableModesEnum, type Mode, type Durations } from '@/types'
 
-export const SITE_NAME = 'Hammertime'
+export const SITE_NAME = 'hammertimer'
 
 export const MODES = [
   { id: 0, name: 'Hammertime', value: AvailableModesEnum.hammer },
