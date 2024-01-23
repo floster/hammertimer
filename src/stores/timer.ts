@@ -26,7 +26,13 @@ export const useTimerStore = defineStore('timer', {
     isPaused: (store) => store.paused,
     isActive: (store) => store.started && !store.paused,
     minutes: (store) => store._instance?.minutes,
-    seconds: (store) => store._instance?.seconds
+    getNormalizedMinutes() {
+      return this.minutes?.toString().padStart(2, '0') as string
+    },
+    seconds: (store) => store._instance?.seconds,
+    getNormalizedSeconds() {
+      return this.seconds?.toString().padStart(2, '0') as string
+    }
   },
   actions: {
     _setTimer(time: number) {

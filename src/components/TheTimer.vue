@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import { computed, watchEffect, watch } from 'vue'
+import { watchEffect, watch } from 'vue'
 import { Icon } from '@iconify/vue'
-
-import { SITE_NAME } from '@/config/app'
 
 /*
   import stores
 */
 import { useTimerStore } from '@/stores/timer'
 const timerStore = useTimerStore()
-
-import { usePomodoroStore } from '@/stores/pomodoro'
-const pomodoro = usePomodoroStore()
 
 import { useSettingsStore } from '@/stores/settings'
 const settings = useSettingsStore()
@@ -23,19 +18,6 @@ watch(
   { immediate: true }
 )
 
-// add leading zero for minutes and seconds
-const normalizedMinutes = computed(() => timerStore.minutes?.toString().padStart(2, '0'))
-const normalizedSeconds = computed(() => timerStore.seconds?.toString().padStart(2, '0'))
-
-// update document title with timer value if timer is started or paused
-watchEffect(() => {
-  if (timerStore.isRunning) {
-    document.title = `${normalizedMinutes.value}:${normalizedSeconds.value} - ${pomodoro.currentModeName}`
-  } else {
-    document.title = SITE_NAME
-  }
-})
-
 watchEffect(() => {
   if (timerStore.isFinished) {
     timerStore.onTimerFinished()
@@ -45,9 +27,9 @@ watchEffect(() => {
 
 <template>
   <div class="relative flex items-center gap-x-2 text-9xl font-bold">
-    <span>{{ normalizedMinutes }}</span>
+    <span>{{ timerStore.getNormalizedMinutes }}</span>
     <span>:</span>
-    <span>{{ normalizedSeconds }}</span>
+    <span>{{ timerStore.getNormalizedSeconds }}</span>
     <button
       class="btn btn-ghost btn-square btn-sm absolute right-[-30px] top-0"
       :title="settings.getAutoNextMode ? 'auto-next mode is enabled' : 'auto-next mode is disabled'"
