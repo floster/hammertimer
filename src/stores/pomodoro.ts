@@ -1,29 +1,24 @@
 import { defineStore } from 'pinia'
+import { useStorage } from '@vueuse/core'
 
-/**
-  Local storage
- */
-import useLocalStorage from '@/composables/localStorage'
-const { set, get } = useLocalStorage()
+import { MODES } from '@/config/app'
 import { KEYS } from '@/config/localStorage'
 
 import { AvailableModesEnum, type Statistic, type Streak } from '@/types'
 
-import { MODES } from '@/config/app'
-
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
     modes: MODES,
-    currentModeId: 0,
+    currentModeId: useStorage(KEYS.CURRENT_MODE_ID, 0),
 
-    streaks: [] as Streak[],
-    short_breaks_in_row: 0,
+    streaks: useStorage(KEYS.STREAKS, [] as Streak[]),
+    short_breaks_in_row: useStorage(KEYS.SHORT_BREAKS_IN_ROW, 0),
 
-    statistic: {
+    statistic: useStorage(KEYS.STATISTIC, {
       hammer: 0,
       short_break: 0,
       long_break: 0
-    } as Statistic
+    } as Statistic)
   }),
   getters: {
     getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
@@ -42,57 +37,25 @@ export const usePomodoroStore = defineStore('pomodoro', {
       } else {
         this.currentModeId = 0 // 'hammer'
       }
-      set(KEYS.CURRENT_MODE_ID, this.currentModeId)
-    },
-    getCurrentModeIdFromLocalStorage() {
-      const currentModeId = get(KEYS.CURRENT_MODE_ID)
-      if (currentModeId) this.currentModeId = currentModeId
-      else this.currentModeId = 0
     },
 
     addStreak(type: AvailableModesEnum) {
       this.streaks.push({ id: this.streaks.length, type })
-      set(KEYS.STREAKS, this.streaks)
     },
     resetStreaks() {
       this.streaks = []
-      set(KEYS.STREAKS, this.streaks)
-    },
-    getStreaksFromLocalStorage() {
-      const streaks = get(KEYS.STREAKS) as Streak[]
-      if (streaks) this.streaks = streaks
-      else this.streaks = []
     },
 
     incrementShortBreaksInRow() {
       if (this.currentModeId !== 1) return
       this.short_breaks_in_row += 1
-      set(KEYS.SHORT_BREAKS_IN_ROW, this.short_breaks_in_row)
     },
     _resetShortBreaksInRow() {
       this.short_breaks_in_row = 0
-      set(KEYS.SHORT_BREAKS_IN_ROW, this.short_breaks_in_row)
-    },
-    getShortBreaksInRowFromLocalStorage() {
-      const short_breaks_in_row = get(KEYS.SHORT_BREAKS_IN_ROW)
-      if (short_breaks_in_row) this.short_breaks_in_row = short_breaks_in_row
-      else this.short_breaks_in_row = 0
     },
 
     incrementStatistic() {
       this.statistic[this.getCurrentModeValue] += 1
-      set(KEYS.STATISTIC, this.statistic)
-    },
-    getStatisticFromLocalStorage() {
-      const statistic = get(KEYS.STATISTIC) as Statistic
-      if (statistic) this.statistic = statistic
-      else {
-        this.statistic = {
-          hammer: 0,
-          short_break: 0,
-          long_break: 0
-        }
-      }
     }
   }
 })

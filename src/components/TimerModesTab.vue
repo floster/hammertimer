@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 
-/**
-  Local storage
- */
-import useLocalStorage from '@/composables/localStorage'
-const { set } = useLocalStorage()
-import { KEYS } from '@/config/localStorage'
-
 /*
   import timer store
 */
@@ -36,7 +29,6 @@ const isCurrent = computed(() => pomodoro.currentModeId === props.data.id)
 watch(
   () => pomodoro.currentModeId,
   () => {
-    set(KEYS.CURRENT_MODE_ID, pomodoro.currentModeId)
     timer.reset()
   },
   { immediate: true }

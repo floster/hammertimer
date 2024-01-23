@@ -49,7 +49,7 @@ const tasks = useTasksStore()
           text="Clear All"
           icon="ph:trash-fill"
           class="btn-sm btn-error w-full"
-          @click="tasks.removeTasksFromLocalStorage" />
+          @click="tasks.removeAllTasks" />
       </li>
     </ul>
   </div>

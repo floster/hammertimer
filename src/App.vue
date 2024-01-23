@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue'
+import { computed } from 'vue'
 import { useTitle } from '@vueuse/core'
 
 import { SITE_NAME } from '@/config/app'
@@ -13,32 +13,14 @@ import TaskActiveSection from '@/components/TaskActiveSection.vue'
 /**
   import stores
  */
-import { useTasksStore } from '@/stores/tasks'
 import { useTimerStore } from '@/stores/timer'
 import { usePomodoroStore } from '@/stores/pomodoro'
-import { useSettingsStore } from '@/stores/settings'
 
 /**
   init stores
  */
-const tasks = useTasksStore()
 const timer = useTimerStore()
 const pomodoro = usePomodoroStore()
-const settings = useSettingsStore()
-
-// get datas from localStorage
-onBeforeMount(() => {
-  tasks.getTasksFromLocalStorage()
-
-  settings.getDurationsFromLocalStorage()
-  settings.getAutoNextModeFromLocalStorage()
-  settings.getLongBreakIntervalFromLocalStorage()
-
-  pomodoro.getStreaksFromLocalStorage()
-  pomodoro.getStatisticFromLocalStorage()
-  pomodoro.getCurrentModeIdFromLocalStorage()
-  pomodoro.getShortBreaksInRowFromLocalStorage()
-})
 
 // set page title dynamically
 const title = computed(() => {
