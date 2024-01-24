@@ -1,4 +1,4 @@
-const _prefix = 'hammertime_'
+const _prefix = 'hammertimer_'
 
 export const KEYS = {
   // tasks store
