@@ -4,7 +4,7 @@ import { useStorage } from '@vueuse/core'
 import { MODES } from '@/config/app'
 import { KEYS } from '@/config/localStorage'
 
-import { AvailableModesEnum, type Statistic, type Streak } from '@/types'
+import { AvailableModesEnum, type Stats, type DailyStats, type Streak } from '@/types'
 
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
@@ -14,16 +14,26 @@ export const usePomodoroStore = defineStore('pomodoro', {
     streaks: useStorage(KEYS.STREAKS, [] as Streak[]),
     short_breaks_in_row: useStorage(KEYS.SHORT_BREAKS_IN_ROW, 0),
 
-    statistic: useStorage(KEYS.STATISTIC, {
+    // today's stats
+    stats: useStorage(KEYS.STATS, {
       hammer: 0,
       short_break: 0,
       long_break: 0
-    } as Statistic)
+    } as Stats),
+
+    // daily stats
+    daily_stats: useStorage(KEYS.DAILY_STATS, {} as DailyStats)
   }),
   getters: {
     getCurrentModeValue: (store) => store.modes[store.currentModeId].value,
     currentModeName: (store) => store.modes[store.currentModeId].name,
-    isCurrentModePomodoro: (store) => store.currentModeId === 0
+    isCurrentModePomodoro: (store) => store.currentModeId === 0,
+
+    getAllDailyStats: (store) => store.daily_stats,
+    getStatsByDate: (store) => (date: string) => {
+      const dateIndex = new Date(date).toDateString()
+      return store.daily_stats[dateIndex] || null
+    }
   },
   actions: {
     setNextModeId() {
@@ -54,8 +64,23 @@ export const usePomodoroStore = defineStore('pomodoro', {
       this.short_breaks_in_row = 0
     },
 
-    incrementStatistic() {
-      this.statistic[this.getCurrentModeValue] += 1
+    incrementStats() {
+      this.stats[this.getCurrentModeValue] += 1
+      this.incrementDailyStats()
+    },
+
+    incrementDailyStats() {
+      const today = new Date().toDateString() // 'Mon Aug 09 2021'
+
+      if (!this.daily_stats[today]) {
+        this.daily_stats[today] = {
+          hammer: 0,
+          short_break: 0,
+          long_break: 0
+        }
+      }
+
+      this.daily_stats[today][this.getCurrentModeValue] += 1
     }
   }
 })

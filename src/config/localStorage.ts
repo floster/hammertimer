@@ -13,5 +13,6 @@ export const KEYS = {
   CURRENT_MODE_ID: `${_prefix}current_mode_id`,
   STREAKS: `${_prefix}streaks`,
   SHORT_BREAKS_IN_ROW: `${_prefix}short_breaks_in_row`,
-  STATISTIC: `${_prefix}statistic`
+  STATS: `${_prefix}stats`,
+  DAILY_STATS: `${_prefix}daily_stats`
 }

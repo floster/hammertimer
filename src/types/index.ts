@@ -21,8 +21,12 @@ export type Durations = {
   [key in AvailableModesEnum]: number
 }
 
-export type Statistic = {
+export type Stats = {
   [key in AvailableModesEnum]: number
+}
+
+export type DailyStats = {
+  [key: string]: Stats
 }
 
 export interface Streak {

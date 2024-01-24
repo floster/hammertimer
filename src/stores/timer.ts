@@ -80,7 +80,7 @@ export const useTimerStore = defineStore('timer', {
       tasksStore.activeTaskIncreaseCompletedQty()
 
       // increases finished pomodoro status by 1
-      pomodoroStore.incrementStatistic()
+      pomodoroStore.incrementStats()
 
       // if current mode is 'short_break' then increment short_breaks_in_row
       pomodoroStore.incrementShortBreaksInRow()
