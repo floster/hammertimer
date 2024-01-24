@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MainWrapper from '@/components/MainWrapper.vue'
 import TimerView from '@/components/TimerView.vue'
 import TasksView from '@/components/TasksView.vue'
 import TheTimeline from '@/components/TheTimeline.vue'
@@ -33,10 +34,10 @@ useTitle(title)
 </script>
 
 <template>
-  <main class="flex flex-col items-center px-2 md:px-16">
+  <MainWrapper>
     <TimerView />
     <TheTimeline />
     <TaskActiveSection />
     <TasksView />
-  </main>
+  </MainWrapper>
 </template>

@@ -1,5 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import MainWrapper from '@/components/MainWrapper.vue'
+
+import { useTitle } from '@vueuse/core'
+
+import { SITE_NAME } from '@/config/app'
+
+useTitle(`stats - ${SITE_NAME}`)
+</script>
 
 <template>
-  <main class="flex flex-col items-center px-2 md:px-16">statistic page</main>
+  <MainWrapper>statistic page</MainWrapper>
 </template>
