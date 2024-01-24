@@ -16,7 +16,8 @@ export const useTimerStore = defineStore('timer', {
   state: () => ({
     _instance: null as Ref<UseTimer> | null,
     started: false,
-    paused: false
+    paused: false,
+    startTime: null as Date | null
   }),
   getters: {
     getInstance: (store) => store._instance,
@@ -45,12 +46,11 @@ export const useTimerStore = defineStore('timer', {
     start() {
       this.getInstance?.start()
       this.started = true
-      console.log('started')
+      this.startTime = new Date()
     },
     pause() {
       this.getInstance?.pause()
       this.paused = true
-      console.log('paused')
     },
     resume() {
       this.getInstance?.resume()
@@ -80,7 +80,7 @@ export const useTimerStore = defineStore('timer', {
       tasksStore.activeTaskIncreaseCompletedQty()
 
       // increases finished pomodoro status by 1
-      pomodoroStore.incrementStats()
+      pomodoroStore.incrementStats(this.startTime as Date)
 
       // if current mode is 'short_break' then increment short_breaks_in_row
       pomodoroStore.incrementShortBreaksInRow()

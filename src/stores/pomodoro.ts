@@ -64,23 +64,31 @@ export const usePomodoroStore = defineStore('pomodoro', {
       this.short_breaks_in_row = 0
     },
 
-    incrementStats() {
+    incrementStats(start: Date) {
       this.stats[this.getCurrentModeValue] += 1
-      this.incrementDailyStats()
+      this._incrementDailyStats(start)
     },
 
-    incrementDailyStats() {
+    _incrementDailyStats(start: Date) {
       const today = new Date().toDateString() // 'Mon Aug 09 2021'
 
       if (!this.daily_stats[today]) {
         this.daily_stats[today] = {
           hammer: 0,
           short_break: 0,
-          long_break: 0
+          long_break: 0,
+          periods: []
         }
       }
 
       this.daily_stats[today][this.getCurrentModeValue] += 1
+
+      if (this.getCurrentModeValue === AvailableModesEnum.hammer) {
+        this.daily_stats[today].periods.push({
+          start,
+          end: new Date()
+        })
+      }
     }
   }
 })
