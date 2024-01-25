@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { watchEffect, watch } from 'vue'
-import { Icon } from '@iconify/vue'
+
+import TimerExtraControls from './TimerExtraControls.vue'
 
 /*
   import stores
@@ -26,18 +27,12 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center gap-x-2 text-8xl md:text-9xl font-bold tracking-tighter">
-    <span>{{ timerStore.getNormalizedMinutes }}</span>
-    <span>:</span>
-    <span>{{ timerStore.getNormalizedSeconds }}</span>
-    <button
-      class="btn btn-ghost btn-square btn-sm absolute right-[-30px] top-0"
-      :title="settings.getAutoNextMode ? 'auto-next mode is enabled' : 'auto-next mode is disabled'"
-      @click="settings.toggleAutoNextMode()">
-      <Icon
-        icon="mdi:auto-start"
-        class="text-xl"
-        :class="settings.getAutoNextMode ? 'text-primary-content' : 'text-secondary'" />
-    </button>
+  <div class="grid grid-cols-[1fr_min-content]">
+    <div class="relative flex items-center gap-x-2 text-8xl md:text-9xl font-bold tracking-tighter">
+      <span>{{ timerStore.getNormalizedMinutes }}</span>
+      <span>:</span>
+      <span>{{ timerStore.getNormalizedSeconds }}</span>
+    </div>
+    <TimerExtraControls />
   </div>
 </template>

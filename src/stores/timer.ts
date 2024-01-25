@@ -94,10 +94,13 @@ export const useTimerStore = defineStore('timer', {
       this.started = false
       this.paused = false
 
-      if (pomodoroStore.getCurrentModeValue === AvailableModesEnum.hammer) {
-        playBreak()
-      } else {
-        playWork()
+      // play sound on timer finish if enabled
+      if (settingsStore.playSoundOnFinish) {
+        if (pomodoroStore.getCurrentModeValue === AvailableModesEnum.hammer) {
+          playBreak()
+        } else {
+          playWork()
+        }
       }
 
       // set next mode as current...
