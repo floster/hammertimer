@@ -16,7 +16,8 @@ export const useSettingsStore = defineStore('settings', {
     // App settings
     durations: useStorage(KEYS.DURATIONS, DEFAULTS.DURATIONS),
     autoNextMode: useStorage(KEYS.AUTO_NEXT_MODE, DEFAULTS.AUTO_NEXT_MODE),
-    longBreakInterval: useStorage(KEYS.LONG_BREAK_INTERVAL, DEFAULTS.LONG_BREAK_INTERVAL)
+    longBreakInterval: useStorage(KEYS.LONG_BREAK_INTERVAL, DEFAULTS.LONG_BREAK_INTERVAL),
+    playSoundOnFinish: false
   }),
   getters: {
     getDuration: (store) => (mode: AvailableModesEnum) => store.durations[mode],
@@ -51,6 +52,10 @@ export const useSettingsStore = defineStore('settings', {
 
     setLongBreakInterval(value: number) {
       this.longBreakInterval = value
+    },
+
+    togglePlaySoundOnFinish() {
+      this.playSoundOnFinish = !this.playSoundOnFinish
     }
   }
 })
