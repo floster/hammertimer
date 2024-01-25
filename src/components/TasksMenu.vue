@@ -45,7 +45,7 @@ const tasks = useTasksStore()
       </li>
       <li>
         <AppButton
-          :disabled="tasks.oneOrLessTask"
+          :disabled="tasks.noTasks"
           text="Clear All"
           icon="ph:trash-fill"
           class="btn-sm btn-error w-full"

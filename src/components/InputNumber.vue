@@ -28,15 +28,14 @@ const dec = () => {
 </script>
 
 <template>
-  <label class="flex items-center justify-end gap-x-2">
+  <label class="flex items-center justify-end gap-x-1 whitespace-nowrap">
     {{ label }}
     <input
       :value="modelValue"
       type="text"
       placeholder="Qty"
-      class="input input-ghost input-bordered input-lg max-w-20 text-center"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-    />
+      class="input input-ghost input-bordered md:input-lg max-w-20 text-center"
+      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)" />
     <AppButton class="btn-primary btn-square" icon="ph:minus-bold" @click.stop="dec" />
     <AppButton class="btn-primary btn-square" icon="ph:plus-bold" @click.stop="inc" />
   </label>

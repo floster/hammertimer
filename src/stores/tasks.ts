@@ -25,6 +25,7 @@ export const useTasksStore = defineStore('tasks', {
       tasks
     */
     getTasks: (state) => state.tasks,
+    noTasks: (state) => state.tasks.length === 0,
     oneOrLessTask: (state) => state.tasks.length <= 1,
     getOnlyUncompletedTasks: (state) => state.tasks.filter((task) => task.completed !== task.qty),
     getWithCompletedInTheEnd: (state) => {

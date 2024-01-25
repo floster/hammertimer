@@ -26,7 +26,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center gap-x-2 text-9xl font-bold">
+  <div class="relative flex items-center gap-x-2 text-8xl md:text-9xl font-bold tracking-tighter">
     <span>{{ timerStore.getNormalizedMinutes }}</span>
     <span>:</span>
     <span>{{ timerStore.getNormalizedSeconds }}</span>
