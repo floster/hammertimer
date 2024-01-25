@@ -6,6 +6,7 @@ import { AvailableModesEnum } from '@/types'
 interface Props {
   type: AvailableModesEnum
   start?: boolean
+  end?: boolean
 }
 
 const props = defineProps<Props>()
@@ -25,6 +26,6 @@ const icon = computed(() =>
     <div class="timeline-middle">
       <Icon :icon="icon" :class="{ 'text-info text-xl': type === AvailableModesEnum.hammer }" />
     </div>
-    <hr class="min-w-2 max-h-[2px] bg-primary-content/15" />
+    <hr v-if="!end" class="min-w-2 max-h-[2px] bg-primary-content/15" />
   </li>
 </template>

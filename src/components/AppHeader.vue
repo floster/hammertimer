@@ -16,14 +16,13 @@ const settings = useSettingsStore()
         text="Report"
         :sm-no-text="true"
         icon="ph:chart-line-fill"
-      />
+        @click="() => $router.push('/stats')" />
       <AppButton
         class="btn-sm btn-ghost"
         text="Settings"
         :sm-no-text="true"
         icon="ph:gear-fill"
-        @click="() => settings.openSettings()"
-      />
+        @click="() => settings.openSettings()" />
     </div>
   </header>
   <SettingsModal />
