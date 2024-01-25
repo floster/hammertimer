@@ -5,9 +5,13 @@ import { useTasksStore } from '@/stores/tasks'
 import { useSettingsStore } from '@/stores/settings'
 import { usePomodoroStore } from '@/stores/pomodoro'
 
+import { useAudio } from '@/composables/sound'
+const { playWork, playBreak } = useAudio()
+
 import { useTimer } from 'vue-timer-hook'
 import type { UseTimer } from 'vue-timer-hook'
 import { SECONDS_IN_MINUTE } from '@/config/app'
+import { AvailableModesEnum } from '@/types'
 
 const _getTimerDuration = (duration: number) =>
   new Date().setSeconds(new Date().getSeconds() + duration * SECONDS_IN_MINUTE)
@@ -89,6 +93,12 @@ export const useTimerStore = defineStore('timer', {
 
       this.started = false
       this.paused = false
+
+      if (pomodoroStore.getCurrentModeValue === AvailableModesEnum.hammer) {
+        playBreak()
+      } else {
+        playWork()
+      }
 
       // set next mode as current...
       pomodoroStore.setNextModeId()
