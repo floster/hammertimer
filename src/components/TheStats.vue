@@ -23,15 +23,15 @@ const avgHammertimesPerDay = computed(() => {
 <template>
   <div class="stats shadow">
     <div class="stat place-items-center">
-      <div class="stat-title">Total hammers</div>
+      <div class="stat-title text-sm">Total hammers</div>
       <div class="stat-value text-accent">{{ pomodoro.getTotalHammers }}</div>
-      <div class="stat-desc">~{{ avgHammersPerDay }} hammers/day</div>
+      <div class="stat-desc">~{{ avgHammersPerDay }} avg/day</div>
     </div>
 
     <div class="stat place-items-center gap-y-2">
       <div class="stat-title">Total minutes</div>
       <div class="stat-value text-primary">{{ pomodoro.getTotalHammerTimes }}</div>
-      <div class="stat-desc">~{{ avgHammertimesPerDay }} minutes/day</div>
+      <div class="stat-desc">~{{ avgHammertimesPerDay }} avg/day</div>
     </div>
   </div>
 </template>

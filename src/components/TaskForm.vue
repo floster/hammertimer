@@ -86,17 +86,15 @@ onMounted(() => {
 <template>
   <form
     class="flex flex-col gap-y-8 p-4 bg-primary-content/10 rounded-md shadow"
-    @submit.prevent="handleSubmit"
-  >
+    @submit.prevent="handleSubmit">
     <div>
       <input
         v-model="title"
         v-focus
         type="text"
         placeholder="Task title"
-        class="input input-ghost input-bordered input-lg w-full"
-        :class="{ 'input-accent': inputError }"
-      />
+        class="input input-ghost input-bordered md:input-lg w-full"
+        :class="{ 'input-accent': inputError }" />
       <span v-if="inputError" class="flex justify-end pt-1 text-xs text-accent"
         >think about a title for pomo</span
       >
@@ -104,8 +102,7 @@ onMounted(() => {
     <InputNumber
       v-model="qty"
       :min="props.data?.completed || 0"
-      :label="`estimated pomodoros: ${props.data ? props.data.completed + ' / ' : ''}`"
-    />
+      :label="`hammers${props.data ? ' ' + props.data.completed + '/' : ':'}`" />
     <div class="flex justify-end gap-x-4">
       <!-- cancel -->
       <AppButton text="Cancel" class="btn-ghost" @click="handleCancel" />
