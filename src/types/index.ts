@@ -32,7 +32,9 @@ type Period = {
 
 export type DailyStats = {
   [key: string]: Stats & {
+    id: string
     periods: Period[]
+    durations: number[]
   }
 }
 

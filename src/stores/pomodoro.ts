@@ -4,7 +4,7 @@ import { useStorage } from '@vueuse/core'
 import { MODES } from '@/config/app'
 import { KEYS } from '@/config/localStorage'
 
-import { AvailableModesEnum, type Stats, type DailyStats, type Streak } from '@/types'
+import { AvailableModesEnum, type DailyStats, type Streak } from '@/types'
 
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
@@ -13,13 +13,6 @@ export const usePomodoroStore = defineStore('pomodoro', {
 
     streaks: useStorage(KEYS.STREAKS, [] as Streak[]),
     short_breaks_in_row: useStorage(KEYS.SHORT_BREAKS_IN_ROW, 0),
-
-    // today's stats
-    stats: useStorage(KEYS.STATS, {
-      hammer: 0,
-      short_break: 0,
-      long_break: 0
-    } as Stats),
 
     // daily stats
     daily_stats: useStorage(KEYS.DAILY_STATS, {} as DailyStats)
@@ -33,6 +26,23 @@ export const usePomodoroStore = defineStore('pomodoro', {
     getStatsByDate: (store) => (date: string) => {
       const dateIndex = new Date(date).toDateString()
       return store.daily_stats[dateIndex] || null
+    },
+    getTotalHammers: (store) => {
+      return Object.values(store.daily_stats).reduce((acc, curr) => {
+        return acc + curr.hammer
+      }, 0)
+    },
+    getTotalHammerTimes: (store) => {
+      let _duration = 0
+      Object.values(store.daily_stats).forEach((item) => {
+        item.durations?.forEach((duration) => {
+          _duration += duration
+        })
+      })
+      return _duration
+    },
+    getTotalHammerDays: (store) => {
+      return Object.keys(store.daily_stats).length
     }
   },
   actions: {
@@ -65,29 +75,37 @@ export const usePomodoroStore = defineStore('pomodoro', {
     },
 
     incrementStats(start: Date) {
-      this.stats[this.getCurrentModeValue] += 1
       this._incrementDailyStats(start)
     },
 
     _incrementDailyStats(start: Date) {
       const today = new Date().toDateString() // 'Mon Aug 09 2021'
 
+      // if today's stats don't exist, create it
       if (!this.daily_stats[today]) {
         this.daily_stats[today] = {
+          id: today,
           hammer: 0,
           short_break: 0,
           long_break: 0,
-          periods: []
+          periods: [],
+          durations: []
         }
       }
 
       this.daily_stats[today][this.getCurrentModeValue] += 1
 
+      // if finished mode is 'hammer', also add its period and duration
       if (this.getCurrentModeValue === AvailableModesEnum.hammer) {
         this.daily_stats[today].periods.push({
           start,
           end: new Date()
         })
+
+        // calculate duration (in minutes) of the last period
+        const duration = Math.round((new Date().getTime() - start.getTime()) / 60000)
+
+        this.daily_stats[today].durations.push(duration)
       }
     }
   }
