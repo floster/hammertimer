@@ -17,9 +17,8 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <button class="btn" :type="type">
-    <Icon v-if="icon" :icon="icon" class="text-lg" />
+  <button class="btn gap-1" :type="type">
+    <Icon v-if="icon" :icon="icon" class="text-inherit" />
     <span v-if="text" :class="smNoText ? 'max-sm:hidden' : ''">{{ text }}</span>
-    <slot />
   </button>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
+import TheIndicator from '@/components/TheIndicator.vue'
 
 /*
   import timer store
@@ -21,10 +22,12 @@ const timer = useTimerStore()
       }"
       @click="timer.reset()" />
     <!-- start/pause button -->
-    <AppButton
-      :icon="timer.isActive ? 'ph:pause-fill' : 'ph:play-fill'"
-      class="btn-warning btn-lg px-16"
-      @click="timer.toggle()" />
+    <TheIndicator label="T">
+      <AppButton
+        :icon="timer.isActive ? 'ph:pause-fill' : 'ph:play-fill'"
+        class="btn-warning btn-lg px-16"
+        @click="timer.toggle()" />
+    </TheIndicator>
     <!-- force finish current button -->
     <AppButton
       v-if="timer.isStarted"

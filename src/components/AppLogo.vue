@@ -3,6 +3,8 @@ import { SITE_NAME } from '@/config/app'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
+import TheIndicator from '@/components/TheIndicator.vue'
+
 const router = useRouter()
 const route = useRoute()
 
@@ -14,11 +16,13 @@ const onLogoClick = () => {
 </script>
 
 <template>
-  <h1
-    class="flex items-end gap-x-1"
-    :class="{ 'cursor-pointer': !isHomePage }"
-    @click="onLogoClick">
-    <img src="/hammertimer.svg" alt="pomofocus logo" width="24" height="24" />
-    <p class="text-xl leading-5 text-center text-inherit font-bold">{{ SITE_NAME }}</p>
-  </h1>
+  <TheIndicator label="H">
+    <h1
+      class="flex items-end gap-x-1"
+      :class="{ 'cursor-pointer': !isHomePage }"
+      @click="onLogoClick">
+      <img src="/hammertimer.svg" alt="pomofocus logo" width="24" height="24" />
+      <p class="text-xl leading-5 text-center text-inherit font-bold">{{ SITE_NAME }}</p>
+    </h1>
+  </TheIndicator>
 </template>
