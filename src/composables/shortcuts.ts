@@ -13,11 +13,16 @@ import { useTimerStore } from '@/stores/timer'
 const useShortcuts = () => {
   const router = useRouter()
 
+  const shortcuts = useShortcutsStore()
+  const timer = useTimerStore()
+  const settings = useSettingsStore()
+  const tasks = useTasksStore()
+
   const showHelp = onKeyStroke(
     ShortcutsEnum.HELP,
     (e) => {
       e.preventDefault()
-      const shortcuts = useShortcutsStore()
+      if (shortcuts.isShortcutsDisabled) return
       shortcuts.toggleVisibility()
     },
     { dedupe: true }
@@ -27,7 +32,7 @@ const useShortcuts = () => {
     ShortcutsEnum.TIMER,
     (e) => {
       e.preventDefault()
-      const timer = useTimerStore()
+      if (shortcuts.isShortcutsDisabled) return
       timer.toggle()
     },
     { dedupe: true }
@@ -37,7 +42,7 @@ const useShortcuts = () => {
     ShortcutsEnum.SETTINGS,
     (e) => {
       e.preventDefault()
-      const settings = useSettingsStore()
+      if (shortcuts.isShortcutsDisabled) return
       settings.openSettings()
     },
     { dedupe: true }
@@ -47,7 +52,7 @@ const useShortcuts = () => {
     ShortcutsEnum.ADD_TASK,
     (e) => {
       e.preventDefault()
-      const tasks = useTasksStore()
+      if (shortcuts.isShortcutsDisabled) return
       tasks.openAddTaskForm()
     },
     { dedupe: true }
@@ -57,6 +62,7 @@ const useShortcuts = () => {
     ShortcutsEnum.REPORT,
     (e) => {
       e.preventDefault()
+      if (shortcuts.isShortcutsDisabled) return
       router.push({ name: 'Stats' })
     },
     { dedupe: true }
@@ -66,6 +72,7 @@ const useShortcuts = () => {
     ShortcutsEnum.HOME,
     (e) => {
       e.preventDefault()
+      if (shortcuts.isShortcutsDisabled) return
       router.push({ name: 'Home' })
     },
     { dedupe: true }
