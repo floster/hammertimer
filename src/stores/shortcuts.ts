@@ -2,12 +2,12 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 export const useShortcutsStore = defineStore('shortcuts', {
   state: () => ({
-    isShortcutsVisible: true,
+    isShortcutsTipsVisible: false,
     isShortcutsDisabled: false
   }),
   actions: {
     toggleVisibility() {
-      this.isShortcutsVisible = !this.isShortcutsVisible
+      this.isShortcutsTipsVisible = !this.isShortcutsTipsVisible
     },
     disable() {
       console.log('disable')

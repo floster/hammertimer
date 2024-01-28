@@ -13,14 +13,14 @@ type Props = {
 defineProps<Props>()
 
 const activeClasses = computed(() => ({
-  ' outline-2 outline-dotted outline-accent': shortcuts.isShortcutsVisible
+  ' outline-2 outline-dotted outline-accent': shortcuts.isShortcutsTipsVisible
 }))
 </script>
 
 <template>
   <div class="indicator" :class="activeClasses">
     <span
-      v-if="shortcuts.isShortcutsVisible"
+      v-if="shortcuts.isShortcutsTipsVisible"
       class="indicator-item indicator-start badge badge-accent badge-sm opacity-85"
       >{{ label }}</span
     >

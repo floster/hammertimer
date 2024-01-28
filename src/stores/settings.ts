@@ -17,7 +17,10 @@ export const useSettingsStore = defineStore('settings', {
     durations: useStorage(KEYS.DURATIONS, DEFAULTS.DURATIONS),
     autoNextMode: useStorage(KEYS.AUTO_NEXT_MODE, DEFAULTS.AUTO_NEXT_MODE),
     longBreakInterval: useStorage(KEYS.LONG_BREAK_INTERVAL, DEFAULTS.LONG_BREAK_INTERVAL),
-    playSoundOnFinish: false
+    playSoundOnFinish: false,
+
+    // App shortcuts
+    showShortcutsTipInHeader: true
   }),
   getters: {
     getDuration: (store) => (mode: AvailableModesEnum) => store.durations[mode],
@@ -56,6 +59,10 @@ export const useSettingsStore = defineStore('settings', {
 
     togglePlaySoundOnFinish() {
       this.playSoundOnFinish = !this.playSoundOnFinish
+    },
+
+    setShortcutsTipInHeader(value: boolean) {
+      this.showShortcutsTipInHeader = value
     }
   }
 })

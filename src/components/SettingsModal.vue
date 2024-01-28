@@ -42,8 +42,11 @@ const durations = reactive<Durations>({
 
 const longBreakInterval = ref(settings.getLongBreakInterval)
 
+const shortcutsTip = ref(settings.showShortcutsTipInHeader)
+
 const onConfirm = () => {
   settings.setLongBreakInterval(longBreakInterval.value)
+  settings.setShortcutsTipInHeader(shortcutsTip.value)
   settings.setDuration(AvailableModesEnum.hammer, durations.hammer)
   settings.setDuration(AvailableModesEnum.short_break, durations.short_break)
   settings.setDuration(AvailableModesEnum.long_break, durations.long_break)
@@ -67,12 +70,18 @@ const onConfirm = () => {
         :key="input.value"
         v-model="durations[input.value]"
         :type="input.type"
-        class="input input-bordered w-full"
-      />
+        class="input input-bordered w-full" />
     </div>
     <label class="flex items-center justify-end gap-x-3 text-sm text-neutral-content mt-6">
       pomodoros to long break:
       <input v-model="longBreakInterval" type="number" class="input input-bordered w-20"
     /></label>
+    <div class="divider"></div>
+    <div class="form-control">
+      <label class="label cursor-pointer">
+        <span class="label-text">show shortcuts tip in header</span>
+        <input v-model="shortcutsTip" type="checkbox" class="checkbox checkbox-primary" />
+      </label>
+    </div>
   </AppModal>
 </template>
