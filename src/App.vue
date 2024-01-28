@@ -1,5 +1,13 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import AppHeader from './components/AppHeader.vue'
+
+import useShortcuts from '@/composables/shortcuts'
+const shortcuts = useShortcuts()
+
+onMounted(() => {
+  shortcuts.addShortcutsListeners()
+})
 </script>
 
 <template>

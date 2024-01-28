@@ -10,9 +10,11 @@ import router from './router'
 
 const app = createApp(App)
 
+const pinia = createPinia()
+
 directives.forEach((directive) => app.directive(directive.name, directive))
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')

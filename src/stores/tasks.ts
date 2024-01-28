@@ -5,6 +5,7 @@ import { KEYS } from '@/config/localStorage'
 import type { Task } from '@/types'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
+import { useShortcutsStore } from '@/stores/shortcuts'
 
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
@@ -103,9 +104,13 @@ export const useTasksStore = defineStore('tasks', {
       add task form
      */
     openAddTaskForm() {
+      const shortcuts = useShortcutsStore()
+      shortcuts.disable()
       this.addTaskFormVisible = true
     },
     closeAddTaskForm() {
+      const shortcuts = useShortcutsStore()
+      shortcuts.enable()
       this.addTaskFormVisible = false
     }
   }

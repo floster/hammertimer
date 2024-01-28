@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
 
 import { MODES } from '@/config/app'
@@ -110,3 +110,7 @@ export const usePomodoroStore = defineStore('pomodoro', {
     }
   }
 })
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(usePomodoroStore, import.meta.hot))
+}
