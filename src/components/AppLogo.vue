@@ -3,6 +3,8 @@ import { SITE_NAME } from '@/config/app'
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
+import { ShortcutsEnum } from '@/types/shortcuts'
+
 import TheIndicator from '@/components/TheIndicator.vue'
 
 const router = useRouter()
@@ -16,7 +18,7 @@ const onLogoClick = () => {
 </script>
 
 <template>
-  <TheIndicator label="H">
+  <TheIndicator :label="ShortcutsEnum.HOME">
     <h1
       class="flex items-end gap-x-1"
       :class="{ 'cursor-pointer': !isHomePage }"

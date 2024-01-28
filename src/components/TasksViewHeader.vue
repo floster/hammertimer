@@ -3,6 +3,8 @@ import TasksMenu from '@/components/TasksMenu.vue'
 import AppButton from '@/components/AppButton.vue'
 import TheIndicator from '@/components/TheIndicator.vue'
 
+import { ShortcutsEnum } from '@/types/shortcuts'
+
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
 </script>
@@ -11,7 +13,7 @@ const tasks = useTasksStore()
   <header class="flex flex-col gap-y-8">
     <div
       class="relative flex items-center justify-between py-3 border-b-2 border-b-neutral-content/40">
-      <TheIndicator label="A">
+      <TheIndicator :label="ShortcutsEnum.ADD_TASK">
         <AppButton
           text="Add Task"
           icon="ph:plus-circle-fill"
