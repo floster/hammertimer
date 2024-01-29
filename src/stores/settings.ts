@@ -1,19 +1,18 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
 import { ref, reactive } from 'vue'
-import { useStorage } from '@vueuse/core'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
 
-import type { SettingsData } from '@/types/firebase'
+import type { TimerSettingsData, AppSettingsData } from '@/types/firebase'
 
 import { DEFAULTS } from '@/config/app'
-import { KEYS } from '@/config/localStorage'
-import { SETTINGS_REF, TIMER_DOC_REF } from '@/config/firebase'
+import { SETTINGS_REF, TIMER_SETTINGS_DOC_REF, APP_SETTINGS_DOC_REF } from '@/config/firebase'
 
 import { db } from '@/api/firebase'
 import { doc, updateDoc, onSnapshot } from 'firebase/firestore'
 
-const TIMER_SETTINGS_DOC_REF = doc(db, SETTINGS_REF, TIMER_DOC_REF)
+const app_settings_doc_ref = doc(db, SETTINGS_REF, APP_SETTINGS_DOC_REF)
+const timer_settings_doc_ref = doc(db, SETTINGS_REF, TIMER_SETTINGS_DOC_REF)
 
 import { AvailableModesEnum } from '@/types'
 
@@ -25,12 +24,12 @@ export const useSettingsStore = defineStore('settings', {
 
     // App settings
     durations: reactive(DEFAULTS.DURATIONS),
-    autoNextMode: useStorage(KEYS.AUTO_NEXT_MODE, DEFAULTS.AUTO_NEXT_MODE),
+    autoNextMode: ref(DEFAULTS.AUTO_NEXT_MODE),
     longBreakInterval: ref(DEFAULTS.LONG_BREAK_INTERVAL),
-    playSoundOnFinish: false,
+    playSoundOnFinish: ref(false),
 
     // App shortcuts
-    showShortcutsTipInHeader: true
+    showShortcutsTipInHeader: ref(false)
   }),
   getters: {
     getDuration: (store) => (mode: AvailableModesEnum) => store.durations[mode],
@@ -56,25 +55,31 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     async setDuration(mode: AvailableModesEnum, duration: number) {
-      await updateDoc(TIMER_SETTINGS_DOC_REF, {
+      await updateDoc(timer_settings_doc_ref, {
         [mode]: duration
       })
     },
 
-    toggleAutoNextMode() {
-      this.autoNextMode = !this.autoNextMode
+    async toggleAutoNextMode() {
+      await updateDoc(app_settings_doc_ref, {
+        autoNextMode: !this.autoNextMode
+      })
     },
 
     setLongBreakInterval(value: number) {
       this.longBreakInterval = value
     },
 
-    togglePlaySoundOnFinish() {
-      this.playSoundOnFinish = !this.playSoundOnFinish
+    async togglePlaySoundOnFinish() {
+      await updateDoc(app_settings_doc_ref, {
+        playSoundOnFinish: !this.playSoundOnFinish
+      })
     },
 
-    setShortcutsTipInHeader(value: boolean) {
-      this.showShortcutsTipInHeader = value
+    async setShortcutsTipInHeader(value: boolean) {
+      await updateDoc(app_settings_doc_ref, {
+        showShortcutsTipInHeader: value
+      })
     },
 
     /**
@@ -82,14 +87,23 @@ export const useSettingsStore = defineStore('settings', {
      */
     async getSettingsFromFirebase() {
       // listen for changes on firebase
-      onSnapshot(TIMER_SETTINGS_DOC_REF, (settingsSnapshot) => {
-        const _settings = settingsSnapshot.data() as SettingsData
+      // ...in 'settings/timer' document
+      onSnapshot(timer_settings_doc_ref, (settingsSnapshot) => {
+        const _settings = settingsSnapshot.data() as TimerSettingsData
 
         this.durations[AvailableModesEnum.hammer] = _settings.hammer
         this.durations[AvailableModesEnum.short_break] = _settings.short_break
         this.durations[AvailableModesEnum.long_break] = _settings.long_break
-        this.autoNextMode = _settings.autoNextMode
         this.longBreakInterval = _settings.longBreakInterval
+      })
+
+      // ...in 'settings/app' document
+      onSnapshot(app_settings_doc_ref, (settingsSnapshot) => {
+        const _settings = settingsSnapshot.data() as AppSettingsData
+
+        this.autoNextMode = _settings.autoNextMode
+        this.playSoundOnFinish = _settings.playSoundOnFinish
+        this.showShortcutsTipInHeader = _settings.showShortcutsTipInHeader
       })
     }
   }
