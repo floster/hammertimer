@@ -21,7 +21,7 @@ const icon = computed(() =>
 </script>
 
 <template>
-  <li>
+  <li class="min-w-9">
     <hr v-if="!start" class="min-w-2 max-h-[2px] bg-primary-content/15" />
     <div class="timeline-middle">
       <Icon :icon="icon" :class="{ 'text-info text-xl': type === AvailableModesEnum.hammer }" />

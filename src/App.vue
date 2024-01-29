@@ -11,6 +11,9 @@ const tasksStore = useTasksStore()
 import { useSettingsStore } from '@/stores/settings'
 const settingsStore = useSettingsStore()
 
+import { useStatsStore } from '@/stores/stats'
+const statsStore = useStatsStore()
+
 onMounted(() => {
   shortcuts.addShortcutsListeners()
 
@@ -19,6 +22,9 @@ onMounted(() => {
 
   // Get settings from Firebase
   settingsStore.getSettingsFromFirebase()
+
+  // Get stats from Firebase
+  statsStore.getStatsFromFirebase()
 })
 </script>
 

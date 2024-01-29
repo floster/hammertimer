@@ -6,16 +6,12 @@ const settings = useSettingsStore()
 
 import { AvailableModesEnum } from '@/types'
 
+// used to generate inputs for durations
 type DurationTemplate = {
   name: string
   value: AvailableModesEnum
   type: string
 }
-
-type Durations = {
-  [key in AvailableModesEnum]: number
-}
-
 const durationsTemplate = [
   {
     name: 'Hammertime',
@@ -34,10 +30,14 @@ const durationsTemplate = [
   }
 ] as DurationTemplate[]
 
+type Durations = {
+  [key in AvailableModesEnum]: number
+}
+
 const durations = reactive<Durations>({
-  hammer: settings.getDuration(AvailableModesEnum.hammer),
-  short_break: settings.getDuration(AvailableModesEnum.short_break),
-  long_break: settings.getDuration(AvailableModesEnum.long_break)
+  hammer: settings.durations[AvailableModesEnum.hammer],
+  short_break: settings.durations[AvailableModesEnum.short_break],
+  long_break: settings.durations[AvailableModesEnum.long_break]
 })
 
 const longBreakInterval = ref(settings.getLongBreakInterval)
