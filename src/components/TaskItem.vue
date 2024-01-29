@@ -7,16 +7,16 @@ import TaskItemControls from '@/components/TaskItemControls.vue'
 import type { Task } from '@/types'
 
 /*
-  import tasks store
+  import stores
 */
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
 
-/*
-  import timer store
-*/
 import { useTimerStore } from '@/stores/timer'
 const timer = useTimerStore()
+
+import { useShortcutsStore } from '@/stores/shortcuts'
+const shortcuts = useShortcutsStore()
 
 interface Props {
   task: Task
@@ -43,8 +43,14 @@ const iconClasses = computed(() => ({
  * show/hide edit task form
  */
 const editMode = ref(false)
+const showForm = () => {
+  editMode.value = true
+  shortcuts.disable()
+}
+
 const hideForm = () => {
   editMode.value = false
+  shortcuts.enable()
 }
 
 /**
@@ -75,7 +81,7 @@ const handleTaskClick = () => {
       >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
     >
     <!-- task controls -->
-    <TaskItemControls @edit="editMode = true" @delete="() => tasks.removeTask(task.id)" />
+    <TaskItemControls @edit="showForm" @delete="() => tasks.removeTask(task.id)" />
   </li>
   <TaskForm v-else :data="task" @submit="hideForm" @cancel="hideForm" />
 </template>
