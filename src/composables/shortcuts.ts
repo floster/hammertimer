@@ -21,8 +21,8 @@ const useShortcuts = () => {
   const showHelp = onKeyStroke(
     ShortcutsEnum.HELP,
     (e) => {
-      e.preventDefault()
       if (shortcuts.isShortcutsDisabled) return
+      e.preventDefault()
       shortcuts.toggleVisibility()
     },
     { dedupe: true }
@@ -31,8 +31,8 @@ const useShortcuts = () => {
   const toggleTimer = onKeyStroke(
     ShortcutsEnum.TIMER,
     (e) => {
-      e.preventDefault()
       if (shortcuts.isShortcutsDisabled) return
+      e.preventDefault()
       timer.toggle()
     },
     { dedupe: true }
@@ -41,8 +41,8 @@ const useShortcuts = () => {
   const openSettings = onKeyStroke(
     ShortcutsEnum.SETTINGS,
     (e) => {
-      e.preventDefault()
       if (shortcuts.isShortcutsDisabled) return
+      e.preventDefault()
       settings.openSettings()
     },
     { dedupe: true }
@@ -51,8 +51,8 @@ const useShortcuts = () => {
   const addTask = onKeyStroke(
     ShortcutsEnum.ADD_TASK,
     (e) => {
-      e.preventDefault()
       if (shortcuts.isShortcutsDisabled) return
+      e.preventDefault()
       tasks.openAddTaskForm()
     },
     { dedupe: true }
@@ -61,8 +61,8 @@ const useShortcuts = () => {
   const gotoStats = onKeyStroke(
     ShortcutsEnum.REPORT,
     (e) => {
-      e.preventDefault()
       if (shortcuts.isShortcutsDisabled) return
+      e.preventDefault()
       router.push({ name: 'Stats' })
     },
     { dedupe: true }
@@ -71,8 +71,8 @@ const useShortcuts = () => {
   const gotoHomepage = onKeyStroke(
     ShortcutsEnum.HOME,
     (e) => {
-      e.preventDefault()
       if (shortcuts.isShortcutsDisabled) return
+      e.preventDefault()
       router.push({ name: 'Home' })
     },
     { dedupe: true }
