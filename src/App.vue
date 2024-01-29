@@ -5,8 +5,14 @@ import AppHeader from './components/AppHeader.vue'
 import useShortcuts from '@/composables/shortcuts'
 const shortcuts = useShortcuts()
 
+import { useTasksStore } from '@/stores/tasks'
+const tasksStore = useTasksStore()
+
 onMounted(() => {
   shortcuts.addShortcutsListeners()
+
+  // Get tasks from Firebase
+  tasksStore.listenerForTasksFromFirebase()
 })
 </script>
 

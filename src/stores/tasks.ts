@@ -1,7 +1,10 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { useStorage } from '@vueuse/core'
+import { ref } from 'vue'
 
-import { KEYS } from '@/config/localStorage'
+import { TASKS_REF } from '@/config/firebase'
+import { db } from '@/api/firebase'
+import { collection, query, onSnapshot } from 'firebase/firestore'
+
 import type { Task } from '@/types'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
@@ -9,7 +12,7 @@ import { useShortcutsStore } from '@/stores/shortcuts'
 
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
-    tasks: useStorage(KEYS.TASKS, [] as Task[]),
+    tasks: ref([] as Task[]),
 
     // active task
     activeTaskId: null as number | null,
@@ -112,6 +115,29 @@ export const useTasksStore = defineStore('tasks', {
       const shortcuts = useShortcutsStore()
       shortcuts.enable()
       this.addTaskFormVisible = false
+    },
+
+    /**
+     * Firebase
+     */
+    async listenerForTasksFromFirebase() {
+      // query to get all tasks from firebase
+      const q = query(collection(db, TASKS_REF))
+
+      // listen for changes on firebase
+      onSnapshot(q, (tasksSnapshot) => {
+        tasksSnapshot.docChanges().forEach((change) => {
+          if (change.type === 'added') {
+            this.addTask(change.doc.data() as Task)
+          }
+          if (change.type === 'modified') {
+            this.updateTask(change.doc.data() as Task)
+          }
+          if (change.type === 'removed') {
+            this.removeTask(change.doc.data().id)
+          }
+        })
+      })
     }
   }
 })
