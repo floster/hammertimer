@@ -8,11 +8,17 @@ const shortcuts = useShortcuts()
 import { useTasksStore } from '@/stores/tasks'
 const tasksStore = useTasksStore()
 
+import { useSettingsStore } from '@/stores/settings'
+const settingsStore = useSettingsStore()
+
 onMounted(() => {
   shortcuts.addShortcutsListeners()
 
   // Get tasks from Firebase
   tasksStore.listenerForTasksFromFirebase()
+
+  // Get settings from Firebase
+  settingsStore.getSettingsFromFirebase()
 })
 </script>
 

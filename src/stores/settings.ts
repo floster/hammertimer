@@ -1,9 +1,19 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { usePomodoroStore } from '@/stores/pomodoro'
+import { ref, reactive } from 'vue'
 import { useStorage } from '@vueuse/core'
+
+import { usePomodoroStore } from '@/stores/pomodoro'
+
+import type { SettingsData } from '@/types/firebase'
 
 import { DEFAULTS } from '@/config/app'
 import { KEYS } from '@/config/localStorage'
+import { SETTINGS_REF, TIMER_DOC_REF } from '@/config/firebase'
+
+import { db } from '@/api/firebase'
+import { doc, updateDoc, onSnapshot } from 'firebase/firestore'
+
+const TIMER_SETTINGS_DOC_REF = doc(db, SETTINGS_REF, TIMER_DOC_REF)
 
 import { AvailableModesEnum } from '@/types'
 
@@ -14,9 +24,9 @@ export const useSettingsStore = defineStore('settings', {
     instance: null as HTMLDialogElement | null,
 
     // App settings
-    durations: useStorage(KEYS.DURATIONS, DEFAULTS.DURATIONS),
+    durations: reactive(DEFAULTS.DURATIONS),
     autoNextMode: useStorage(KEYS.AUTO_NEXT_MODE, DEFAULTS.AUTO_NEXT_MODE),
-    longBreakInterval: useStorage(KEYS.LONG_BREAK_INTERVAL, DEFAULTS.LONG_BREAK_INTERVAL),
+    longBreakInterval: ref(DEFAULTS.LONG_BREAK_INTERVAL),
     playSoundOnFinish: false,
 
     // App shortcuts
@@ -45,8 +55,10 @@ export const useSettingsStore = defineStore('settings', {
       this.instance?.close()
     },
 
-    setDuration(mode: AvailableModesEnum, duration: number) {
-      this.durations[mode] = duration
+    async setDuration(mode: AvailableModesEnum, duration: number) {
+      await updateDoc(TIMER_SETTINGS_DOC_REF, {
+        [mode]: duration
+      })
     },
 
     toggleAutoNextMode() {
@@ -63,6 +75,22 @@ export const useSettingsStore = defineStore('settings', {
 
     setShortcutsTipInHeader(value: boolean) {
       this.showShortcutsTipInHeader = value
+    },
+
+    /**
+     * Firebase
+     */
+    async getSettingsFromFirebase() {
+      // listen for changes on firebase
+      onSnapshot(TIMER_SETTINGS_DOC_REF, (settingsSnapshot) => {
+        const _settings = settingsSnapshot.data() as SettingsData
+
+        this.durations[AvailableModesEnum.hammer] = _settings.hammer
+        this.durations[AvailableModesEnum.short_break] = _settings.short_break
+        this.durations[AvailableModesEnum.long_break] = _settings.long_break
+        this.autoNextMode = _settings.autoNextMode
+        this.longBreakInterval = _settings.longBreakInterval
+      })
     }
   }
 })
