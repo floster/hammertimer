@@ -30,9 +30,28 @@ onMounted(() => {
 
 <template>
   <div class="bg-primary min-h-screen text-white/85 text-red-300">
-    <div class="container max-w-2xl mx-auto">
+    <div class="container w-full max-w-2xl mx-auto">
       <AppHeader />
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <transition name="slide" mode="out-in">
+          <component :is="Component" :key="$route.path" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
+
+<style scoped>
+.slide-enter-active,
+.slide-leave-active {
+  transition:
+    opacity 0.1s,
+    transform 0.1s;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
+}
+</style>
