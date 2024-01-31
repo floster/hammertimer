@@ -22,7 +22,7 @@ const onLogoClick = () => {
 
 <template>
   <TheIndicator :label="ShortcutsEnum.HOME">
-    <header class="flex flex-col">
+    <section class="flex flex-col">
       <h1
         class="flex items-end gap-x-1"
         :class="{ 'cursor-pointer': !isHomePage }"
@@ -33,6 +33,6 @@ const onLogoClick = () => {
       <p v-if="settings.showShortcutsTipInHeader" class="text-xs text-right opacity-35">
         press <kbd class="kbd kbd-sm">h</kbd> for help
       </p>
-    </header>
+    </section>
   </TheIndicator>
 </template>

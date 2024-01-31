@@ -13,11 +13,11 @@ const tasks = useTasksStore()
       v-if="tasks.isCompletedHidden || tasks.isCompletedInTheEnd"
       class="w-2 h-2 rounded-full bg-warning/80 absolute z-0 -top-1 -right-1"></div>
     <ul
-      class="absolute z-10 right-0 flex flex-col gap-3 bg-secondary-content/80 rounded-box max-h-0 overflow-hidden p-0 group-hover:max-h-max group-hover:p-3 group-hover:overflow-auto transition-all">
+      class="absolute z-10 right-0 flex flex-col gap-3 bg-neutral rounded-box max-h-0 overflow-hidden p-0 group-hover:max-h-max group-hover:p-3 group-hover:overflow-auto transition-all">
       <li class="flex items-center gap-x-1">
         <div class="form-control">
           <label
-            class="label cursor-pointer gap-x-4 hover:text-info"
+            class="label cursor-pointer gap-x-4"
             :class="{ 'pointer-events-none text-secondary': tasks.oneOrLessTask }">
             <input
               v-model="tasks.isCompletedHidden"
@@ -30,7 +30,7 @@ const tasks = useTasksStore()
       </li>
       <li class="flex items-center gap-x-1">
         <label
-          class="label cursor-pointer gap-x-4 hover:text-info"
+          class="label cursor-pointer gap-x-4"
           :class="{
             'text-secondary': tasks.isCompletedHidden,
             'pointer-events-none text-secondary': tasks.oneOrLessTask

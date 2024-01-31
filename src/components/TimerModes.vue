@@ -4,6 +4,9 @@ import TimerModesTab from '@/components/TimerModesTab.vue'
 
 import { ModeIdsEnum, AvailableModesEnum } from '@/types'
 
+import useTheme from '@/composables/theme'
+const theme = useTheme()
+
 /*
   import stores
 */
@@ -19,12 +22,15 @@ const onTimerModeChanged = () => {
   switch (pomodoro.currentModeId) {
     case ModeIdsEnum.hammer:
       console.log(`current mode is ${AvailableModesEnum.hammer}`)
+      theme.setDefaultTheme()
       break
     case ModeIdsEnum.short_break:
       console.log(`current mode is ${AvailableModesEnum.short_break}`)
+      theme.setAltTheme()
       break
     case ModeIdsEnum.long_break:
       console.log(`current mode is ${AvailableModesEnum.long_break}`)
+      theme.setAltTheme()
       break
   }
 }

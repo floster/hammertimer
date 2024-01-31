@@ -11,7 +11,7 @@ const settings = useSettingsStore()
 </script>
 
 <template>
-  <header class="flex items-center justify-between py-4 px-2 border-b border-b-neutral/50">
+  <header class="flex items-center justify-between py-1 px-2 border-b border-b-neutral/50">
     <AppLogo />
     <div class="flex items-center gap-x-4">
       <TheIndicator :label="ShortcutsEnum.REPORT">

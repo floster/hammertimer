@@ -73,7 +73,7 @@ onMounted(() => {
       <label
         v-for="label in durationsTemplate"
         :key="label.value"
-        class="text-sm text-neutral-content mb-1"
+        class="text-sm label-text mb-1"
         :for="label.value"
         >{{ label.name }}</label
       >
@@ -85,12 +85,12 @@ onMounted(() => {
         :type="input.type"
         class="input input-bordered w-full" />
     </div>
-    <label class="flex items-center justify-end gap-x-3 text-sm text-neutral-content">
-      pomodoros to long break:
+    <label class="flex items-center justify-end gap-x-3 text-sm">
+      <span class="label-text">pomodoros to long break:</span>
       <input v-model="longBreakInterval" type="number" class="input input-bordered w-20"
     /></label>
     <div class="form-control">
-      <label class="flex justify-end gap-3 cursor-pointer">
+      <label class="flex items-center justify-end gap-3 cursor-pointer">
         <span class="label-text">show shortcuts tip in header</span>
         <input v-model="shortcutsTip" type="checkbox" class="checkbox checkbox-primary" />
       </label>
