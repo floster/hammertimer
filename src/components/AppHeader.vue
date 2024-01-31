@@ -16,14 +16,14 @@ const settings = useSettingsStore()
     <div class="flex items-center gap-x-4">
       <TheIndicator :label="ShortcutsEnum.REPORT">
         <AppButton
-          class="btn-sm btn-ghost text-2xl"
+          class="btn-square btn-ghost text-2xl"
           :sm-no-text="true"
           icon="ph:chart-line-fill"
           @click="() => $router.push('/stats')" />
       </TheIndicator>
       <TheIndicator :label="ShortcutsEnum.SETTINGS">
         <AppButton
-          class="btn-sm btn-ghost text-2xl"
+          class="btn-square btn-ghost text-2xl"
           :sm-no-text="true"
           icon="ph:gear-fill"
           @click="() => settings.openSettings()" />

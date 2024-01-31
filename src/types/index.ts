@@ -4,6 +4,12 @@ export enum AvailableModesEnum {
   long_break = 'long_break'
 }
 
+export enum ModeIdsEnum {
+  hammer = 0,
+  short_break = 1,
+  long_break = 2
+}
+
 export interface Mode {
   id: number
   name: string

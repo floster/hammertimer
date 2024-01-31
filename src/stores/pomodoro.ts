@@ -3,12 +3,12 @@ import { useStorage } from '@vueuse/core'
 
 import { MODES } from '@/config/app'
 import { KEYS } from '@/config/localStorage'
-import { AvailableModesEnum, type Streak } from '@/types'
+import { ModeIdsEnum, AvailableModesEnum, type Streak } from '@/types'
 
 export const usePomodoroStore = defineStore('pomodoro', {
   state: () => ({
     modes: MODES,
-    currentModeId: useStorage(KEYS.CURRENT_MODE_ID, 0),
+    currentModeId: useStorage<ModeIdsEnum>(KEYS.CURRENT_MODE_ID, ModeIdsEnum.hammer),
 
     streaks: useStorage(KEYS.STREAKS, [] as Streak[]),
     short_breaks_in_row: useStorage(KEYS.SHORT_BREAKS_IN_ROW, 0)
@@ -19,16 +19,19 @@ export const usePomodoroStore = defineStore('pomodoro', {
     isCurrentModePomodoro: (store) => store.currentModeId === 0
   },
   actions: {
+    setModeId(id: number) {
+      this.currentModeId = id
+    },
     setNextModeId() {
-      if (this.currentModeId === 0) {
+      if (this.isCurrentModePomodoro) {
         if (this.short_breaks_in_row === 3) {
           this._resetShortBreaksInRow()
-          this.currentModeId = 2 // 'long_break'
+          this.setModeId(ModeIdsEnum.long_break) // 'long_break'
         } else {
-          this.currentModeId = 1 // 'short_break'
+          this.setModeId(ModeIdsEnum.short_break) // 'short_break'
         }
       } else {
-        this.currentModeId = 0 // 'hammer'
+        this.setModeId(ModeIdsEnum.hammer) // 'hammer'
       }
     },
 

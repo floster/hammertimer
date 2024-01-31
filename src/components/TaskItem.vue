@@ -67,7 +67,7 @@ const handleTaskClick = () => {
   <article>
     <li
       v-if="!editMode"
-      class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-primary-content border-l-[6px] hover:border-l-secondary rounded transition-all"
+      class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-neutral-content border-l-[6px] hover:border-l-secondary rounded transition-all"
       :class="`${isCurrent ? 'border-l-info hover:border-l-info' : 'border-l-transparent'}`">
       <Icon
         icon="ph:check-circle-fill"
