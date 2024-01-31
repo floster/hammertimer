@@ -21,6 +21,7 @@ export const useSettingsStore = defineStore('settings', {
     // <dialog> instance will be here, after that we can use
     // dialog's methods like .showModal() and .close() in actions
     instance: null as HTMLDialogElement | null,
+    isSettingsOpen: false,
 
     // App settings
     durations: reactive(DEFAULTS.DURATIONS),
@@ -49,9 +50,11 @@ export const useSettingsStore = defineStore('settings', {
     },
     openSettings() {
       this.instance?.showModal()
+      this.isSettingsOpen = true
     },
     closeSettings() {
       this.instance?.close()
+      this.isSettingsOpen = false
     },
 
     async setDuration(mode: AvailableModesEnum, duration: number) {

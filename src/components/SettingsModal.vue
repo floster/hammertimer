@@ -1,87 +1,17 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
 import AppModal from '@/components/AppModal.vue'
+import SettingsForm from '@/components/SettingsForm.vue'
+
 import { useSettingsStore } from '@/stores/settings'
 const settings = useSettingsStore()
 
-import { AvailableModesEnum } from '@/types'
-
-// used to generate inputs for durations
-type DurationTemplate = {
-  name: string
-  value: AvailableModesEnum
-  type: string
-}
-const durationsTemplate = [
-  {
-    name: 'Hammertime',
-    value: AvailableModesEnum.hammer,
-    type: 'number'
-  },
-  {
-    name: 'Short',
-    value: AvailableModesEnum.short_break,
-    type: 'number'
-  },
-  {
-    name: 'Long',
-    value: AvailableModesEnum.long_break,
-    type: 'number'
-  }
-] as DurationTemplate[]
-
-type Durations = {
-  [key in AvailableModesEnum]: number
-}
-
-const durations = reactive<Durations>({
-  hammer: settings.durations[AvailableModesEnum.hammer],
-  short_break: settings.durations[AvailableModesEnum.short_break],
-  long_break: settings.durations[AvailableModesEnum.long_break]
-})
-
-const longBreakInterval = ref(settings.getLongBreakInterval)
-
-const shortcutsTip = ref(settings.showShortcutsTipInHeader)
-
-const onConfirm = () => {
-  settings.setLongBreakInterval(longBreakInterval.value)
-  settings.setShortcutsTipInHeader(shortcutsTip.value)
-  settings.setDuration(AvailableModesEnum.hammer, durations.hammer)
-  settings.setDuration(AvailableModesEnum.short_break, durations.short_break)
-  settings.setDuration(AvailableModesEnum.long_break, durations.long_break)
+const closeDialog = () => {
+  settings.closeSettings()
 }
 </script>
 
 <template>
-  <AppModal @confirm="onConfirm">
-    <div class="divider divider-neutral">Durations:</div>
-    <div class="grid grid-cols-3 gap-x-4">
-      <label
-        v-for="label in durationsTemplate"
-        :key="label.value"
-        class="text-sm text-neutral-content mb-1"
-        :for="label.value"
-        >{{ label.name }}</label
-      >
-      <input
-        v-for="input in durationsTemplate"
-        :id="input.value"
-        :key="input.value"
-        v-model="durations[input.value]"
-        :type="input.type"
-        class="input input-bordered w-full" />
-    </div>
-    <label class="flex items-center justify-end gap-x-3 text-sm text-neutral-content mt-6">
-      pomodoros to long break:
-      <input v-model="longBreakInterval" type="number" class="input input-bordered w-20"
-    /></label>
-    <div class="divider"></div>
-    <div class="form-control">
-      <label class="label cursor-pointer">
-        <span class="label-text">show shortcuts tip in header</span>
-        <input v-model="shortcutsTip" type="checkbox" class="checkbox checkbox-primary" />
-      </label>
-    </div>
+  <AppModal v-slot="slotProps" title="Settings" @close="closeDialog">
+    <SettingsForm v-if="slotProps.opened" @submit="closeDialog" />
   </AppModal>
 </template>

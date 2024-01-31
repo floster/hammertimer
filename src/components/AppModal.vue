@@ -1,32 +1,34 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useSettingsStore } from '@/stores/settings'
+import AppButton from './AppButton.vue'
 const settings = useSettingsStore()
 
 // template refs
 const dialog = ref()
 
+defineProps<{
+  title?: string
+}>()
+
 const emit = defineEmits<{
-  (e: 'confirm'): void
   (e: 'close'): void
 }>()
 
-const confirm = () => {
-  settings.instance?.close()
-  emit('confirm')
+const onClose = () => {
+  emit('close')
 }
 
-const close = () => {
-  settings.instance?.close()
-}
-
+// close dialog when clicking outside of it
 const onDialogClick = (e: MouseEvent) => {
   if ((e.target as Element)?.tagName === 'DIALOG') {
-    close()
+    onClose()
   }
 }
 
 onMounted(() => {
+  // setting instance of dialog to settings store
+  // so we can open/close it from anywhere
   if (dialog.value) settings.setInstance(dialog.value)
 })
 </script>
@@ -36,18 +38,16 @@ onMounted(() => {
     ref="dialog"
     class="modal modal-bottom sm:modal-middle backdrop:bg-info-content/80"
     @click="onDialogClick"
-    @close="$emit('close')"
-  >
-    <form method="dialog" class="modal-box rounded-none p-4">
-      <header class="flex items-center justify-between px-4 py-2 m-[-16px] mb-4 bg-info">
-        <h2>Settings</h2>
-      </header>
-      <slot />
-
-      <div class="modal-action">
-        <button class="btn" @click.prevent="close">close</button>
-        <button class="btn btn-primary" @click.prevent="confirm">save</button>
+    @close="onClose">
+    <div class="modal-box p-0">
+      <header v-if="title" class="p-4 bg-primary text-primary-content">{{ title }}</header>
+      <AppButton
+        class="btn-sm btn-square btn-ghost text-lg text-primary-content absolute top-3 right-4"
+        icon="ph:x-bold"
+        @click="onClose" />
+      <div class="p-4">
+        <slot :opened="settings.isSettingsOpen" />
       </div>
-    </form>
+    </div>
   </dialog>
 </template>
