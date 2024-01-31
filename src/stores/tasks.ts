@@ -1,15 +1,29 @@
 import { defineStore, acceptHMRUpdate } from 'pinia'
-import { useStorage } from '@vueuse/core'
+import { ref } from 'vue'
 
-import { KEYS } from '@/config/localStorage'
+import { TASKS_REF } from '@/config/firebase'
+import { db } from '@/api/firebase'
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  updateDoc,
+  collection,
+  query,
+  onSnapshot,
+  orderBy
+} from 'firebase/firestore'
+
 import type { Task } from '@/types'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
 import { useShortcutsStore } from '@/stores/shortcuts'
 
+const TASKS_COLLECTION_REF = collection(db, TASKS_REF)
+
 export const useTasksStore = defineStore('tasks', {
   state: () => ({
-    tasks: useStorage(KEYS.TASKS, [] as Task[]),
+    tasks: ref([] as Task[]),
 
     // active task
     activeTaskId: null as number | null,
@@ -54,18 +68,30 @@ export const useTasksStore = defineStore('tasks', {
     /*
       tasks
     */
-    addTask(task: Task) {
-      this.tasks.push(task)
+    _setTasks(tasks: Task[]) {
+      this.tasks = tasks
     },
-    removeTask(id: number) {
-      this.tasks = this.tasks.filter((task) => task.id !== id)
+    async addTask({ id, title, qty, completed }: Task) {
+      await setDoc(doc(TASKS_COLLECTION_REF, id.toString()), {
+        id,
+        title,
+        qty,
+        completed
+      } as Task)
+    },
+    async removeTask(id: number) {
+      await deleteDoc(doc(TASKS_COLLECTION_REF, id.toString()))
     },
     removeAllTasks() {
-      this.tasks = []
+      this.tasks.forEach((task) => this.removeTask(task.id))
     },
-    updateTask(task: Task) {
-      const index = this.tasks.findIndex((t) => t.id === task.id)
-      this.tasks[index] = task
+    async updateTask({ id, title, qty, completed }: Task) {
+      await updateDoc(doc(TASKS_COLLECTION_REF, id.toString()), {
+        id,
+        title,
+        qty,
+        completed
+      })
     },
 
     /*
@@ -112,6 +138,20 @@ export const useTasksStore = defineStore('tasks', {
       const shortcuts = useShortcutsStore()
       shortcuts.enable()
       this.addTaskFormVisible = false
+    },
+
+    /**
+     * Firebase
+     */
+    async listenerForTasksFromFirebase() {
+      // query to get all tasks from firebase
+      const q = query(TASKS_COLLECTION_REF, orderBy('id', 'desc'))
+
+      // listen for changes on firebase
+      onSnapshot(q, (tasksSnapshot) => {
+        const _tasks = tasksSnapshot.docs.map((task) => task.data() as Task)
+        this._setTasks(_tasks)
+      })
     }
   }
 })

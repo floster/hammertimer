@@ -8,8 +8,8 @@ import { AvailableModesEnum } from '@/types'
 /**
  * import pomodoro store
  */
-import { usePomodoroStore } from '@/stores/pomodoro'
-const pomodoro = usePomodoroStore()
+import { useStatsStore } from '@/stores/stats'
+const stats = useStatsStore()
 
 /**
  * dynamic title
@@ -33,18 +33,18 @@ const formatDate = (date: string) => {
     <TheStats />
     <ul class="grid gap-y-4">
       <li
-        v-for="stat in pomodoro.getAllDailyStats"
-        :key="stat.id"
+        v-for="stat in stats.getDailyStats"
+        :key="stat.date"
         class="grid grid-cols-[5rem_1fr] items-center">
-        <span class="text-secondary text-xs">{{ formatDate(stat.id) }}</span>
+        <span class="text-secondary text-xs">{{ formatDate(stat.date) }}</span>
         <ul class="timeline">
           <TheTimelineItem
-            v-for="n in stat.hammer"
+            v-for="n in stat.durations.length"
             :key="n"
             :type="AvailableModesEnum.hammer"
             :start="n === 1"
-            :end="n === stat.hammer"
-            :title="AvailableModesEnum.hammer" />
+            :end="n === stat.durations.length"
+            :title="stat.durations[n - 1]" />
         </ul>
       </li>
     </ul>

@@ -30,12 +30,11 @@ type Period = {
   end: Date
 }
 
-export type DailyStats = {
-  [key: string]: Stats & {
-    id: string
-    periods: Period[]
-    durations: number[]
-  }
+export type DailyStat = {
+  date: string
+  hammers: number
+  periods: Period[]
+  durations: number[]
 }
 
 export interface Streak {

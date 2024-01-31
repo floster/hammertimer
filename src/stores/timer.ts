@@ -2,6 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 import type { Ref } from 'vue'
 
 import { useTasksStore } from '@/stores/tasks'
+import { useStatsStore } from '@/stores/stats'
 import { useSettingsStore } from '@/stores/settings'
 import { usePomodoroStore } from '@/stores/pomodoro'
 
@@ -78,13 +79,14 @@ export const useTimerStore = defineStore('timer', {
     },
     onTimerFinished() {
       const tasksStore = useTasksStore()
+      const statsStore = useStatsStore()
       const pomodoroStore = usePomodoroStore()
       const settingsStore = useSettingsStore()
 
       tasksStore.activeTaskIncreaseCompletedQty()
 
       // increases finished pomodoro status by 1
-      pomodoroStore.incrementStats(this.startTime as Date)
+      statsStore.updateDailyStats(this.startTime as Date)
 
       // if current mode is 'short_break' then increment short_breaks_in_row
       pomodoroStore.incrementShortBreaksInRow()
