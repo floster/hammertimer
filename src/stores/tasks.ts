@@ -17,7 +17,6 @@ import {
 import type { Task } from '@/types'
 
 import { usePomodoroStore } from '@/stores/pomodoro'
-import { useShortcutsStore } from '@/stores/shortcuts'
 
 const TASKS_COLLECTION_REF = collection(db, TASKS_REF)
 
@@ -33,7 +32,7 @@ export const useTasksStore = defineStore('tasks', {
     isCompletedInTheEnd: false,
 
     // add task form
-    addTaskFormVisible: false
+    isAddTaskFormVisible: false
   }),
   getters: {
     /*
@@ -130,14 +129,10 @@ export const useTasksStore = defineStore('tasks', {
       add task form
      */
     openAddTaskForm() {
-      const shortcuts = useShortcutsStore()
-      shortcuts.disable()
-      this.addTaskFormVisible = true
+      this.isAddTaskFormVisible = true
     },
     closeAddTaskForm() {
-      const shortcuts = useShortcutsStore()
-      shortcuts.enable()
-      this.addTaskFormVisible = false
+      this.isAddTaskFormVisible = false
     },
 
     /**

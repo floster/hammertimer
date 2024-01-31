@@ -4,5 +4,6 @@ export enum ShortcutsEnum {
   REPORT = 'r',
   SETTINGS = 's',
   TIMER = 't',
-  ADD_TASK = 'a'
+  ADD_TASK = 'a',
+  CLOSE_FORM = 'Escape'
 }

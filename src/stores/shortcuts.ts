@@ -10,11 +10,9 @@ export const useShortcutsStore = defineStore('shortcuts', {
       this.isShortcutsTipsVisible = !this.isShortcutsTipsVisible
     },
     disable() {
-      console.log('disable')
       this.isShortcutsDisabled = true
     },
     enable() {
-      console.log('enable')
       this.isShortcutsDisabled = false
     }
   }

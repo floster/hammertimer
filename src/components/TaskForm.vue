@@ -1,14 +1,25 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from 'vue'
+import { onKeyStroke } from '@vueuse/core'
+
+import { ShortcutsEnum } from '@/types/shortcuts'
+
 import AppButton from '@/components/AppButton.vue'
 import InputNumber from '@/components/InputNumber.vue'
 
+/**
+ * import stores
+ */
 import { useTasksStore } from '@/stores/tasks'
 const tasks = useTasksStore()
+
+import { useShortcutsStore } from '@/stores/shortcuts'
+const shortcuts = useShortcutsStore()
 
 import type { Task } from '@/types'
 
 interface Props {
+  isVisible: boolean
   data: Task | null
 }
 
@@ -25,6 +36,8 @@ const emit = defineEmits(['submit', 'cancel'])
 /**
  * data
  */
+const isFormVisible = ref(false)
+
 const title = ref('')
 const id = ref(0)
 const qty = ref(1)
@@ -34,7 +47,7 @@ const inputError = ref(false)
 const editMode = ref(false)
 
 /**
- * clear input error when title changes
+ * clear input error when title field changes
  */
 watch(title, () => {
   if (title.value !== '') inputError.value = false
@@ -72,6 +85,29 @@ const handleCancel = () => {
   emit('cancel')
 }
 
+/**
+ * keyboard shortcuts
+ */
+onKeyStroke(ShortcutsEnum.CLOSE_FORM, () => {
+  if (isFormVisible.value) {
+    handleCancel()
+  }
+})
+
+watch(
+  () => props.isVisible,
+  () => {
+    isFormVisible.value = props.isVisible
+
+    // disable/enable shortcuts when form is open/closed
+    if (props.isVisible) {
+      shortcuts.disable()
+    } else {
+      shortcuts.enable()
+    }
+  }
+)
+
 onMounted(() => {
   if (props.data) {
     editMode.value = true
@@ -85,6 +121,7 @@ onMounted(() => {
 
 <template>
   <form
+    v-if="isFormVisible"
     class="flex flex-col gap-y-8 p-4 bg-primary-content/10 rounded-md shadow"
     @submit.prevent="handleSubmit">
     <div>

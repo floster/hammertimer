@@ -8,10 +8,9 @@ const tasks = useTasksStore()
 <template>
   <div class="w-full my-6">
     <TaskForm
-      v-if="tasks.addTaskFormVisible"
+      :is-visible="tasks.isAddTaskFormVisible"
       :data="null"
       @submit="tasks.closeAddTaskForm"
-      @cancel="tasks.closeAddTaskForm"
-    />
+      @cancel="tasks.closeAddTaskForm" />
   </div>
 </template>

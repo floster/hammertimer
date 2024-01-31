@@ -64,24 +64,26 @@ const handleTaskClick = () => {
 </script>
 
 <template>
-  <li
-    v-if="!editMode"
-    class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-primary-content border-l-[6px] hover:border-l-secondary rounded transition-all"
-    :class="`${isCurrent ? 'border-l-info hover:border-l-info' : 'border-l-transparent'}`">
-    <Icon
-      icon="ph:check-circle-fill"
-      width="25px"
-      height="25px"
-      class="translate-y-[-2px] shrink-0"
-      :class="iconClasses" />
-    <span class="cursor-pointer truncate text-primary" @click="handleTaskClick">{{
-      task.title
-    }}</span>
-    <span class="text-neutral/50 ml-auto"
-      >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
-    >
-    <!-- task controls -->
-    <TaskItemControls @edit="showForm" @delete="() => tasks.removeTask(task.id)" />
-  </li>
-  <TaskForm v-else :data="task" @submit="hideForm" @cancel="hideForm" />
+  <article>
+    <li
+      v-if="!editMode"
+      class="flex items-center px-2 py-3 md:p-4 gap-x-3 font-bold text-sm md:text-base bg-primary-content border-l-[6px] hover:border-l-secondary rounded transition-all"
+      :class="`${isCurrent ? 'border-l-info hover:border-l-info' : 'border-l-transparent'}`">
+      <Icon
+        icon="ph:check-circle-fill"
+        width="25px"
+        height="25px"
+        class="translate-y-[-2px] shrink-0"
+        :class="iconClasses" />
+      <span class="cursor-pointer truncate text-primary" @click="handleTaskClick">{{
+        task.title
+      }}</span>
+      <span class="text-neutral/50 ml-auto"
+        >{{ task.completed }}/<small class="font-normal">{{ task.qty }}</small></span
+      >
+      <!-- task controls -->
+      <TaskItemControls @edit="showForm" @delete="() => tasks.removeTask(task.id)" />
+    </li>
+    <TaskForm :is-visible="editMode" :data="task" @submit="hideForm" @cancel="hideForm" />
+  </article>
 </template>
